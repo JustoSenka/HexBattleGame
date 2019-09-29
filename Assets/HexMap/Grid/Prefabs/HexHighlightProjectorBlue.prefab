@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 59783548559176064}
   m_Layer: 0
-  m_Name: HexHighlightProjector
+  m_Name: HexHighlightProjectorBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,4 +80,4 @@ Projector:
   m_Material: {fileID: 2100000, guid: 2d8a569c300ca8c40966594ebd801022, type: 2}
   m_IgnoreLayers:
     serializedVersion: 2
-    m_Bits: 311
+    m_Bits: 1335

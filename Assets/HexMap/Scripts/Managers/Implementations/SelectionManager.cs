@@ -15,5 +15,10 @@ namespace Assets
         {
             this.InputManager = InputManager;
         }
+
+        public void Update()
+        {
+
+        }
     }
 }

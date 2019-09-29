@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Assets
 {
@@ -15,6 +16,7 @@ namespace Assets
 
         private PoolItem m_HoverItem;
         private PoolItem m_SelectionItem;
+        private Selectable m_CurrentlySelectedObject;
 
         public HexHighlightManager(IMouseManager MouseManager, PublicReferences PrefabReferences)
         {
@@ -24,6 +26,7 @@ namespace Assets
             MouseManager.HexClicked += OnHexClicked;
             MouseManager.HexSelected += OnHexSelected;
             MouseManager.MouseReleased += OnMouseReleased;
+            MouseManager.SelectableClicked += OnSelectableClicked;
         }
 
         public void Start()
@@ -55,6 +58,17 @@ namespace Assets
             }
         }
 
+        private void OnSelectableClicked(Selectable obj)
+        {
+            m_CurrentlySelectedObject = obj;
+
+            // Place highlighter on the object cell
+            if (m_SelectionItem == null)
+                m_SelectionItem = m_PoolSelection.ReserveItems(1).First();
+
+            m_SelectionItem.GameObject.transform.position = obj.HexCell.WorldPosition;
+        }
+
         private void OnHexClicked(HexCell hex)
         {
             var item = m_PoolRed.ReserveItems(1).First();
@@ -76,6 +90,8 @@ namespace Assets
                 m_SelectionItem.Release();
                 m_SelectionItem = null;
             }
+
+            m_CurrentlySelectedObject = null;
         }
     }
 }
