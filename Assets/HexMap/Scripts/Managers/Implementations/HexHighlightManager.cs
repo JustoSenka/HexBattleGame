@@ -5,11 +5,8 @@ namespace Assets
     [RegisterDependency(typeof(IHexHighlightManager), true)]
     public class HexHighlightManager : IHexHighlightManager
     {
-        [Dependency(typeof(IMouseManager))]
-        public IMouseManager MouseManager;
-
-        [Dependency(typeof(PublicReferences))]
-        public PublicReferences PrefabReferences;
+        private readonly IMouseManager MouseManager;
+        private readonly PublicReferences PrefabReferences;
 
         private ObjectPool m_PoolBlue;
         private ObjectPool m_PoolRed;
@@ -19,16 +16,22 @@ namespace Assets
         private PoolItem m_HoverItem;
         private PoolItem m_SelectionItem;
 
+        public HexHighlightManager(IMouseManager MouseManager, PublicReferences PrefabReferences)
+        {
+            this.MouseManager = MouseManager;
+            this.PrefabReferences = PrefabReferences;
+
+            MouseManager.HexClicked += OnHexClicked;
+            MouseManager.HexSelected += OnHexSelected;
+            MouseManager.MouseReleased += OnMouseReleased;
+        }
+
         public void Start()
         {
             m_PoolBlue = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.BlueHighlightPrefab, 0);
             m_PoolRed = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.RedHighlightPrefab, 0);
             m_PoolSelection = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.SelectionHighlightPrefab, 0);
             m_PoolHover = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.HoverHighlightPrefab, 0);
-
-            MouseManager.HexClicked += OnHexClicked;
-            MouseManager.HexSelected += OnHexSelected;
-            MouseManager.MouseReleased += OnMouseReleased;
         }
 
         public void Update()

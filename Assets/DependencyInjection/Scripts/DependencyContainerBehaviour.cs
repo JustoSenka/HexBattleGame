@@ -19,10 +19,14 @@ namespace Assets
             // Populate dependency maps from types which have attribute on them (parses all loaded assemblies)
             Container.PopulateDependenciesFromAttributesInDomain();
 
-            // Pass dependencies to all singletons in our dependency map. Some of them were created few lines above. Some of them are mono behaviours
-            foreach (var singleton in Container.SingletonDependencyMap)
-                Container.InjectDependenciesInto(singleton.Value);
+            Container.InstantiateSingletons();
 
+            // Log info
+            LogInfo();
+
+            /* Pass dependencies to all mono behaviours attached in public reference of this object. This is done by steps bellow
+            foreach (var singleton in Container.SingletonDependencyMap.Where(s => s.Value.Instance is MonoBehaviour))
+                Container.InjectDependenciesInto(singleton.Value.Instance); */
 
             // Pass dependencies to all components in loaded scene
             var roots = gameObject.scene.GetRootGameObjects();
@@ -30,8 +34,6 @@ namespace Assets
             foreach (var c in components)
                 Container.InjectDependenciesInto(c);
 
-            // Log info
-            LogInfo();
         }
 
         /// <summary>

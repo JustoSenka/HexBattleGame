@@ -1,7 +1,8 @@
 {
-    "name": "HexMap",
+    "name": "GameLogic",
     "references": [
         "DependencyInjection",
+        "HexMap",
         "Utils"
     ],
     "optionalUnityReferences": [],

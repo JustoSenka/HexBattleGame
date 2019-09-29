@@ -10,12 +10,12 @@ namespace Assets
     {
         private const BindingFlags StaticNonPublic = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
 
-        public Dictionary<Type, object> SingletonDependencyMap;
+        public Dictionary<Type, (Type Type, object Instance)> SingletonDependencyMap;
         public Dictionary<Type, Type> OtherDependencies;
 
         public DependencyContainer()
         {
-            SingletonDependencyMap = new Dictionary<Type, object>();
+            SingletonDependencyMap = new Dictionary<Type, (Type, object)>();
             OtherDependencies = new Dictionary<Type, Type>();
         }
 
@@ -23,33 +23,43 @@ namespace Assets
         public void Register(Type interfaceType, Type instanceType) => OtherDependencies.Add(interfaceType, instanceType);
 
         public void RegisterSingleton<T, K>() => RegisterSingleton(typeof(T), typeof(K));
-        public void RegisterSingleton(Type interfaceType, object instance) => SingletonDependencyMap.Add(interfaceType, instance);
+        public void RegisterSingleton(Type interfaceType, object instance) => SingletonDependencyMap.Add(interfaceType, (instance.GetType(), instance));
 
 
         /// <summary>
         /// Will Instantiate object of type T and pass all dependencies to the object if it requests for any.
         /// </summary>
         public T Resolve<T>() => (T)Resolve(typeof(T));
-        public object Resolve(Type type)
+        public object Resolve(Type interfaceType)
         {
-            var isSingleton = SingletonDependencyMap.ContainsKey(type);
-            var isNotSingleton = OtherDependencies.ContainsKey(type);
+            var isSingleton = SingletonDependencyMap.ContainsKey(interfaceType);
+            var isNotSingleton = OtherDependencies.ContainsKey(interfaceType);
 
             if (!isSingleton && !isNotSingleton)
             {
-                Debug.LogError("Dependency of type: " + type + " was not registered in any of the maps.");
+                Debug.LogError("Dependency of type: " + interfaceType + " was not registered in any of the maps.");
                 return null;
             }
             // If dependency is a Singleton, just pass the same instance which is already created
             else if (isSingleton)
             {
-                return SingletonDependencyMap[type];
+                // If singleton was not yet created, create new one and inject dependencies into it
+                if (SingletonDependencyMap[interfaceType].Instance == null) 
+                {
+                    var reg = SingletonDependencyMap[interfaceType];
+                    var instance = CreateInstanceOf(reg.Type);
+                    InjectDependenciesInto(instance);
+
+                    SingletonDependencyMap[interfaceType] = (interfaceType, instance);
+                }
+
+                return SingletonDependencyMap[interfaceType].Instance;
             }
             // If not singleton, create new instance and set the field with it. Pass dependencies recursivelly to newly created class instance as well
             else if (isNotSingleton)
             {
-                var actualInstanceType = OtherDependencies[type];
-                var instance = Activator.CreateInstance(actualInstanceType);
+                var actualInstanceType = OtherDependencies[interfaceType];
+                var instance = CreateInstanceOf(actualInstanceType);
 
                 // Recursive calls to pass dependencies to all newly created types by the container
                 InjectDependenciesInto(instance);
@@ -58,9 +68,18 @@ namespace Assets
             }
             else
             {
-                Debug.LogError("Dependency of type: " + type + " was both singleton and non singleton. This should not normally happen.");
+                Debug.LogError("Dependency of type: " + interfaceType + " was both singleton and non singleton. This should not normally happen.");
                 return null;
             }
+        }
+
+        private object CreateInstanceOf(Type type)
+        {
+            // Only invoking on first constructor
+            var ctr = type.GetConstructors().First();
+            var paramInstances = ctr.GetParameters().Select(p => p.ParameterType).Select(t => Resolve(t)).ToArray();
+
+            return Activator.CreateInstance(type, paramInstances);
         }
 
         /// <summary>
@@ -128,8 +147,8 @@ namespace Assets
                         continue;
                     }
 
-                    var obj = Activator.CreateInstance(Type);
-                    SingletonDependencyMap.Add(InterfaceType, obj);
+                    //var obj = CreateInstanceOf(Type);
+                    SingletonDependencyMap.Add(InterfaceType, (Type, null));
                 }
                 else
                 {
@@ -145,16 +164,29 @@ namespace Assets
         }
 
         /// <summary>
+        /// Creates all not yet instantiated singletons and passes dependencies to them.
+        /// </summary>
+        public void InstantiateSingletons()
+        {
+            // Making a copy so I can modify the original without problems
+            foreach (var pair in SingletonDependencyMap.ToArray())
+            {
+                if (pair.Value.Instance == null) // If not created, try to resolve it, it will be created and assigned to the map automatically
+                    Resolve(pair.Key);
+            }
+        }
+
+        /// <summary>
         /// Returns a string of all registered dependencies.
         /// </summary>
         public string LogInformationAboutCollectedContainer()
         {
             var str = "Registered mono behaviours: \n";
-            foreach (var pair in SingletonDependencyMap.Where(p => p.Value is MonoBehaviour))
+            foreach (var pair in SingletonDependencyMap.Where(p => p.Value.Instance is MonoBehaviour))
                 str += $"Type '{pair.Key}' to object of type '{pair.Value.GetType()}'\n";
 
             str += "\nRegistered singletons: \n";
-            foreach (var pair in SingletonDependencyMap.Where(p => !(p.Value is MonoBehaviour)))
+            foreach (var pair in SingletonDependencyMap.Where(p => !(p.Value.Instance is MonoBehaviour)))
                 str += $"Type '{pair.Key}' to object of type '{pair.Value.GetType()}'\n";
 
 

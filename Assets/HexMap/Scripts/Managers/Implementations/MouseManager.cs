@@ -6,7 +6,6 @@ namespace Assets
     [RegisterDependency(typeof(IMouseManager), true)]
     public class MouseManager : IMouseManager
     {
-        [Dependency(typeof(IInputManager))]
         private readonly IInputManager InputManager;
 
         public bool IsUnderCell { get; private set; }
@@ -21,6 +20,11 @@ namespace Assets
 
         private Vector3 m_OldMousePosition;
         private bool m_IsDraggingMouse;
+
+        public MouseManager(IInputManager InputManager)
+        {
+            this.InputManager = InputManager;
+        }
 
         public void Update()
         {
