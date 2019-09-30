@@ -12,26 +12,33 @@ namespace Assets
         private readonly IMouseManager MouseManager;
         private readonly IHexHighlighter HexHighlighter;
 
-
+        private IEnumerable<PoolItem> m_MovementItems;
 
         public UnitHexHighlights(IMouseManager MouseManager, IHexHighlighter HexHighlighter)
         {
             this.MouseManager = MouseManager;
             this.HexHighlighter = HexHighlighter;
 
-            MouseManager.MouseReleased += OnMouseReleased;
             MouseManager.SelectableSelected += OnSelectableClicked;
-        }
-
-        private void OnMouseReleased()
-        {
-            //throw new NotImplementedException();
+            MouseManager.SelectableUnselected += OnSelectableUnselected;
         }
 
         private void OnSelectableClicked(Selectable obj)
         {
-            //throw new NotImplementedException();
+            var unit = obj as Unit;
+            if (unit != null)
+            {
+                var cellsToHighlight = HexCell.FindNeighbours(unit.HexCell.Position, unit.Movement).Select(pos => new HexCell(pos)).ToArray();
+                m_MovementItems = HexHighlighter.PlaceHighlighters(cellsToHighlight, Highlighter.Blue, m_MovementItems);
+            }
         }
+
+        private void OnSelectableUnselected(Selectable obj)
+        {
+            m_MovementItems.Release();
+            m_MovementItems = null;
+        }
+
 
         public void Update()
         {

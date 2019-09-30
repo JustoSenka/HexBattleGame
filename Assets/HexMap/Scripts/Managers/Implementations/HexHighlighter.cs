@@ -27,7 +27,7 @@ namespace Assets
         {
             m_PoolBlue = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.BlueHighlightPrefab, 0);
             m_PoolRed = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.RedHighlightPrefab, 0);
-            m_PoolSelection = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.SelectionHighlightPrefab, 2);
+            m_PoolSelection = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.SelectionHighlightPrefab, 0);
             m_PoolHover = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.HoverHighlightPrefab, 0);
         }
 
@@ -39,6 +39,24 @@ namespace Assets
 
             reusePoolItem.GameObject.transform.position = hexCell.WorldPosition;
             return reusePoolItem;
+        }
+
+        public IEnumerable<PoolItem> PlaceHighlighters(IEnumerable<HexCell> cells, Highlighter highlighter, IEnumerable<PoolItem> reuseTheseItems = null)
+        {
+            var itemsNeeded = cells.Count();
+
+            // If reusable items enumerable is null, doesn't match number needed or any items were released, reserve new array
+            if (reuseTheseItems == null || itemsNeeded != reuseTheseItems.Count() || !reuseTheseItems.First().IsReserved)
+            {
+                reuseTheseItems?.Release();
+                reuseTheseItems = ReserveItems(highlighter, itemsNeeded);
+            }
+
+            // for each item assing one cell from the list
+            foreach (var (item, cell) in reuseTheseItems.Zip(cells, (item, cell) => (item, cell)))
+                item.GameObject.transform.position = cell.WorldPosition;
+
+            return reuseTheseItems;
         }
 
         public IEnumerable<PoolItem> PlaceHighlightersAround(HexCell hexCell, Highlighter highlighter, int minRange, int maxRange, IEnumerable<PoolItem> reuseTheseItems = null)
@@ -80,7 +98,9 @@ namespace Assets
             }
         }
 
-        private IEnumerable<PoolItem> ReserveItems(Highlighter highlighter, int amount)
+        // Reserving item calls should always iterate the collection when call has been made to reserve all the pool items right away
+        private IEnumerable<PoolItem> ReserveItems(Highlighter highlighter, int amount) => ReserveItemsEnumerable(highlighter, amount).ToArray();
+        private IEnumerable<PoolItem> ReserveItemsEnumerable(Highlighter highlighter, int amount)
         {
             for (int i = 0; i < amount; i++)
                 yield return ReserveItem(highlighter);

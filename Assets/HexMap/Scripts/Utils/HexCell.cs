@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets
@@ -87,6 +89,49 @@ namespace Assets
             var newX = newZ % 2 == 0 ? Mathf.RoundToInt(p.x / (HexCell.k_InnerRadius * cellSize)) : Mathf.RoundToInt(p.x / (HexCell.k_InnerRadius * cellSize) + 0.5f);
             return new int2(newX, newZ);
         }
+
+        public static int2[] FindNeighbours(int2 c)
+        {
+            return new[]
+            {
+                new int2(c.x + 1, c.y),
+                new int2(c.x - 1, c.y),
+                new int2(c.x, c.y + 1),
+                new int2(c.x, c.y - 1),
+                new int2(c.x + 1, c.y + 1),
+                new int2(c.x - 1, c.y - 1),
+            };
+        }
+
+        /// <summary>
+        /// Finds all neighbours to the cell within level.
+        /// Level 1 means direct neighbours. (6 neighbours in total surounding one cell)
+        /// Level 2 will return all neighbours which are 2 units away from the cell (18 neighbours in total)
+        /// Return array does not contain any duplicates
+        /// </summary>
+        public static int2[] FindNeighbours(int2 c, int level)
+        {
+            var set = new HashSet<int2>();
+            AddAllNeighboursToTheSetRecursively(FindNeighbours(c), set, level);
+            return set.ToArray();
+        }
+
+        private static void AddAllNeighboursToTheSetRecursively(int2[] lastNeighbours, HashSet<int2> set, int level)
+        {
+            level--;
+            foreach (var n in lastNeighbours)
+            {
+                // This one is here on purpose so we do not call recursive funcion if neighbouring cell was already added. Will result in less function calls
+                // even though set.Add doesn't care if value already exists or not
+                if (!set.Contains(n)) 
+                {
+                    set.Add(n);
+
+                    if (level > 0)
+                        AddAllNeighboursToTheSetRecursively(FindNeighbours(n), set, level);
+                }
+            }
+        }
     }
 #pragma warning disable IDE1006 // Naming Styles
     [Serializable]
@@ -102,7 +147,7 @@ namespace Assets
             this.y = y;
         }
 
-        public override int GetHashCode() => x + y << 15;
+        public override int GetHashCode() => x + (y << 15);
         public override bool Equals(object obj) => GetHashCode() == obj.GetHashCode();
 
         public static bool operator ==(int2 c1, int2 c2) => c1.Equals(c2);

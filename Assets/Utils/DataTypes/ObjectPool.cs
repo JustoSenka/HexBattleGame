@@ -31,7 +31,9 @@ namespace Assets
             return item;
         }
 
-        public IEnumerable<PoolItem> ReserveItems(int amount)
+        // Reserving item calls should always iterate the collection when call has been made to reserve all the pool items right away
+        public IEnumerable<PoolItem> ReserveItems(int amount) => ReserveItemsEnumerable(amount).ToArray();
+        private IEnumerable<PoolItem> ReserveItemsEnumerable(int amount)
         {
             // Find free items in current pool and return those
             var reserved = 0;
