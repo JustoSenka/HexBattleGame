@@ -10,8 +10,11 @@ namespace Assets
         [Dependency(typeof(IHexHighlighter))]
         public IHexHighlighter HexHighlighter;
 
-        [Dependency(typeof(ISelectableHighlightManager))]
-        public ISelectableHighlightManager SelectableHighlightManager;
+        [Dependency(typeof(ISelectableHexHighlights))]
+        public ISelectableHexHighlights SelectableHighlightManager;
+
+        [Dependency(typeof(UnitHexHighlights))]
+        public UnitHexHighlights UnitHexHighlights;
 
         void Awake()
         {
@@ -28,6 +31,7 @@ namespace Assets
         {
             MouseManager.Update();
             SelectableHighlightManager.Update();
+            UnitHexHighlights.Update();
         }
     }
 }

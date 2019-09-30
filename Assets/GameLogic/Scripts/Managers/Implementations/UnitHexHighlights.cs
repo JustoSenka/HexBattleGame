@@ -6,19 +6,21 @@ using System.Threading.Tasks;
 
 namespace Assets
 {
-    [RegisterDependency(typeof(SelectionManager), true)]
-    public class SelectionManager
+    [RegisterDependency(typeof(UnitHexHighlights), true)]
+    public class UnitHexHighlights
     {
         private readonly IMouseManager MouseManager;
         private readonly IHexHighlighter HexHighlighter;
 
-        public SelectionManager(IMouseManager MouseManager, IHexHighlighter HexHighlighter)
+
+
+        public UnitHexHighlights(IMouseManager MouseManager, IHexHighlighter HexHighlighter)
         {
             this.MouseManager = MouseManager;
             this.HexHighlighter = HexHighlighter;
 
             MouseManager.MouseReleased += OnMouseReleased;
-            MouseManager.SelectableClicked += OnSelectableClicked;
+            MouseManager.SelectableSelected += OnSelectableClicked;
         }
 
         private void OnMouseReleased()

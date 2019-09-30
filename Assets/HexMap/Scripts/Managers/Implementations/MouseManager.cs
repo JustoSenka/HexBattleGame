@@ -15,13 +15,19 @@ namespace Assets
         public bool IsUnderSelectable { get; private set; }
         public Selectable SelectableUnderMouse { get; private set; }
 
-        public event Action<HexCell> HexClicked;
+        public event Action<HexCell> HexPressedDown;
         public event Action<HexCell> HexSelected;
-        public event Action MouseReleased;
-        public event Action<Selectable> SelectableClicked;
+        public event Action<HexCell> HexUnselected;
 
-        private HexCell m_MouseDownOnHex;
-        private HexCell m_MouseReleasedOnHex;
+        public event Action<Selectable> SelectableSelected;
+        public event Action<Selectable> SelectableUnselected;
+
+        public event Action MouseReleased;
+
+        private HexCell m_MouseDownOnHex; // Used to remember which hex user pressed down but didn't release yet
+
+        private HexCell m_CurrentlySelectedHex;
+        private Selectable m_CurrentlySelectedSelectable;
 
         private Vector3 m_OldMousePosition;
         private bool m_IsDraggingMouse;
@@ -37,11 +43,11 @@ namespace Assets
             if (IsOrWasDraggingMouse())
                 return;
 
-            var clicked = HandleClickingOnSelectables();
+            var clickedOnSelectable = HandleClickingOnSelectables();
 
             // If did not click on selectable, look if clicked on any hex
             // If we already know that selectable was clicked, don't look if clicked on any hexes
-            if (!clicked)
+            if (!clickedOnSelectable)
                 HandleClickingAndReleasingOnHexTiles();
 
             // This will not be in mobile version
@@ -54,21 +60,33 @@ namespace Assets
             if (InputManager.GetKeyDown(KeyCode.Mouse0) && HexUnderMouse.IsValid)
             {
                 m_MouseDownOnHex = HexUnderMouse;
-                HexSelected?.Invoke(HexUnderMouse);
+                HexPressedDown?.Invoke(HexUnderMouse);
             }
 
             // Mouse released on hex
-            if (InputManager.GetKeyUp(KeyCode.Mouse0) && HexUnderMouse.IsValid)
+            if (InputManager.GetKeyUp(KeyCode.Mouse0))
             {
-                m_MouseReleasedOnHex = HexUnderMouse;
+                // If released on valid hex and did not drag the mouse, select the hex (unselect old one if needed)
+                if (HexUnderMouse.IsValid && m_MouseDownOnHex == HexUnderMouse)
+                {
+                    if (m_CurrentlySelectedHex != HexUnderMouse)
+                    {
+                        if (m_CurrentlySelectedHex.IsValid)
+                            HexUnselected?.Invoke(m_CurrentlySelectedHex);
 
-                // Fire hex clicked callback
-                if (m_MouseDownOnHex == m_MouseReleasedOnHex)
-                    HexClicked?.Invoke(m_MouseReleasedOnHex);
+                        m_CurrentlySelectedHex = HexUnderMouse;
+                        HexSelected?.Invoke(HexUnderMouse);
+                    }
+                }
+                // If released mouse, but not on any hex, unselect old hex
+                else if (m_CurrentlySelectedHex.IsValid)
+                {
+                    HexUnselected?.Invoke(m_CurrentlySelectedHex);
+                    m_CurrentlySelectedHex = default;
+                }
 
-                // Clear the state of all hexes
+                // Clear the state hex being pressed down
                 m_MouseDownOnHex = default;
-                m_MouseReleasedOnHex = default;
             }
         }
 
@@ -76,18 +94,33 @@ namespace Assets
         {
             if (InputManager.GetKeyUp(KeyCode.Mouse0))
             {
-                var ray = Camera.main.ScreenPointToRay(InputManager.mousePosition);
-
-                if (Physics.Raycast(ray, out RaycastHit hit, 500f, Layer.SelectableMask))
+                if (SelectableUnderMouse != null && SelectableUnderMouse.Team == Team.TeamID)
                 {
-                    var go = hit.collider.gameObject;
-                    var selectable = go.GetComponent<Selectable>();
-                    if (selectable != null && selectable.Team == Team.TeamID)
+                    // Unselect old one if different one is selected now
+                    if (m_CurrentlySelectedSelectable != SelectableUnderMouse)
                     {
-                        SelectableClicked?.Invoke(selectable);
-                        return true;
+                        if (m_CurrentlySelectedSelectable != null)
+                            SelectableUnselected?.Invoke(m_CurrentlySelectedSelectable);
+
+                        m_CurrentlySelectedSelectable = SelectableUnderMouse;
+                        SelectableSelected?.Invoke(SelectableUnderMouse);
+
+                        // If selectable was selected, unselect hex as well
+                        if (m_CurrentlySelectedHex.IsValid)
+                            HexUnselected?.Invoke(m_CurrentlySelectedHex);
                     }
+
+                    // else do nothing since same item was again selected
+                    // Even if same item was selected, still return true so Hex selection code doesn't run
+                    return true;
                 }
+                // Mouse was released but not while dragging or not on a selectable. Deselect previously selected item
+                else if (m_CurrentlySelectedSelectable != null)
+                {
+                    SelectableUnselected?.Invoke(m_CurrentlySelectedSelectable);
+                    m_CurrentlySelectedSelectable = null;
+                }
+
             }
             return false;
         }

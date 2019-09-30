@@ -20,6 +20,17 @@ namespace Assets
             CreateNewItems(initialSize).ToArray();
         }
 
+        public PoolItem ReserveItem()
+        {
+            var item = m_Pool.FirstOrDefault(i => !i.IsReserved);
+
+            if (item == default)
+                item = CreateNewItem();
+
+            item.Reserve();
+            return item;
+        }
+
         public IEnumerable<PoolItem> ReserveItems(int amount)
         {
             // Find free items in current pool and return those
@@ -60,15 +71,19 @@ namespace Assets
 
         // Private ---
 
+        private PoolItem CreateNewItem()
+        {
+            var go = GameObject.Instantiate(m_ItemPrefab, Vector3.zero, Quaternion.identity, m_Parent.transform);
+            go.SetActive(false);
+            var newItem = new PoolItem(false, go);
+            m_Pool.Add(newItem);
+            return newItem;
+        }
+
         private IEnumerable<PoolItem> CreateNewItems(int amount)
         {
             for (int i = 0; i < amount; i++)
-            {
-                var go = GameObject.Instantiate(m_ItemPrefab, Vector3.zero, Quaternion.identity, m_Parent.transform);
-                var newItem = new PoolItem(false, go);
-                m_Pool.Add(newItem);
-                yield return newItem;
-            }
+                yield return CreateNewItem();
         }
     }
 }

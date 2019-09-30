@@ -1,6 +1,6 @@
 ﻿namespace Assets
 {
-    public interface ISelectableHighlightManager
+    public interface ISelectableHexHighlights
     {
         void Start();
         void Update();

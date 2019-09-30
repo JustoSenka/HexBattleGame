@@ -27,7 +27,7 @@ namespace Assets
         {
             m_PoolBlue = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.BlueHighlightPrefab, 0);
             m_PoolRed = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.RedHighlightPrefab, 0);
-            m_PoolSelection = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.SelectionHighlightPrefab, 0);
+            m_PoolSelection = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.SelectionHighlightPrefab, 2);
             m_PoolHover = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.HoverHighlightPrefab, 0);
         }
 
@@ -35,27 +35,55 @@ namespace Assets
         {
             // If reusable item is null or already released, create a new one
             if (reusePoolItem == null || !reusePoolItem.IsReserved)
-                reusePoolItem = ReserveItems(highlighter, 1).First();
+                reusePoolItem = ReserveItem(highlighter);
 
             reusePoolItem.GameObject.transform.position = hexCell.WorldPosition;
             return reusePoolItem;
         }
 
-        private IEnumerable<PoolItem> ReserveItems(Highlighter highlighter, int amount)
+        public IEnumerable<PoolItem> PlaceHighlightersAround(HexCell hexCell, Highlighter highlighter, int minRange, int maxRange, IEnumerable<PoolItem> reuseTheseItems = null)
+        {
+            var itemsNeeded = CalculateAmountOfItemsNeeded(minRange, maxRange);
+
+            // If reusable items enumerable is null, doesn't match number needed or any items were released, reserve new array
+            if (reuseTheseItems == null || itemsNeeded != reuseTheseItems.Count() || !reuseTheseItems.First().IsReserved)
+            {
+                reuseTheseItems?.Release();
+                reuseTheseItems = ReserveItems(highlighter, itemsNeeded);
+            }
+
+            foreach (var item in reuseTheseItems)
+                item.GameObject.transform.position = hexCell.WorldPosition; //DEFINITELY WILL NOT WORK
+
+            return reuseTheseItems;
+        }
+
+        private int CalculateAmountOfItemsNeeded(int minRange, int maxRange)
+        {
+            return 7;
+        }
+
+        private PoolItem ReserveItem(Highlighter highlighter)
         {
             switch (highlighter)
             {
                 case Highlighter.Blue:
-                    return m_PoolBlue.ReserveItems(amount);
+                    return m_PoolBlue.ReserveItem();
                 case Highlighter.Red:
-                    return m_PoolRed.ReserveItems(amount);
+                    return m_PoolRed.ReserveItem();
                 case Highlighter.Hover:
-                    return m_PoolHover.ReserveItems(amount);
+                    return m_PoolHover.ReserveItem();
                 case Highlighter.Select:
-                    return m_PoolSelection.ReserveItems(amount);
+                    return m_PoolSelection.ReserveItem();
                 default:
                     throw new ArgumentException("Unknown highlighter type: " + highlighter);
             }
+        }
+
+        private IEnumerable<PoolItem> ReserveItems(Highlighter highlighter, int amount)
+        {
+            for (int i = 0; i < amount; i++)
+                yield return ReserveItem(highlighter);
         }
     }
 

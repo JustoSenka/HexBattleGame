@@ -10,11 +10,14 @@ namespace Assets
         bool IsUnderSelectable { get; }
         Selectable SelectableUnderMouse { get; }
 
-        event Action<HexCell> HexClicked;
         event Action<HexCell> HexSelected;
-        event Action MouseReleased;
-        event Action<Selectable> SelectableClicked;
+        event Action<HexCell> HexPressedDown;
+        event Action<HexCell> HexUnselected;
 
+        event Action<Selectable> SelectableSelected;
+        event Action<Selectable> SelectableUnselected;
+
+        event Action MouseReleased;
 
         void Update();
     }
