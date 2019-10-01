@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
 namespace Assets
 {
     [Serializable]
+    [DebuggerDisplay("HexCell {IsValid}: ({Position.x}, {Position.y})")]
     public struct HexCell
     {
         public float Size { get; private set; }
@@ -43,6 +45,8 @@ namespace Assets
 
             IsValid = true;
         }
+
+        public override string ToString() => Position.ToString();
 
         public override int GetHashCode() => Position.GetHashCode();
         public override bool Equals(object obj) => GetHashCode() == obj.GetHashCode();
@@ -98,8 +102,8 @@ namespace Assets
                 new int2(c.x - 1, c.y),
                 new int2(c.x, c.y + 1),
                 new int2(c.x, c.y - 1),
-                new int2(c.x + 1, c.y + 1),
-                new int2(c.x - 1, c.y - 1),
+                new int2(c.y % 2 == 0 ? c.x + 1 : c.x - 1, c.y + 1),
+                new int2(c.y % 2 == 0 ? c.x + 1 : c.x - 1, c.y - 1),
             };
         }
 
@@ -123,7 +127,7 @@ namespace Assets
             {
                 // This one is here on purpose so we do not call recursive funcion if neighbouring cell was already added. Will result in less function calls
                 // even though set.Add doesn't care if value already exists or not
-                if (!set.Contains(n)) 
+                if (!set.Contains(n))
                 {
                     set.Add(n);
 
@@ -135,6 +139,7 @@ namespace Assets
     }
 #pragma warning disable IDE1006 // Naming Styles
     [Serializable]
+    [DebuggerDisplay("int2: ({x}, {y})")]
     public struct int2
 #pragma warning restore IDE1006 // Naming Styles
     {
@@ -146,6 +151,8 @@ namespace Assets
             this.x = x;
             this.y = y;
         }
+
+        public override string ToString() => $"({x}, {y})";
 
         public override int GetHashCode() => x + (y << 15);
         public override bool Equals(object obj) => GetHashCode() == obj.GetHashCode();

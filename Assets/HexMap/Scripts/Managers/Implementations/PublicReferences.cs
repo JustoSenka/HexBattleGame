@@ -10,5 +10,7 @@ namespace Assets
         public GameObject RedHighlightPrefab;
         public GameObject HoverHighlightPrefab;
         public GameObject SelectionHighlightPrefab;
+
+        public GameObject DebugCellIndexText;
     }
 }

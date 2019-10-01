@@ -1,0 +1,21 @@
+{
+    "name": "Tests",
+    "references": [
+        "DependencyInjection",
+        "GameLogic",
+        "HexMap",
+        "Utils"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

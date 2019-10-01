@@ -187,12 +187,12 @@ PrefabInstance:
     - target: {fileID: 112405934212936055, guid: 9f47c31be919e77458519ad125ad5a4d,
         type: 3}
       propertyPath: HexCell._position.x
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 112405934212936055, guid: 9f47c31be919e77458519ad125ad5a4d,
         type: 3}
       propertyPath: HexCell._position.y
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f47c31be919e77458519ad125ad5a4d, type: 3}
@@ -656,12 +656,12 @@ PrefabInstance:
     - target: {fileID: 112405934212936055, guid: 9f47c31be919e77458519ad125ad5a4d,
         type: 3}
       propertyPath: HexCell._position.x
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 112405934212936055, guid: 9f47c31be919e77458519ad125ad5a4d,
         type: 3}
       propertyPath: HexCell._position.y
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 112405934212936055, guid: 9f47c31be919e77458519ad125ad5a4d,
         type: 3}
@@ -745,12 +745,12 @@ PrefabInstance:
     - target: {fileID: 112405934212936055, guid: 9f47c31be919e77458519ad125ad5a4d,
         type: 3}
       propertyPath: HexCell._position.x
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 112405934212936055, guid: 9f47c31be919e77458519ad125ad5a4d,
         type: 3}
       propertyPath: HexCell._position.y
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f47c31be919e77458519ad125ad5a4d, type: 3}
@@ -829,12 +829,12 @@ PrefabInstance:
     - target: {fileID: 112405934212936055, guid: 9f47c31be919e77458519ad125ad5a4d,
         type: 3}
       propertyPath: HexCell._position.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 112405934212936055, guid: 9f47c31be919e77458519ad125ad5a4d,
         type: 3}
       propertyPath: HexCell._position.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f47c31be919e77458519ad125ad5a4d, type: 3}
@@ -913,12 +913,17 @@ PrefabInstance:
     - target: {fileID: 112405934212936055, guid: 9f47c31be919e77458519ad125ad5a4d,
         type: 3}
       propertyPath: HexCell._position.x
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 112405934212936055, guid: 9f47c31be919e77458519ad125ad5a4d,
         type: 3}
       propertyPath: HexCell._position.y
-      value: 0
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 112405934212936055, guid: 9f47c31be919e77458519ad125ad5a4d,
+        type: 3}
+      propertyPath: Height
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f47c31be919e77458519ad125ad5a4d, type: 3}
@@ -1135,12 +1140,12 @@ PrefabInstance:
     - target: {fileID: 112405934212936055, guid: 9f47c31be919e77458519ad125ad5a4d,
         type: 3}
       propertyPath: HexCell._position.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 112405934212936055, guid: 9f47c31be919e77458519ad125ad5a4d,
         type: 3}
       propertyPath: HexCell._position.y
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f47c31be919e77458519ad125ad5a4d, type: 3}
@@ -1288,7 +1293,7 @@ PrefabInstance:
     - target: {fileID: 112405934212936055, guid: 9f47c31be919e77458519ad125ad5a4d,
         type: 3}
       propertyPath: HexCell._position.x
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 112405934212936055, guid: 9f47c31be919e77458519ad125ad5a4d,
         type: 3}

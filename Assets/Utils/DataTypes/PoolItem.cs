@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 namespace Assets
 {
+    [DebuggerDisplay("PoolItem: {IsReserved} - {GameObject.name}")]
     public class PoolItem
     {
         public bool IsReserved { get; private set; }

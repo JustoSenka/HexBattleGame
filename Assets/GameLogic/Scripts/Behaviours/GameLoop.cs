@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics;
+using UnityEngine;
 
 namespace Assets
 {
@@ -13,6 +14,12 @@ namespace Assets
         [Dependency(typeof(ISelectableHexHighlights))]
         public ISelectableHexHighlights SelectableHighlightManager;
 
+        [Dependency(typeof(IHexDatabase))]
+        public IHexDatabase HexDatabase;
+
+        [Dependency(typeof(IHexDebugger))]
+        public IHexDebugger HexDebugger;
+
         [Dependency(typeof(UnitHexHighlights))]
         public UnitHexHighlights UnitHexHighlights;
 
@@ -25,6 +32,16 @@ namespace Assets
         {
             HexHighlighter.Start();
             SelectableHighlightManager.Start();
+
+            // Optional
+            StartDebugOrEditorOnlySystems();
+        }
+
+        [Conditional("Debug")]
+        [Conditional("UNITY_EDITOR")]
+        private void StartDebugOrEditorOnlySystems()
+        {
+            HexDebugger.Start();
         }
 
         void Update()

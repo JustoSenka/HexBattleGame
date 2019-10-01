@@ -295,5 +295,11 @@ PrefabInstance:
       propertyPath: GeneratedPoolObjects
       value: 
       objectReference: {fileID: 1597569090}
+    - target: {fileID: 4229560405003207201, guid: 323a8f56646e5a245b7c3cfae759c3ab,
+        type: 3}
+      propertyPath: DebugCellIndexText
+      value: 
+      objectReference: {fileID: 5773018603652214139, guid: 136af440b96920e43a3e330e6e40437b,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 323a8f56646e5a245b7c3cfae759c3ab, type: 3}
