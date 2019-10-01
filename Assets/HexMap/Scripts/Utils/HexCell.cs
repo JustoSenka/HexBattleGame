@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Assets
 {
+    /// <summary>
+    /// Calculations in static functions are only valid in Even-R Hexagon arrangement
+    /// </summary>
     [Serializable]
     [DebuggerDisplay("HexCell {IsValid}: ({Position.x}, {Position.y})")]
     public struct HexCell
@@ -113,10 +116,11 @@ namespace Assets
         /// Level 2 will return all neighbours which are 2 units away from the cell (18 neighbours in total)
         /// Return array does not contain any duplicates
         /// </summary>
-        public static int2[] FindNeighbours(int2 c, int level)
+        public static int2[] FindNeighboursRecursive(int2 c, int level)
         {
             var set = new HashSet<int2>();
             AddAllNeighboursToTheSetRecursively(FindNeighbours(c), set, level);
+            set.Remove(c);
             return set.ToArray();
         }
 
@@ -125,16 +129,67 @@ namespace Assets
             level--;
             foreach (var n in lastNeighbours)
             {
-                // This one is here on purpose so we do not call recursive funcion if neighbouring cell was already added. Will result in less function calls
-                // even though set.Add doesn't care if value already exists or not
-                if (!set.Contains(n))
-                {
-                    set.Add(n);
+                set.Add(n);
 
-                    if (level > 0)
-                        AddAllNeighboursToTheSetRecursively(FindNeighbours(n), set, level);
-                }
+                if (level > 0)
+                    AddAllNeighboursToTheSetRecursively(FindNeighbours(n), set, level);
             }
+        }
+
+
+        /// <summary>
+        /// Very inneficient solution to find manhattan distance.
+        /// Allocates a lot of garbage. But works.
+        /// </summary>
+        public static int ManhattanDistance(int2 s, int2 d)
+        {
+            for (int i = 1; i < 50; i++)
+            {
+                if (FindNeighbours(s, i).Contains(d))
+                    return i;
+            }
+            return 51;
+        }
+
+        /// <summary>
+        /// A more efficient way to find all neighbours around a cell.
+        /// Doesn't recursivelly go through all nodes, does not graph walk as well.
+        /// Searches for all valid nodes on a rectangle which is level*2 wide and tall. 
+        /// Does fancy math to remove nodes which are at far corners.
+        /// Also handles odd/even starting positions as well
+        /// </summary>
+        public static int2[] FindNeighbours(int2 c, int level)
+        {
+            var set = new HashSet<int2>();
+            if (level == 0)
+                return new[] { c };
+
+            for (int y = -level + c.y; y <= level + c.y; y++)
+            {
+                var absDiff = Math.Abs(-y + c.y);
+                var xDiffInTheRow = Mathf.RoundToInt(absDiff / 2f);
+
+                // Adjustments for odd/even X to since on hex grid their coords alternate by 0.5 everytime going up
+                // it also differs if we start on odd or even cell on Y axis. When going up an edge of hexagon, x changes every 2 y's
+                int xMin, xMax;
+                if (c.y % 2 == 0)
+                {
+                    xMin = absDiff % 4 == 1 ? 1 : 0;
+                    xMax = absDiff % 4 == 3 ? 1 : 0;
+                }
+                else
+                {
+                    xMin = absDiff % 4 == 3 ? -1 : 0;
+                    xMax = absDiff % 4 == 1 ? -1 : 0;
+                }
+
+                // Final computation. Fill add all cells in specific Y row
+                for (int x = -level + xDiffInTheRow + xMin + c.x; x <= level - xDiffInTheRow + xMax + c.x; x++)
+                    set.Add(new int2(x, y));
+            }
+
+            set.Remove(c);
+            return set.ToArray();
         }
     }
 #pragma warning disable IDE1006 // Naming Styles

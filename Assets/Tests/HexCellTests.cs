@@ -78,11 +78,33 @@ public class HexCellTests
     [TestCase(1, 6)]
     [TestCase(2, 18)]
     [TestCase(3, 36)]
-    [TestCase(4, 50)]
-    [TestCase(5, 80)]
+    [TestCase(4, 60)]
+    [TestCase(5, 90)]
     public void FindingHexNeighbours_ReturnsCorrectAmountOfNeighbours(int level, int amountOfNeighbours)
     {
-        var neighbours = HexCell.FindNeighbours(new int2(1, 1));
+        var neighbours = HexCell.FindNeighbours(new int2(1, 1), level);
         Assert.AreEqual(amountOfNeighbours, neighbours.Length);
+    }
+
+    private static object[][] DifferentHexesForDistanceCalculation()
+    {
+        return new[]
+        {
+           new object[] {new int2(0, 0), new int2(1, 1), 1 },
+           new object[] {new int2(0, 2), new int2(1, 1), 1 },
+           new object[] {new int2(2, -1), new int2(-1, 2), 4 },
+           new object[] {new int2(3, 2), new int2(-2, 4), 6 },
+           new object[] {new int2(0, 0), new int2(0, 5), 5 },
+           new object[] {new int2(-3, 0), new int2(0, 5), 5 },
+           new object[] {new int2(2, 0), new int2(0, 5), 5 },
+           new object[] {new int2(-5, 6), new int2(0, 5), 5 },
+        };
+    }
+
+    [TestCaseSource("DifferentHexesForDistanceCalculation")]
+    public void FindingHexNeighbours_ReturnsCorrectAmountOfNeighbours(int2 a, int2 b, int expectedDistance)
+    {
+        var actual = HexCell.ManhattanDistance(a, b);
+        Assert.AreEqual(expectedDistance, actual);
     }
 }
