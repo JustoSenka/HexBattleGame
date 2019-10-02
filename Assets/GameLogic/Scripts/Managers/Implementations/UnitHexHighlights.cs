@@ -28,7 +28,7 @@ namespace Assets
             var unit = obj as Unit;
             if (unit != null)
             {
-                var cellsToHighlight = HexCell.FindNeighbours(unit.HexCell.Position, unit.Movement).Select(pos => new HexCell(pos)).ToArray();
+                var cellsToHighlight = HexUtility.FindNeighbours(unit.HexCell.Position, unit.Movement).Select(pos => new HexCell(pos)).ToArray();
                 m_MovementItems = HexHighlighter.PlaceHighlighters(cellsToHighlight, Highlighter.Blue, m_MovementItems);
             }
         }

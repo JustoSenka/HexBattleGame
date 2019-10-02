@@ -154,7 +154,7 @@ namespace Assets
                 if (!selectable) // Only select hex and deselct selectable if it was selected before
                 {
                     IsUnderCell = true;
-                    var pos = HexCell.WorldPointToHex(hit.point, 1);
+                    var pos = HexUtility.WorldPointToHex(hit.point, 1);
                     HexUnderMouse = new HexCell(pos);
 
                     IsUnderSelectable = false;

@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class HexCellTests
 {
+    private static int2[] OddAndEvenInt2()
+    {
+        return new[]
+        {
+            new int2(4, 4),
+            new int2(4, 5),
+            new int2(5, 5),
+        };
+    }
+
     private static int2[] DifferentTypesOfInt2()
     {
         return new[]
@@ -39,17 +49,17 @@ public class HexCellTests
     public void GettingWolrdCoordsFromHex_AndBack_ReturnsSameHex(int2 hex)
     {
         var point = new HexCell(hex).WorldPosition;
-        var newHex = HexCell.WorldPointToHex(point, 1);
+        var newHex = HexUtility.WorldPointToHex(point, 1);
         Assert.AreEqual(hex, newHex);
     }
 
     [TestCaseSource("DifferentTypesOfPositions")]
     public void GettingHexFromRealWorld_AndBack_ReturnsSameHex(Vector3 point, int2 expectedHex)
     {
-        var originalHex = HexCell.WorldPointToHex(point, 1);
+        var originalHex = HexUtility.WorldPointToHex(point, 1);
 
         var centerOfHex = new HexCell(originalHex).WorldPosition;
-        var newHex = HexCell.WorldPointToHex(centerOfHex, 1);
+        var newHex = HexUtility.WorldPointToHex(centerOfHex, 1);
 
         Assert.AreEqual(expectedHex, originalHex, "Original coordinates produced incorect hex cell");
         Assert.AreEqual(originalHex, newHex, "Hexes should be the same before and after conversion");
@@ -58,7 +68,7 @@ public class HexCellTests
     [Test]
     public void FindingHexNeighbours_ReturnsCorrectNeighbours_ForLevel1_Even()
     {
-        var neighbours = HexCell.FindNeighbours(new int2(0, 0));
+        var neighbours = HexUtility.FindNeighbours(new int2(0, 0));
 
         var expectedNneighbours = new[] { new int2(1, 0), new int2(-1, 0), new int2(0, 1), new int2(1, 1), new int2(0, -1), new int2(1, -1) };
 
@@ -68,7 +78,7 @@ public class HexCellTests
     [Test]
     public void FindingHexNeighbours_ReturnsCorrectNeighbours_ForLevel1_Odd()
     {
-        var neighbours = HexCell.FindNeighbours(new int2(1, 1));
+        var neighbours = HexUtility.FindNeighbours(new int2(1, 1));
 
         var expectedNneighbours = new[] { new int2(2, 1), new int2(0, 1), new int2(0, 2), new int2(1, 2), new int2(0, 0), new int2(1, 0) };
 
@@ -82,8 +92,16 @@ public class HexCellTests
     [TestCase(5, 90)]
     public void FindingHexNeighbours_ReturnsCorrectAmountOfNeighbours(int level, int amountOfNeighbours)
     {
-        var neighbours = HexCell.FindNeighbours(new int2(1, 1), level);
+        var neighbours = HexUtility.FindNeighbours(new int2(1, 1), level);
         Assert.AreEqual(amountOfNeighbours, neighbours.Length);
+    }
+
+    [Test]
+    public void FindingHexNeighbours_BothFunctions_ReturnSameResults([ValueSource("OddAndEvenInt2")] int2 pos, [Values(2, 3, 4, 5, 7)] int level)
+    {
+        var actual = HexUtility.FindNeighbours(pos, level);
+        var expected = HexUtility.DEPRECATE_FindNeighboursRecursive(pos, level);
+        CollectionAssert.AreEquivalent(expected, actual);
     }
 
     private static object[][] DifferentHexesForDistanceCalculation()
@@ -98,13 +116,15 @@ public class HexCellTests
            new object[] {new int2(-3, 0), new int2(0, 5), 5 },
            new object[] {new int2(2, 0), new int2(0, 5), 5 },
            new object[] {new int2(-5, 6), new int2(0, 5), 5 },
+           new object[] {new int2(0, 0), new int2(0, 100), 100 },
+           new object[] {new int2(1, 1), new int2(20, 100), 99 },
         };
     }
 
     [TestCaseSource("DifferentHexesForDistanceCalculation")]
-    public void FindingHexNeighbours_ReturnsCorrectAmountOfNeighbours(int2 a, int2 b, int expectedDistance)
+    public void ManhattanDistance_ForPredefinedCases_IsCorrect(int2 a, int2 b, int expectedDistance)
     {
-        var actual = HexCell.ManhattanDistance(a, b);
+        var actual = HexUtility.ManhattanDistance(a, b);
         Assert.AreEqual(expectedDistance, actual);
     }
 }
