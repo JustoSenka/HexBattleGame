@@ -49,6 +49,8 @@ namespace Assets
             MouseManager.Update();
             SelectableHighlightManager.Update();
             UnitHexHighlights.Update();
+
+            HexDebugger.Update();
         }
     }
 }

@@ -6,13 +6,13 @@ namespace Assets
 {
     public class ObjectPool : IObjectPool
     {
-        private readonly GameObject m_Parent;
+        private readonly Transform m_ParentTransform;
         private readonly GameObject m_ItemPrefab;
         private readonly IList<PoolItem> m_Pool;
 
         public ObjectPool(GameObject Parent, GameObject ItemPrefab, int initialSize)
         {
-            this.m_Parent = Parent;
+            this.m_ParentTransform = Parent.transform;
             this.m_ItemPrefab = ItemPrefab;
 
             m_Pool = new List<PoolItem>();
@@ -32,7 +32,7 @@ namespace Assets
         }
 
         // Reserving item calls should always iterate the collection when call has been made to reserve all the pool items right away
-        public IEnumerable<PoolItem> ReserveItems(int amount) => ReserveItemsEnumerable(amount).ToArray();
+        public PoolItem[] ReserveItems(int amount) => ReserveItemsEnumerable(amount).ToArray();
         private IEnumerable<PoolItem> ReserveItemsEnumerable(int amount)
         {
             // Find free items in current pool and return those
@@ -75,7 +75,7 @@ namespace Assets
 
         private PoolItem CreateNewItem()
         {
-            var go = GameObject.Instantiate(m_ItemPrefab, Vector3.zero, Quaternion.identity, m_Parent.transform);
+            var go = GameObject.Instantiate(m_ItemPrefab, Vector3.zero, Quaternion.identity, m_ParentTransform);
             go.SetActive(false);
             var newItem = new PoolItem(false, go);
             m_Pool.Add(newItem);
