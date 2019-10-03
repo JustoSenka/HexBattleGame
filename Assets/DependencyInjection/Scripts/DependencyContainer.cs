@@ -193,11 +193,11 @@ namespace Assets
         {
             var str = "Registered mono behaviours: \n";
             foreach (var pair in SingletonDependencyMap.Where(p => p.Value.Instance is MonoBehaviour))
-                str += $"Type '{pair.Key}' to object of type '{pair.Value.GetType()}'\n";
+                str += $"Type '{pair.Key}' to object of type '{pair.Value.Type}'\n";
 
             str += "\nRegistered singletons: \n";
             foreach (var pair in SingletonDependencyMap.Where(p => !(p.Value.Instance is MonoBehaviour)))
-                str += $"Type '{pair.Key}' to object of type '{pair.Value.GetType()}'\n";
+                str += $"Type '{pair.Key}' to object of type '{pair.Value.Type}'\n";
 
 
             str += "\nRegistered other dependencies: \n";

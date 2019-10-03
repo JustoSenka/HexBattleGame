@@ -17,8 +17,8 @@ namespace Assets
         [Dependency(typeof(IHexDatabase))]
         public IHexDatabase HexDatabase;
 
-        [Dependency(typeof(IHexDebugger))]
-        public IHexDebugger HexDebugger;
+        [Dependency(typeof(HexDebugger))]
+        public HexDebugger HexDebugger;
 
         [Dependency(typeof(UnitHexHighlights))]
         public UnitHexHighlights UnitHexHighlights;
