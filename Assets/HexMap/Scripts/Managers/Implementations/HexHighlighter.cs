@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Assets
 {
@@ -25,10 +26,11 @@ namespace Assets
 
         public void Start()
         {
-            m_PoolBlue = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.BlueHighlightPrefab, 0);
-            m_PoolRed = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.RedHighlightPrefab, 0);
-            m_PoolSelection = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.SelectionHighlightPrefab, 0);
-            m_PoolHover = new ObjectPool(PrefabReferences.GeneratedPoolObjects, PrefabReferences.HoverHighlightPrefab, 0);
+            var parent = new GameObject("Pool");
+            m_PoolBlue = new ObjectPool(parent, PrefabReferences.BlueHighlightPrefab, 0);
+            m_PoolRed = new ObjectPool(parent, PrefabReferences.RedHighlightPrefab, 0);
+            m_PoolSelection = new ObjectPool(parent, PrefabReferences.SelectionHighlightPrefab, 0);
+            m_PoolHover = new ObjectPool(parent, PrefabReferences.HoverHighlightPrefab, 0);
         }
 
         public PoolItem PlaceHighlighter(HexCell hexCell, Highlighter highlighter, PoolItem reusePoolItem = null)

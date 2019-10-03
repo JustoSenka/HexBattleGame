@@ -9,7 +9,7 @@ public class ScenesMenuItems
     [MenuItem("Scenes/Save Scene Manager Setup")]
     public static void SavesSetup()
     {
-        var asset = new SceneManagerSetupAsset();
+        var asset = ScriptableObject.CreateInstance<SceneManagerSetupAsset>();
         asset.SceneSetup = EditorSceneManager.GetSceneManagerSetup();
         AssetDatabase.CreateAsset(asset, k_SetupAssetPath);
     }
@@ -20,9 +20,4 @@ public class ScenesMenuItems
         var asset = AssetDatabase.LoadAssetAtPath<SceneManagerSetupAsset>(k_SetupAssetPath);
         EditorSceneManager.RestoreSceneManagerSetup(asset.SceneSetup);
     }
-}
-
-public class SceneManagerSetupAsset : ScriptableObject
-{
-    public SceneSetup[] SceneSetup;
 }

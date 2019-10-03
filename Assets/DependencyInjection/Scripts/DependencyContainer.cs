@@ -20,10 +20,10 @@ namespace Assets
         }
 
         public void Register<T, K>() => Register(typeof(T), typeof(K));
-        public void Register(Type interfaceType, Type instanceType) => OtherDependencies.Add(interfaceType, instanceType);
+        public void Register(Type interfaceType, Type instanceType) => OtherDependencies[interfaceType] = instanceType;
 
         public void RegisterSingleton<T, K>() => RegisterSingleton(typeof(T), typeof(K));
-        public void RegisterSingleton(Type interfaceType, object instance) => SingletonDependencyMap.Add(interfaceType, (instance.GetType(), instance));
+        public void RegisterSingleton(Type interfaceType, object instance) => SingletonDependencyMap[interfaceType] = (instance.GetType(), instance);
 
 
         /// <summary>
@@ -35,13 +35,8 @@ namespace Assets
             var isSingleton = SingletonDependencyMap.ContainsKey(interfaceType);
             var isNotSingleton = OtherDependencies.ContainsKey(interfaceType);
 
-            if (!isSingleton && !isNotSingleton)
-            {
-                Debug.LogError("Dependency of type: " + interfaceType + " was not registered in any of the maps.");
-                return null;
-            }
             // If dependency is a Singleton, just pass the same instance which is already created
-            else if (isSingleton)
+            if (isSingleton)
             {
                 // If singleton was not yet created, create new one and inject dependencies into it
                 if (SingletonDependencyMap[interfaceType].Instance == null) 
@@ -66,6 +61,20 @@ namespace Assets
 
                 return instance;
             }
+            // Create unregister simple class
+            if (!isSingleton && !isNotSingleton)
+            {
+                if (interfaceType.IsInterface)
+                {
+                    Debug.LogError("Dependency of type: " + interfaceType + " was not registered thus cannot be instantiated");
+                    return null;
+                }
+
+                // Dependency was not declared but user provided actual type, so should be possible to instantiate.
+                var instance = CreateInstanceOf(interfaceType);
+                InjectDependenciesInto(instance);
+                return instance;
+            }
             else
             {
                 Debug.LogError("Dependency of type: " + interfaceType + " was both singleton and non singleton. This should not normally happen.");
@@ -75,7 +84,7 @@ namespace Assets
 
         private object CreateInstanceOf(Type type)
         {
-            // Only invoking on first constructor
+            // Only invoking first found constructor
             var ctr = type.GetConstructors().First();
             var paramInstances = ctr.GetParameters().Select(p => p.ParameterType).Select(t => Resolve(t)).ToArray();
 
@@ -165,6 +174,7 @@ namespace Assets
 
         /// <summary>
         /// Creates all not yet instantiated singletons and passes dependencies to them.
+        /// Useful to make sure singletons are created even is not referenced by any system.
         /// </summary>
         public void InstantiateSingletons()
         {

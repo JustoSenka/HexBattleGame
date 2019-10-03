@@ -30,18 +30,12 @@ namespace Assets
 
         void Start()
         {
+            HexDatabase.Start();
             HexHighlighter.Start();
             SelectableHighlightManager.Start();
 
             // Optional
             StartDebugOrEditorOnlySystems();
-        }
-
-        [Conditional("Debug")]
-        [Conditional("UNITY_EDITOR")]
-        private void StartDebugOrEditorOnlySystems()
-        {
-            HexDebugger.Start();
         }
 
         void Update()
@@ -51,6 +45,13 @@ namespace Assets
             UnitHexHighlights.Update();
 
             HexDebugger.Update();
+        }
+
+        [Conditional("Debug")]
+        [Conditional("UNITY_EDITOR")]
+        private void StartDebugOrEditorOnlySystems()
+        {
+            HexDebugger.Start();
         }
     }
 }

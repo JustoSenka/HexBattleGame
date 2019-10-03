@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 namespace Assets
 {
-    [RegisterDependency(typeof(IHexDebugger), true)]
-    public class HexDebugger : IHexDebugger
+    [RegisterDependency(typeof(HexDebugger), true)]
+    public class HexDebugger
     {
         public PublicReferences PublicReferences;
 

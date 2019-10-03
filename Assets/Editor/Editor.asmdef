@@ -1,6 +1,8 @@
 {
     "name": "Editor",
-    "references": [],
+    "references": [
+        "HexMap"
+    ],
     "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"

@@ -11,18 +11,18 @@ namespace Assets
     [DebuggerDisplay("HexCell {IsValid}: ({Position.x}, {Position.y})")]
     public struct HexCell
     {
-        public float Size { get; private set; }
+        public bool IsValid { get; private set; }
+        public HexType Type { get; set; }
 
-        public float OuterRadius { get; private set; }
-        public float InnerRadius { get; private set; }
+        public float Size { get; private set; }
 
         [SerializeField]
         private int2 _position;
         public int2 Position { get => _position; private set => _position = value; }
 
-        public Vector3 WorldPosition { get; private set; }
-
-        public bool IsValid { get; private set; }
+        public float OuterRadius => HexUtility.k_OuterRadius * Size;
+        public float InnerRadius => HexUtility.k_InnerRadius * Size;
+        public Vector3 WorldPosition => HexUtility.HexToWorldPoint(Position, Size);
 
         public Vector3[] WorldCorners => new[]
             {
@@ -39,12 +39,8 @@ namespace Assets
             _position = Position;
             this.Size = size;
 
-            OuterRadius = HexUtility.k_OuterRadius * size;
-            InnerRadius = HexUtility.k_InnerRadius * size;
-
-            WorldPosition = HexUtility.HexToWorldPoint(Position, size);
-
             IsValid = true;
+            Type = HexType.Empty;
         }
 
         public override string ToString() => Position.ToString();
