@@ -12,7 +12,7 @@ namespace Assets
         public IHexHighlighter HexHighlighter;
 
         [Dependency(typeof(ISelectableHexHighlights))]
-        public ISelectableHexHighlights SelectableHighlightManager;
+        public ISelectableHexHighlights SelectableHexHighlights;
 
         [Dependency(typeof(IHexDatabase))]
         public IHexDatabase HexDatabase;
@@ -20,8 +20,11 @@ namespace Assets
         [Dependency(typeof(HexDebugger))]
         public HexDebugger HexDebugger;
 
-        [Dependency(typeof(UnitHexHighlights))]
-        public UnitHexHighlights UnitHexHighlights;
+        [Dependency(typeof(IUnitHexHighlights))]
+        public IUnitHexHighlights UnitHexHighlights;
+
+        [Dependency(typeof(IUnitMovementManager))]
+        public IUnitMovementManager UnitMovementManager;
 
         void Awake()
         {
@@ -32,7 +35,7 @@ namespace Assets
         {
             HexDatabase.Start();
             HexHighlighter.Start();
-            SelectableHighlightManager.Start();
+            SelectableHexHighlights.Start();
 
             // Optional
             StartDebugOrEditorOnlySystems();
@@ -41,7 +44,8 @@ namespace Assets
         void Update()
         {
             MouseManager.Update();
-            SelectableHighlightManager.Update();
+            UnitMovementManager.Update();
+            SelectableHexHighlights.Update();
             UnitHexHighlights.Update();
 
             HexDebugger.Update();

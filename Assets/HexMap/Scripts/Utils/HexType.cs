@@ -7,6 +7,8 @@ namespace Assets
     {
         Empty = 1,
         Obstacle = 2,
-        River = 4,
+        HighObstacle = 4,
+        Unit = 8,
+        River = 16,
     }
 }

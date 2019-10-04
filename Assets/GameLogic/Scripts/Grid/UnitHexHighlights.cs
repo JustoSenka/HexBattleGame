@@ -3,42 +3,33 @@ using System.Linq;
 
 namespace Assets
 {
-    [RegisterDependency(typeof(UnitHexHighlights), true)]
-    public class UnitHexHighlights
+    [RegisterDependency(typeof(IUnitHexHighlights), true)]
+    public class UnitHexHighlights : IUnitHexHighlights
     {
-        private readonly IMouseManager MouseManager;
+        private readonly IUnitMovementManager UnitMovementManager;
         private readonly IHexHighlighter HexHighlighter;
-        private readonly IHexPathfinder HexPathfinder;
-
         private IEnumerable<PoolItem> m_MovementItems;
 
-        public UnitHexHighlights(IMouseManager MouseManager, IHexHighlighter HexHighlighter, IHexPathfinder HexPathfinder)
+        public UnitHexHighlights(IMouseManager MouseManager, IHexHighlighter HexHighlighter, IUnitMovementManager UnitMovementManager)
         {
-            this.MouseManager = MouseManager;
+            this.UnitMovementManager = UnitMovementManager;
             this.HexHighlighter = HexHighlighter;
-            this.HexPathfinder = HexPathfinder;
 
-            MouseManager.SelectableSelected += OnSelectableClicked;
-            MouseManager.SelectableUnselected += OnSelectableUnselected;
+            UnitMovementManager.UnitSelected += UnitSelected;
+            UnitMovementManager.UnitUnselected += UnitUnselected;
         }
 
-        private void OnSelectableClicked(Selectable obj)
+        private void UnitSelected(Unit unit)
         {
-            var unit = obj as Unit;
-            if (unit != null)
-            {
-                var pathDict = HexPathfinder.FindAllPaths(unit.HexCell.Position, HexType.Empty, unit.Movement);
-                var coverage = pathDict.CoveredCells().Select(pos => new HexCell(pos));
-                m_MovementItems = HexHighlighter.PlaceHighlighters(coverage, Highlighter.Blue, m_MovementItems);
-            }
+            var coverage = UnitMovementManager.Paths.CoveredCells().Select(pos => new HexCell(pos));
+            m_MovementItems = HexHighlighter.PlaceHighlighters(coverage, Highlighter.Blue, m_MovementItems);
         }
 
-        private void OnSelectableUnselected(Selectable obj)
+        private void UnitUnselected(Unit unit)
         {
             m_MovementItems.Release();
             m_MovementItems = null;
         }
-
 
         public void Update()
         {
