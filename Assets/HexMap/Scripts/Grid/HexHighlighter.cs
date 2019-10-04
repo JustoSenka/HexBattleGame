@@ -12,25 +12,42 @@ namespace Assets
     [RegisterDependency(typeof(IHexHighlighter), true)]
     public class HexHighlighter : IHexHighlighter
     {
-        private readonly PublicReferences PrefabReferences;
+        [Dependency(typeof(PublicReferences))]
+        private PublicReferences PublicReferences;
 
         private ObjectPool m_PoolBlue;
         private ObjectPool m_PoolRed;
         private ObjectPool m_PoolSelection;
         private ObjectPool m_PoolHover;
 
-        public HexHighlighter(PublicReferences PrefabReferences)
+        public HexHighlighter()
         {
-            this.PrefabReferences = PrefabReferences;
+
         }
 
         public void Start()
         {
             var parent = new GameObject("Pool");
-            m_PoolBlue = new ObjectPool(parent, PrefabReferences.BlueHighlightPrefab, 0);
-            m_PoolRed = new ObjectPool(parent, PrefabReferences.RedHighlightPrefab, 0);
-            m_PoolSelection = new ObjectPool(parent, PrefabReferences.SelectionHighlightPrefab, 0);
-            m_PoolHover = new ObjectPool(parent, PrefabReferences.HoverHighlightPrefab, 0);
+
+            // Public References might not be created when running tests.
+            // In that case just pretend to create some empty game objects. For testing it is enough
+            // Print a warning in case we are not running test so someone can notice
+            if (PublicReferences == null)
+            {
+                Debug.LogWarning(this.GetType() + ": PublicReferences == null");
+                var go = new GameObject("Dummy");
+                m_PoolBlue = new ObjectPool(parent, go, 0);
+                m_PoolRed = new ObjectPool(parent, go, 0);
+                m_PoolSelection = new ObjectPool(parent, go, 0);
+                m_PoolHover = new ObjectPool(parent, go, 0);
+
+                return;
+            }
+
+            m_PoolBlue = new ObjectPool(parent, PublicReferences.BlueHighlightPrefab, 0);
+            m_PoolRed = new ObjectPool(parent, PublicReferences.RedHighlightPrefab, 0);
+            m_PoolSelection = new ObjectPool(parent, PublicReferences.SelectionHighlightPrefab, 0);
+            m_PoolHover = new ObjectPool(parent, PublicReferences.HoverHighlightPrefab, 0);
         }
 
         public PoolItem PlaceHighlighter(HexCell hexCell, Highlighter highlighter, PoolItem reusePoolItem = null)

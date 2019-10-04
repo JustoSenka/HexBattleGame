@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Assets
@@ -19,17 +20,13 @@ namespace Assets
 
         public void Start()
         {
-            var allLoadedSceneNames = GetAllSceneNames().ToArray();
-            foreach (var db in PublicReferences.MapHexDB.Where(d => allLoadedSceneNames.Contains(d.SceneName)))
+            if (PublicReferences == null)
             {
-                var data = db.Data;
-                foreach (var pair in data)
-                {
-                    var newCell = new HexCell(pair.Key);
-                    newCell.Type = pair.Value;
-                    m_CellMap[pair.Key] = newCell;
-                }
+                Debug.LogWarning(this.GetType() + ": PublicReferences == null");
+                return;
             }
+
+            PopulateDatabaseWithHexData();
         }
 
         public HexCell GetCell(int2 pos)
@@ -46,6 +43,21 @@ namespace Assets
         public void UpdateCell(HexCell hex) => m_CellMap[hex.Position] = hex;
 
         // Private ---
+
+        private void PopulateDatabaseWithHexData()
+        {
+            var allLoadedSceneNames = GetAllSceneNames().ToArray();
+            foreach (var db in PublicReferences.MapHexDB.Where(d => allLoadedSceneNames.Contains(d.SceneName)))
+            {
+                var data = db.Data;
+                foreach (var pair in data)
+                {
+                    var newCell = new HexCell(pair.Key);
+                    newCell.Type = pair.Value;
+                    m_CellMap[pair.Key] = newCell;
+                }
+            }
+        }
 
         private static IEnumerable<string> GetAllSceneNames()
         {

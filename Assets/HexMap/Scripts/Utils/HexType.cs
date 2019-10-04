@@ -1,9 +1,12 @@
-﻿namespace Assets
+﻿using System;
+
+namespace Assets
 {
+    [Flags]
     public enum HexType
     {
-        Empty = 0,
-        Obstacle = 1,
-        River = 2,
+        Empty = 1,
+        Obstacle = 2,
+        River = 4,
     }
 }

@@ -5,12 +5,15 @@ namespace Assets
     public class SnapToGrid : MonoBehaviour
     {
         public HexCell HexCell;
+        public bool SnapToGridOnStart;
 
         // Move this to system
         public virtual void Start()
         {
-            HexCell = new HexCell(HexCell.Position); // HexCell created from inspector will be invalid and have default values
-            transform.position = HexCell.WorldPosition + new Vector3(0, transform.localScale.y / 2, 0);
+            HexCell = new HexCell(HexUtility.WorldPointToHex(transform.position, 1));
+
+            if (SnapToGridOnStart)
+                transform.position = HexCell.WorldPosition + new Vector3(0, transform.localScale.y / 2, 0);
         }
     }
 }

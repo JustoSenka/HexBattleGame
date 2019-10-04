@@ -21,7 +21,9 @@ namespace Assets
         {
             foreach (var scene in GetAllScenes())
             {
-                var db = ScriptableObject.CreateInstance<HexDatabaseData>();
+                var path = string.Format(k_AssetDatabaseDataFile, scene.name);
+                var db = HexDatabaseData.Load(path);
+
                 foreach (var snap in scene.GetRootGameObjects().SelectMany(g => g.GetComponentsInChildren<SnapToGrid>()))
                 {
                     var pos = HexUtility.WorldPointToHex(snap.transform.position, 1);
@@ -29,14 +31,14 @@ namespace Assets
                 }
 
                 db.SceneName = scene.name;
-                db.Save(string.Format(k_AssetDatabaseDataFile, scene.name));
+                db.Save(path);
             }
         }
 
         private static HexType GetHexType(SnapToGrid snap)
         {
             TypeToHexTypeMap.TryGetValue(snap.GetType(), out HexType hexType);
-            return hexType; // Default will be empty, this is what I need
+            return hexType == default ? HexType.Empty : hexType;
         }
 
         private static IEnumerable<Scene> GetAllScenes()

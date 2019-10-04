@@ -88,6 +88,12 @@ namespace Assets
             var ctr = type.GetConstructors().First();
             var paramInstances = ctr.GetParameters().Select(p => p.ParameterType).Select(t => Resolve(t)).ToArray();
 
+            if (typeof(MonoBehaviour).IsAssignableFrom(type))
+            {
+                Debug.LogWarning($"Cannot create type: {type} because it inherits from MonoBehaviour. MonoBehaviours can only be created by Unity");
+                return null;
+            }
+
             return Activator.CreateInstance(type, paramInstances);
         }
 
@@ -98,6 +104,9 @@ namespace Assets
         /// </summary>
         public void InjectDependenciesInto(object obj)
         {
+            if (obj == null)
+                return;
+
             var type = obj.GetType();
             var attributeType = typeof(Dependency);
 

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assets
 {
@@ -11,13 +8,15 @@ namespace Assets
     {
         private readonly IMouseManager MouseManager;
         private readonly IHexHighlighter HexHighlighter;
+        private readonly IHexPathfinder HexPathfinder;
 
         private IEnumerable<PoolItem> m_MovementItems;
 
-        public UnitHexHighlights(IMouseManager MouseManager, IHexHighlighter HexHighlighter)
+        public UnitHexHighlights(IMouseManager MouseManager, IHexHighlighter HexHighlighter, IHexPathfinder HexPathfinder)
         {
             this.MouseManager = MouseManager;
             this.HexHighlighter = HexHighlighter;
+            this.HexPathfinder = HexPathfinder;
 
             MouseManager.SelectableSelected += OnSelectableClicked;
             MouseManager.SelectableUnselected += OnSelectableUnselected;
@@ -28,8 +27,9 @@ namespace Assets
             var unit = obj as Unit;
             if (unit != null)
             {
-                var cellsToHighlight = HexUtility.FindNeighbours(unit.HexCell.Position, unit.Movement).Select(pos => new HexCell(pos)).ToArray();
-                m_MovementItems = HexHighlighter.PlaceHighlighters(cellsToHighlight, Highlighter.Blue, m_MovementItems);
+                var pathDict = HexPathfinder.FindAllPaths(unit.HexCell.Position, HexType.Empty, unit.Movement);
+                var coverage = pathDict.CoveredCells().Select(pos => new HexCell(pos));
+                m_MovementItems = HexHighlighter.PlaceHighlighters(coverage, Highlighter.Blue, m_MovementItems);
             }
         }
 

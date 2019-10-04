@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets
@@ -7,6 +6,7 @@ namespace Assets
     [RegisterDependency(typeof(HexDebugger), true)]
     public class HexDebugger
     {
+        [Dependency(typeof(PublicReferences))]
         public PublicReferences PublicReferences;
 
         private readonly IMouseManager MouseManager;
@@ -16,19 +16,23 @@ namespace Assets
         private PoolItem[] m_Items;
         private HexCell m_HoveringCell;
 
-        public HexDebugger(PublicReferences PublicReferences, IMouseManager MouseManager, IHexHighlighter HexHighlighter)
+        public HexDebugger(IMouseManager MouseManager, IHexHighlighter HexHighlighter)
         {
-            this.PublicReferences = PublicReferences;
             this.MouseManager = MouseManager;
             this.HexHighlighter = HexHighlighter;
         }
 
         public void Start()
         {
+            if (PublicReferences == null)
+            {
+                Debug.LogWarning(this.GetType() + ": PublicReferences == null");
+                return;
+            }
+
             var parent = new GameObject("Debug Text").transform;
             m_Pool = new ObjectPool(parent.gameObject, PublicReferences.DebugCellIndexText, 0);
 
-            
             for (int i = -20; i <= 20; i++)
             {
                 for (int j = -20; j <= 20; j++)
@@ -43,7 +47,7 @@ namespace Assets
                     go.GetComponentInChildren<Text>().text = pos.x + "." + pos.y;
                 }
             }
-            
+
         }
 
         public void Update()

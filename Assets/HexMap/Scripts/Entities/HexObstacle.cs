@@ -6,7 +6,7 @@ namespace Assets
     {
         public override void Start()
         {
-            // Do nothing.
+            base.Start();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -33,10 +34,28 @@ namespace Assets
         [SerializeField]
         private ListElement[] ListData;
 
+        public static HexDatabaseData Load(string path)
+        {
+            var asset = AssetDatabase.LoadAssetAtPath<HexDatabaseData>(path);
+            if (asset == null)
+                return ScriptableObject.CreateInstance<HexDatabaseData>();
+
+            return asset;
+        }
+
         public void Save(string path)
         {
             ListData = Data.Select(k => new ListElement(k.Key, k.Value)).ToArray();
-            AssetDatabase.CreateAsset(this, path);
+
+            if (File.Exists(path))
+            {
+                EditorUtility.SetDirty(this);
+                AssetDatabase.SaveAssets();
+            }
+            else
+            {
+                AssetDatabase.CreateAsset(this, path);
+            }
         }
 
         [Serializable]

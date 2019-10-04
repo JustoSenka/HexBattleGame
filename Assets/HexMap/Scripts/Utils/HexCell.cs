@@ -49,9 +49,6 @@ namespace Assets
         public override bool Equals(object obj) => GetHashCode() == obj.GetHashCode();
         public static bool operator ==(HexCell c1, HexCell c2) => c1.Equals(c2);
         public static bool operator !=(HexCell c1, HexCell c2) => !c1.Equals(c2);
-
-        // Static ---
-
     }
 
 #pragma warning disable IDE1006 // Naming Styles
@@ -76,5 +73,31 @@ namespace Assets
 
         public static bool operator ==(int2 c1, int2 c2) => c1.Equals(c2);
         public static bool operator !=(int2 c1, int2 c2) => !c1.Equals(c2);
+    }
+
+#pragma warning disable IDE1006 // Naming Styles
+    [Serializable]
+    [DebuggerDisplay("int2: ({x}, {y}, {z})")]
+    public struct int3
+#pragma warning restore IDE1006 // Naming Styles
+    {
+        public int x;
+        public int y;
+        public int z;
+
+        public int3(int x, int y, int z)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+
+        public override string ToString() => $"({x}, {y}, {z})";
+
+        public override int GetHashCode() => x + (y << 15) + (z << 7);
+        public override bool Equals(object obj) => GetHashCode() == obj.GetHashCode();
+
+        public static bool operator ==(int3 c1, int3 c2) => c1.Equals(c2);
+        public static bool operator !=(int3 c1, int3 c2) => !c1.Equals(c2);
     }
 }
