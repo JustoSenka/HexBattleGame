@@ -27,6 +27,7 @@ namespace Assets
 
         void Update()
         {
+            /* Need UnitDatabase or HexDatabase to get actual unit
             if (HealthImage && m_Unit.Unit.Health != m_LastHp)
             {
                 var scale = HealthImage.localScale;
@@ -48,6 +49,7 @@ namespace Assets
                 Canvas.enabled = ShowBar;
                 m_LastShowBar = ShowBar;
             }
+            */
         }
     }
 }

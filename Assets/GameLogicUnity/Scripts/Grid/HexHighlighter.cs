@@ -50,6 +50,7 @@ namespace Assets
             m_PoolHover = new ObjectPool(parent, PublicReferences.HoverHighlightPrefab, 0);
         }
 
+        public PoolItem PlaceHighlighter(int2 cell, Highlighter highlighter, PoolItem reusePoolItem = null) => PlaceHighlighter(new HexCell(cell), highlighter, reusePoolItem);
         public PoolItem PlaceHighlighter(HexCell hexCell, Highlighter highlighter, PoolItem reusePoolItem = null)
         {
             // If reusable item is null or already released, create a new one
@@ -57,9 +58,11 @@ namespace Assets
                 reusePoolItem = ReserveItem(highlighter);
 
             reusePoolItem.GameObject.transform.position = hexCell.WorldPosition;
+            reusePoolItem.Cell = hexCell.Position;
             return reusePoolItem;
         }
 
+        public IEnumerable<PoolItem> PlaceHighlighters(IEnumerable<int2> cells, Highlighter highlighter, IEnumerable<PoolItem> reuseTheseItems = null) => PlaceHighlighters(cells.Select(c => new HexCell(c)), highlighter, reuseTheseItems);
         public IEnumerable<PoolItem> PlaceHighlighters(IEnumerable<HexCell> cells, Highlighter highlighter, IEnumerable<PoolItem> reuseTheseItems = null)
         {
             var itemsNeeded = cells.Count();
@@ -73,31 +76,12 @@ namespace Assets
 
             // for each item assing one cell from the list
             foreach (var (item, cell) in reuseTheseItems.Zip(cells, (item, cell) => (item, cell)))
-                item.GameObject.transform.position = cell.WorldPosition;
-
-            return reuseTheseItems;
-        }
-
-        public IEnumerable<PoolItem> PlaceHighlightersAround(HexCell hexCell, Highlighter highlighter, int minRange, int maxRange, IEnumerable<PoolItem> reuseTheseItems = null)
-        {
-            var itemsNeeded = CalculateAmountOfItemsNeeded(minRange, maxRange);
-
-            // If reusable items enumerable is null, doesn't match number needed or any items were released, reserve new array
-            if (reuseTheseItems == null || itemsNeeded != reuseTheseItems.Count() || !reuseTheseItems.First().IsReserved)
             {
-                reuseTheseItems?.Release();
-                reuseTheseItems = ReserveItems(highlighter, itemsNeeded);
+                item.GameObject.transform.position = cell.WorldPosition;
+                item.Cell = cell.Position;
             }
 
-            foreach (var item in reuseTheseItems)
-                item.GameObject.transform.position = hexCell.WorldPosition; //DEFINITELY WILL NOT WORK
-
             return reuseTheseItems;
-        }
-
-        private int CalculateAmountOfItemsNeeded(int minRange, int maxRange)
-        {
-            return 7;
         }
 
         private PoolItem ReserveItem(Highlighter highlighter)

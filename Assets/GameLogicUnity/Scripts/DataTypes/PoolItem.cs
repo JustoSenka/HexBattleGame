@@ -4,11 +4,12 @@ using UnityEngine;
 
 namespace Assets
 {
-    [DebuggerDisplay("PoolItem: {IsReserved} - {GameObject.name}")]
+    [DebuggerDisplay("PoolItem: {IsReserved} - {Cell} - {GameObject.name}")]
     public class PoolItem
     {
         public bool IsReserved { get; private set; }
         public GameObject GameObject { get; private set; }
+        public int2 Cell { get; set; }
 
         public PoolItem(bool reserved, GameObject item)
         {

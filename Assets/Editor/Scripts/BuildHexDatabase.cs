@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine.SceneManagement;
+using Assets.GameLogic.ExtensionMethods;
 
 namespace Assets
 {
@@ -39,18 +40,18 @@ namespace Assets
                     // Add objects from map to the database
                     if (snap is UnitBehaviour unit)
                     {
-                        unit.Unit.Cell = pos;
-                        db.UnitData.Add(unit.Unit);
+                        unit.Cell = pos;
+                        db.UnitData.Add(unit.GetFieldIfExist("m_Unit") as Unit);
                     }
                     else if (snap is MovableBehaviour move)
                     {
-                        move.Movable.Cell = pos;
-                        db.MovableData.Add(move.Movable);
+                        move.Cell = pos;
+                        db.MovableData.Add(move.GetFieldIfExist("m_Movable") as Movable);
                     }
                     else if (snap is SelectableBehaviour sel)
                     {
-                        sel.Selectable.Cell = pos;
-                        db.SelectableData.Add(sel.Selectable);
+                        sel.Cell = pos;
+                        db.SelectableData.Add(sel.GetFieldIfExist("m_Selectable") as Selectable);
                     }
                 }
 

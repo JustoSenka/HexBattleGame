@@ -19,9 +19,11 @@ namespace Assets
         public event Action<HexCell> HexPressedDown;
         public event Action<HexCell> HexSelected;
         public event Action<HexCell> HexUnselected;
+        public event Action<HexCell> HexUnderMouseChanged;
 
-        public event Action<Selectable> SelectableSelected; 
+        public event Action<Selectable> SelectableSelected;
         public event Action<Selectable> SelectableUnselected;
+        public event Action<Selectable> SelectableUnderMouseChanged;
 
         public event Action MouseReleased;
 
@@ -155,29 +157,50 @@ namespace Assets
                 var selectableBehaviour = hit.collider.gameObject.GetComponent<SelectableBehaviour>();
                 if (!selectableBehaviour) // Only select hex and deselect selectable if it was selected before
                 {
-                    IsUnderCell = true;
                     var pos = HexUtility.WorldPointToHex(hit.point, 1);
-                    HexUnderMouse = new HexCell(pos);
 
+                    IsUnderCell = true;
                     IsUnderSelectable = false;
-                    SelectableUnderMouse = default;
+
+                    SetSelectableUnderMouse(default);
+                    SetHexUnderMouse(pos);
                 }
                 else // Select selectable and hex it is in
                 {
                     IsUnderSelectable = true;
-                    SelectableUnderMouse = HexDatabase.GetSelectable(selectableBehaviour.Selectable.Cell);
+                    SetSelectableUnderMouse(selectableBehaviour.Cell);
 
                     IsUnderCell = true;
-                    HexUnderMouse = HexDatabase.GetHex(selectableBehaviour.Selectable.Cell);
+                    SetHexUnderMouse(selectableBehaviour.Cell);
                 }
             }
             else // Reset all selections to default
             {
                 IsUnderSelectable = false;
-                SelectableUnderMouse = default;
+                SetSelectableUnderMouse(default);
 
                 IsUnderCell = false;
-                HexUnderMouse = default;
+                SetHexUnderMouse(default);
+            }
+        }
+
+        private void SetHexUnderMouse(int2 pos)
+        {
+            var newHex = IsUnderCell ? HexDatabase.GetHex(pos) : default;
+            if (newHex != HexUnderMouse)
+            {
+                HexUnderMouse = newHex;
+                HexUnderMouseChanged?.Invoke(HexUnderMouse);
+            }
+        }
+
+        private void SetSelectableUnderMouse(int2 pos)
+        {
+            var newSelectable = IsUnderSelectable ? HexDatabase.GetSelectable(pos) : default;
+            if (newSelectable != SelectableUnderMouse)
+            {
+                SelectableUnderMouse = newSelectable;
+                SelectableUnderMouseChanged?.Invoke(SelectableUnderMouse);
             }
         }
     }

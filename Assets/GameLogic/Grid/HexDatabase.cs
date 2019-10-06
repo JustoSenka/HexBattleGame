@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Assets
 {
@@ -7,8 +8,6 @@ namespace Assets
     {
         public IDictionary<int2, HexCell> m_CellMap;
         public IDictionary<int2, Selectable> m_SelectableMap;
-        public IDictionary<int2, Movable> m_MovableMap;
-        public IDictionary<int2, Unit> m_UnitMap;
 
         public HexDatabase()
         {
@@ -36,5 +35,12 @@ namespace Assets
         }
 
         public void UpdateSelectable(Selectable obj) => m_SelectableMap[obj.Cell] = obj;
+
+        public Unit[] GetUnitsForTeam(ITeam Team)
+        {
+            return m_SelectableMap
+                .Where(pair => pair.Value.Team == Team.TeamID && pair.Value is Unit)
+                .Select(pair => (Unit)pair.Value).ToArray();
+        }
     }
 }

@@ -55,9 +55,10 @@ namespace Assets
             // GameLoop.Update();
 
             MouseManager.Update();
-            UnitMovementManager.Update();
             SelectableHexHighlights.Update();
             UnitHexHighlights.Update();
+
+            UnitMovementManager.Update();
 
             HexDebugger.Update();
         }
