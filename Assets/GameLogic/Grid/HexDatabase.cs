@@ -6,13 +6,13 @@ namespace Assets
     [RegisterDependency(typeof(IHexDatabase), true)]
     public class HexDatabase : IHexDatabase
     {
-        public IDictionary<int2, HexCell> m_CellMap;
-        public IDictionary<int2, Selectable> m_SelectableMap;
+        private IDictionary<int2, HexCell> m_CellMap;
+        private IList<Selectable> m_SelectableMap;
 
         public HexDatabase()
         {
             m_CellMap = new Dictionary<int2, HexCell>();
-            m_SelectableMap = new Dictionary<int2, Selectable>();
+            m_SelectableMap = new List<Selectable>();
         }
 
         public HexCell GetHex(int2 pos)
@@ -30,17 +30,20 @@ namespace Assets
 
         public Selectable GetSelectable(int2 pos)
         {
-            m_SelectableMap.TryGetValue(pos, out Selectable sel);
-            return sel;
+            return m_SelectableMap.FirstOrDefault(e => e.Cell == pos);
         }
 
-        public void UpdateSelectable(Selectable obj) => m_SelectableMap[obj.Cell] = obj;
+        public void UpdateSelectable(Selectable obj)
+        {
+            if (!m_SelectableMap.Contains(obj))
+                m_SelectableMap.Add(obj);
+        }
 
         public Unit[] GetUnitsForTeam(ITeam Team)
         {
             return m_SelectableMap
-                .Where(pair => pair.Value.Team == Team.TeamID && pair.Value is Unit)
-                .Select(pair => (Unit)pair.Value).ToArray();
+                .Where(sel => sel.Team == Team.TeamID && sel is Unit)
+                .Select(sel => (Unit)sel).ToArray();
         }
     }
 }

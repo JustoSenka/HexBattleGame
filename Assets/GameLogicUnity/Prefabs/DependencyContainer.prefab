@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3239687187453259019}
   - component: {fileID: 4229560405003207201}
   - component: {fileID: 8894866770268342434}
+  - component: {fileID: 7726228970951927624}
   m_Layer: 0
   m_Name: DependencyContainer
   m_TagString: Untagged
@@ -59,7 +60,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea145e5c5e4c479489469569344fc021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapHexDB: []
+  MapHexDB:
+  - {fileID: 11400000, guid: bdac1dbd2f69151409f14ce75dc678c5, type: 2}
+  - {fileID: 11400000, guid: beecb5da4c87c274d92de89491d6a90b, type: 2}
+  - {fileID: 11400000, guid: 5516d7074f43b454f9651368399eea8c, type: 2}
   BlueHighlightPrefab: {fileID: 4635619604413116898, guid: b9bc7b27ee5ecd140ae0add0e66584ce,
     type: 3}
   RedHighlightPrefab: {fileID: 5014320215203213269, guid: 1440321ca0ddf894ba7f0282c365862f,
@@ -68,7 +72,8 @@ MonoBehaviour:
     type: 3}
   SelectionHighlightPrefab: {fileID: 6146712427766547872, guid: d6d825d663239cd42a4b07b2da0d89c4,
     type: 3}
-  DebugCellIndexText: {fileID: 0}
+  DebugCellIndexText: {fileID: 5773018603652214139, guid: 136af440b96920e43a3e330e6e40437b,
+    type: 3}
 --- !u!114 &8894866770268342434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,5 +84,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a905fa495f40dbb45a638c27eed94e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7726228970951927624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3220120879501454855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66bd9776784ecd44281d1471017d9fc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

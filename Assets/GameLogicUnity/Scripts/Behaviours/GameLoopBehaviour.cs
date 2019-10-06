@@ -32,6 +32,9 @@ namespace Assets
         [Dependency(typeof(IPopulateHexDatabase))]
         public IPopulateHexDatabase PopulateHexDatabase;
 
+        [Dependency(typeof(IMonoDatabase))]
+        public IMonoDatabase MonoDatabase;
+
         void Awake()
         {
             // GameLoop.Awake();
@@ -42,6 +45,7 @@ namespace Assets
             // GameLoop.Start();
 
             PopulateHexDatabase.Start();
+            MonoDatabase.Start();
 
             HexHighlighter.Start();
             SelectableHexHighlights.Start();

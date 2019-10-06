@@ -10,7 +10,7 @@ namespace Assets
 
         public bool SnapToGridOnStart;
 
-        public virtual void Start()
+        public virtual void Awake()
         {
             var HexCell = new HexCell(HexUtility.WorldPointToHex(transform.position, 1));
             Cell = HexCell.Position;

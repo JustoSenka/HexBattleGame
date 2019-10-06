@@ -4,9 +4,9 @@ namespace Assets
 {
     public class HexObstacle : SnapToGrid
     {
-        public override void Start()
+        public override void Awake()
         {
-            base.Start();
+            base.Awake();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Assets
 {
@@ -8,6 +9,8 @@ namespace Assets
 
         event Action<Unit> UnitSelected;
         event Action<Unit> UnitUnselected;
+
+        event Action<Unit, IEnumerable<int2>> UnitPositionChange;
 
         void Update();
     }
