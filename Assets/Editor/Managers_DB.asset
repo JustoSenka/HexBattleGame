@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: Managers_DB
   m_EditorClassIdentifier: 
   SceneName: Managers
-  ListData: []
+  HexTypeData: []
+  SelectableData: []
+  MovableData: []
+  UnitData: []

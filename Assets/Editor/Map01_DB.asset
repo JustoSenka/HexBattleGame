@@ -13,15 +13,7 @@ MonoBehaviour:
   m_Name: Map01_DB
   m_EditorClassIdentifier: 
   SceneName: Map01
-  ListData:
-  - Hex:
-      x: 0
-      y: -2
-    HexType: 1
-  - Hex:
-      x: -3
-      y: -2
-    HexType: 1
+  HexTypeData:
   - Hex:
       x: -1
       y: 1
@@ -30,22 +22,6 @@ MonoBehaviour:
       x: 1
       y: 0
     HexType: 2
-  - Hex:
-      x: -1
-      y: -1
-    HexType: 1
-  - Hex:
-      x: 0
-      y: 2
-    HexType: 1
-  - Hex:
-      x: 3
-      y: 1
-    HexType: 1
-  - Hex:
-      x: 2
-      y: -2
-    HexType: 1
   - Hex:
       x: -2
       y: 2
@@ -98,3 +74,108 @@ MonoBehaviour:
       x: -3
       y: -1
     HexType: 2
+  - Hex:
+      x: 0
+      y: -2
+    HexType: 8
+  - Hex:
+      x: -1
+      y: -1
+    HexType: 8
+  - Hex:
+      x: 0
+      y: 2
+    HexType: 8
+  - Hex:
+      x: 3
+      y: 1
+    HexType: 8
+  - Hex:
+      x: 2
+      y: -2
+    HexType: 8
+  - Hex:
+      x: 4
+      y: 4
+    HexType: 8
+  SelectableData: []
+  MovableData: []
+  UnitData:
+  - Team: 0
+    Cell:
+      x: 0
+      y: -2
+    Movement: 1
+    MaxMovement: 1
+    Attack: 0
+    Defense: 0
+    MaxHealth: 0
+    Health: 0
+    MaxMagic: 0
+    Magic: 0
+    Range: 0
+  - Team: 0
+    Cell:
+      x: -1
+      y: -1
+    Movement: 2
+    MaxMovement: 2
+    Attack: 0
+    Defense: 0
+    MaxHealth: 0
+    Health: 0
+    MaxMagic: 0
+    Magic: 0
+    Range: 0
+  - Team: 0
+    Cell:
+      x: 0
+      y: 2
+    Movement: 3
+    MaxMovement: 3
+    Attack: 0
+    Defense: 0
+    MaxHealth: 0
+    Health: 0
+    MaxMagic: 0
+    Magic: 0
+    Range: 0
+  - Team: 0
+    Cell:
+      x: 3
+      y: 1
+    Movement: 4
+    MaxMovement: 4
+    Attack: 0
+    Defense: 0
+    MaxHealth: 0
+    Health: 0
+    MaxMagic: 0
+    Magic: 0
+    Range: 0
+  - Team: 0
+    Cell:
+      x: 2
+      y: -2
+    Movement: 5
+    MaxMovement: 5
+    Attack: 0
+    Defense: 0
+    MaxHealth: 0
+    Health: 0
+    MaxMagic: 0
+    Magic: 0
+    Range: 0
+  - Team: 0
+    Cell:
+      x: 4
+      y: 4
+    Movement: 6
+    MaxMovement: 6
+    Attack: 0
+    Defense: 0
+    MaxHealth: 0
+    Health: 0
+    MaxMagic: 0
+    Magic: 0
+    Range: 0

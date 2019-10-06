@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: UI_DB
   m_EditorClassIdentifier: 
   SceneName: UI
-  ListData: []
+  HexTypeData: []
+  SelectableData: []
+  MovableData: []
+  UnitData: []

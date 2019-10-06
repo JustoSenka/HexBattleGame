@@ -1,10 +1,6 @@
 {
     "name": "GameLogic",
-    "references": [
-        "DependencyInjection",
-        "HexMap",
-        "Utils"
-    ],
+    "references": [],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
