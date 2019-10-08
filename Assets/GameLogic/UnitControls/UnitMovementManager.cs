@@ -15,19 +15,19 @@ namespace Assets
 
         private Unit m_SelectedUnit;
 
-        private readonly IMouseManager MouseManager;
+        private readonly ISelectionManager SelectionManager;
         private readonly IHexPathfinder HexPathfinder;
         private readonly IHexDatabase HexDatabase;
-        public UnitMovementManager(IMouseManager MouseManager, IHexPathfinder HexPathfinder, IHexDatabase HexDatabase)
+        public UnitMovementManager(ISelectionManager SelectionManager, IHexPathfinder HexPathfinder, IHexDatabase HexDatabase)
         {
-            this.MouseManager = MouseManager;
+            this.SelectionManager = SelectionManager;
             this.HexPathfinder = HexPathfinder;
             this.HexDatabase = HexDatabase;
 
-            MouseManager.SelectableSelected += OnSelectableClicked;
-            MouseManager.SelectableUnselected += OnSelectableUnselected;
+            SelectionManager.SelectableSelected += OnSelectableClicked;
+            SelectionManager.SelectableUnselected += OnSelectableUnselected;
 
-            MouseManager.HexSelected += OnHexSelected;
+            SelectionManager.HexSelected += OnHexSelected;
         }
 
         public void MoveSelectedUnitTo(HexCell hexTo)

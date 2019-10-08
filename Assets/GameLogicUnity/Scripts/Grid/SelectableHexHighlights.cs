@@ -3,26 +3,28 @@
     [RegisterDependency(typeof(ISelectableHexHighlights), true)]
     public class SelectableHexHighlights : ISelectableHexHighlights
     {
-        private readonly IMouseManager MouseManager;
-        private readonly IHexHighlighter HexHighlighter;
-
         private PoolItem m_TempSelectItemForMapDragging;
         private PoolItem m_SelectItem;
 
         private PoolItem m_HoverItem;
         private PoolItem m_RedItem;
 
-        public SelectableHexHighlights(IMouseManager MouseManager, IHexHighlighter HexHighlighter)
+        private readonly IUserInputManager MouseManager;
+        private readonly IHexHighlighter HexHighlighter;
+        private readonly ISelectionManager SelectionManager;
+        public SelectableHexHighlights(IUserInputManager MouseManager, ISelectionManager SelectionManager, IHexHighlighter HexHighlighter)
         {
             this.MouseManager = MouseManager;
             this.HexHighlighter = HexHighlighter;
+            this.SelectionManager = SelectionManager;
 
-            MouseManager.HexSelected += OnHexSelected;
-            MouseManager.HexUnselected += OnHexUnselected;
+            SelectionManager.HexSelected += OnHexSelected;
+            SelectionManager.HexUnselected += OnHexUnselected;
+
+            SelectionManager.SelectableSelected += SelectableSelected;
+            SelectionManager.SelectableUnselected += OnSelectableUnselected;
+
             MouseManager.HexPressedDown += OnHexPressedDown;
-
-            MouseManager.SelectableSelected += SelectableSelected;
-            MouseManager.SelectableUnselected += OnSelectableUnselected;
             MouseManager.MouseReleased += OnMouseReleased;
         }
 

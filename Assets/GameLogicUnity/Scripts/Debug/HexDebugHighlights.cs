@@ -6,20 +6,19 @@ namespace Assets
     [RegisterDependency(typeof(HexDebugHighlights), true)]
     public class HexDebugHighlights
     {
-        private readonly IMouseManager MouseManager;
+        private readonly ISelectionManager SelectionManager;
         private readonly IHexHighlighter HexHighlighter;
 
         private PoolItem m_Item;
 
-        public HexDebugHighlights(IMouseManager MouseManager, IHexHighlighter HexHighlighter)
+        public HexDebugHighlights(ISelectionManager SelectionManager, IHexHighlighter HexHighlighter)
         {
-            this.MouseManager = MouseManager;
+            this.SelectionManager = SelectionManager;
             this.HexHighlighter = HexHighlighter;
 
-            MouseManager.HexSelected += OnHexSelected;
-            MouseManager.HexUnselected += OnHexUnselected;
+            SelectionManager.HexSelected += OnHexSelected;
+            SelectionManager.HexUnselected += OnHexUnselected;
         }
-
 
         private void OnHexSelected(HexCell hex)
         {

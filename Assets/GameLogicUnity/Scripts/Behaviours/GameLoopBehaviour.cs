@@ -8,8 +8,8 @@ namespace Assets
         [Dependency(typeof(IGameLoop))]
         public IGameLoop GameLoop;
 
-        [Dependency(typeof(IMouseManager))]
-        public IMouseManager MouseManager;
+        [Dependency(typeof(IUserInputManager))]
+        public IUserInputManager MouseManager;
 
         [Dependency(typeof(IHexHighlighter))] 
         public IHexHighlighter HexHighlighter;

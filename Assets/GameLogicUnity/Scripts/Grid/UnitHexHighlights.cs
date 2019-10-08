@@ -7,14 +7,14 @@ namespace Assets
     {
         private readonly IUnitMovementManager UnitMovementManager;
         private readonly IHexHighlighter HexHighlighter;
-        private readonly IMouseManager MouseManager;
+        private readonly IUserInputManager MouseManager;
 
         private IEnumerable<PoolItem> m_MovementItems;
         private IEnumerable<PoolItem> m_PathItems;
 
         private bool m_IsUnitSelected;
 
-        public UnitHexHighlights(IMouseManager MouseManager, IHexHighlighter HexHighlighter, IUnitMovementManager UnitMovementManager)
+        public UnitHexHighlights(IUserInputManager MouseManager, IHexHighlighter HexHighlighter, IUnitMovementManager UnitMovementManager)
         {
             this.UnitMovementManager = UnitMovementManager;
             this.HexHighlighter = HexHighlighter;

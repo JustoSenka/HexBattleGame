@@ -2,7 +2,7 @@
 
 namespace Assets
 {
-    public class MouseManager : IMouseManager
+    public class EmptyUserInputManager : IUserInputManager
     {
         public bool IsUnderCell => default;
         public HexCell HexUnderMouse => default;
@@ -20,7 +20,7 @@ namespace Assets
 
         public event Action MouseReleased;
 
-        void IMouseManager.Update()
+        void IUserInputManager.Update()
         {
             
         }

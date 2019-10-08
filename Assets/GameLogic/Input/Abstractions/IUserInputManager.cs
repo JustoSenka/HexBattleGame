@@ -2,7 +2,7 @@
 
 namespace Assets
 {
-    public interface IMouseManager
+    public interface IUserInputManager
     {
         bool IsUnderCell { get; }
         HexCell HexUnderMouse { get; }
@@ -10,16 +10,11 @@ namespace Assets
         bool IsUnderSelectable { get; }
         Selectable SelectableUnderMouse { get; }
 
-        event Action<HexCell> HexSelected;
         event Action<HexCell> HexPressedDown;
-        event Action<HexCell> HexUnselected;
-        event Action<HexCell> HexUnderMouseChanged;
-
-        event Action<Selectable> SelectableSelected;
-        event Action<Selectable> SelectableUnselected;
-        event Action<Selectable> SelectableUnderMouseChanged;
-
         event Action MouseReleased;
+
+        event Action<HexCell> HexUnderMouseChanged;
+        event Action<Selectable> SelectableUnderMouseChanged;
 
         void Update();
     }
