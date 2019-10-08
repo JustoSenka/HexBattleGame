@@ -24,7 +24,7 @@
 
         public virtual void Update()
         {
-            UnitMovementManager.Update();
+            // Simulate user input here. Simulating SelectionManager should be sufficient
         }
     }
 }

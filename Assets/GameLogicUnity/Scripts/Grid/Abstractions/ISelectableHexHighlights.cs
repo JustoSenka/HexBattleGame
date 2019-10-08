@@ -2,7 +2,5 @@
 {
     public interface ISelectableHexHighlights
     {
-        void Start();
-        void Update();
     }
 }

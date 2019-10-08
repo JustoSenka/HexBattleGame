@@ -9,7 +9,7 @@ namespace Assets
         public IGameLoop GameLoop;
 
         [Dependency(typeof(IUserInputManager))]
-        public IUserInputManager MouseManager;
+        public IUserInputManager UserInputManager;
 
         [Dependency(typeof(IHexHighlighter))] 
         public IHexHighlighter HexHighlighter;
@@ -48,7 +48,6 @@ namespace Assets
             MonoDatabase.Start();
 
             HexHighlighter.Start();
-            SelectableHexHighlights.Start();
 
             // Optional
             StartDebugOrEditorOnlySystems();
@@ -58,13 +57,9 @@ namespace Assets
         {
             // GameLoop.Update();
 
-            MouseManager.Update();
-            SelectableHexHighlights.Update();
-            UnitHexHighlights.Update();
+            UserInputManager.Update();
 
-            UnitMovementManager.Update();
-
-            HexDebugger.Update();
+            HexDebugger.Update(); // Currently empty and commented out
         }
 
         [Conditional("Debug")]

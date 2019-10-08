@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -23,15 +24,15 @@ namespace Assets
             UnitMovementManager.UnitPositionChange += OnUnitPositionChange;
         }
 
-        private void OnUnitPositionChange(Movable unit, IEnumerable<int2> pathInReverse)
+        private void OnUnitPositionChange(Action callback, Movable unit, IEnumerable<int2> pathInReverse)
         {
             var obj = MonoDatabase.GetBehaviourFor<MovableBehaviour>(unit);
             var path = pathInReverse.Reverse();
 
-            Coroutine.StartCoroutine(MovePosition(obj, path));
+            Coroutine.StartCoroutine(MovePosition(callback, obj, path));
         }
 
-        IEnumerator MovePosition(MovableBehaviour obj, IEnumerable<int2> pathInReverse)
+        IEnumerator MovePosition(Action callback, MovableBehaviour obj, IEnumerable<int2> pathInReverse)
         {
             var transform = obj.gameObject.transform;
             var height = new Vector3(0, transform.position.y, 0);
@@ -52,6 +53,8 @@ namespace Assets
                 obj.Cell = nextCell;
                 transform.position = targetPos + height;
             }
+
+            callback.Invoke();
         }
     }
 }

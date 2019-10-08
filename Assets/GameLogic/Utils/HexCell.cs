@@ -53,7 +53,7 @@ namespace Assets
 
         public override string ToString() => Position.ToString();
 
-        public override int GetHashCode() => Position.GetHashCode();
+        public override int GetHashCode() => IsValid ? Position.GetHashCode() : int.MinValue;
         public override bool Equals(object obj) => GetHashCode() == obj.GetHashCode();
         public static bool operator ==(HexCell c1, HexCell c2) => c1.Equals(c2);
         public static bool operator !=(HexCell c1, HexCell c2) => !c1.Equals(c2);

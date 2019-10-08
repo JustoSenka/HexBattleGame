@@ -9,16 +9,16 @@ namespace Assets
         [Dependency(typeof(PublicReferences))]
         public PublicReferences PublicReferences;
 
-        private readonly IUserInputManager MouseManager;
+        private readonly IUserInputManager UserInputManager;
         private readonly IHexHighlighter HexHighlighter;
 
         private ObjectPool m_Pool;
         private PoolItem[] m_Items;
         private HexCell m_HoveringCell;
 
-        public HexDebugger(IUserInputManager MouseManager, IHexHighlighter HexHighlighter)
+        public HexDebugger(IUserInputManager UserInputManager, IHexHighlighter HexHighlighter)
         {
-            this.MouseManager = MouseManager;
+            this.UserInputManager = UserInputManager;
             this.HexHighlighter = HexHighlighter;
         }
 

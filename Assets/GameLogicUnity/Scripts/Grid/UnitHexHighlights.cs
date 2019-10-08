@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets
 {
@@ -7,23 +8,23 @@ namespace Assets
     {
         private readonly IUnitMovementManager UnitMovementManager;
         private readonly IHexHighlighter HexHighlighter;
-        private readonly IUserInputManager MouseManager;
+        private readonly IUserInputManager UserInputManager;
 
         private IEnumerable<PoolItem> m_MovementItems;
         private IEnumerable<PoolItem> m_PathItems;
 
         private bool m_IsUnitSelected;
 
-        public UnitHexHighlights(IUserInputManager MouseManager, IHexHighlighter HexHighlighter, IUnitMovementManager UnitMovementManager)
+        public UnitHexHighlights(IUserInputManager UserInputManager, IHexHighlighter HexHighlighter, IUnitMovementManager UnitMovementManager)
         {
             this.UnitMovementManager = UnitMovementManager;
             this.HexHighlighter = HexHighlighter;
-            this.MouseManager = MouseManager;
+            this.UserInputManager = UserInputManager;
 
             UnitMovementManager.UnitSelected += UnitSelected;
             UnitMovementManager.UnitUnselected += UnitUnselected;
 
-            MouseManager.HexUnderMouseChanged += OnHexUnderMouseChanged;
+            UserInputManager.HexUnderMouseChanged += OnHexUnderMouseChanged;
         }
 
         private void OnHexUnderMouseChanged(HexCell hex)
@@ -39,11 +40,6 @@ namespace Assets
             }
         }
 
-        public void Update()
-        {
-
-        }
-
         private void UnitSelected(Unit unit)
         {
             var coverage = UnitMovementManager.Paths.CoveredCells();
@@ -55,8 +51,14 @@ namespace Assets
 
         private void UnitUnselected(Unit unit)
         {
-            m_MovementItems.Release();
-            m_MovementItems = null;
+            if (m_MovementItems != null)
+            {
+                m_MovementItems.Release();
+                m_MovementItems = null;
+            }
+            else
+                Debug.LogWarning("m_MovementItems were already released. Did UnitUnselected callback was fired for already unselected unit? " + unit);
+
 
             ReleasePathItems();
             m_IsUnitSelected = false;

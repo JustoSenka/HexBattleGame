@@ -9,12 +9,12 @@
         private PoolItem m_HoverItem;
         private PoolItem m_RedItem;
 
-        private readonly IUserInputManager MouseManager;
+        private readonly IUserInputManager UserInputManager;
         private readonly IHexHighlighter HexHighlighter;
         private readonly ISelectionManager SelectionManager;
-        public SelectableHexHighlights(IUserInputManager MouseManager, ISelectionManager SelectionManager, IHexHighlighter HexHighlighter)
+        public SelectableHexHighlights(IUserInputManager UserInputManager, ISelectionManager SelectionManager, IHexHighlighter HexHighlighter)
         {
-            this.MouseManager = MouseManager;
+            this.UserInputManager = UserInputManager;
             this.HexHighlighter = HexHighlighter;
             this.SelectionManager = SelectionManager;
 
@@ -24,16 +24,21 @@
             SelectionManager.SelectableSelected += SelectableSelected;
             SelectionManager.SelectableUnselected += OnSelectableUnselected;
 
-            MouseManager.HexPressedDown += OnHexPressedDown;
-            MouseManager.MouseReleased += OnMouseReleased;
+            UserInputManager.HexPressedDown += OnHexPressedDown;
+            UserInputManager.MouseReleased += OnMouseReleased;
+
+            UserInputManager.HexUnderMouseChanged += OnHexUnderMouseChanged;
         }
 
-        public void Start() { }
-
-        public void Update()
+        private void OnHexUnderMouseChanged(HexCell hexCell)
         {
-            if (MouseManager.IsUnderCell)
-                m_HoverItem = HexHighlighter.PlaceHighlighter(MouseManager.HexUnderMouse, Highlighter.Hover, m_HoverItem);
+            if (hexCell.IsValid)
+                m_HoverItem = HexHighlighter.PlaceHighlighter(hexCell, Highlighter.Hover, m_HoverItem);
+            else
+            {
+                m_HoverItem.Release();
+                m_HoverItem = null;
+            }
         }
 
         private void OnHexSelected(HexCell hex)

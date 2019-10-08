@@ -6,11 +6,11 @@ namespace Assets
     [RegisterDependency(typeof(IUserInputManager), true)]
     public class UserInputManager : IUserInputManager
     {
-        public bool IsUnderCell { get; private set; }
-        public HexCell HexUnderMouse { get; private set; }
+        private bool IsUnderCell { get; set; }
+        private HexCell HexUnderMouse { get; set; }
 
-        public bool IsUnderSelectable { get; private set; }
-        public Selectable SelectableUnderMouse { get; private set; }
+        private bool IsUnderSelectable { get; set; }
+        private Selectable SelectableUnderMouse { get; set; }
 
         public event Action<HexCell> HexPressedDown;
         public event Action MouseReleased;
@@ -67,9 +67,8 @@ namespace Assets
                 if (HexUnderMouse.IsValid && m_MouseDownOnHex == HexUnderMouse)
                     SelectionManager.SelectHexCell(HexUnderMouse);
 
-                // If released mouse, but not on any hex, unselect old hex
-                else
-                    SelectionManager.SelectHexCell(default);
+                else // If released mouse, but not on any hex, unselect old hex
+                    SelectionManager.UnselectAll();
 
                 // Clear the state hex being pressed down
                 m_MouseDownOnHex = default;
@@ -83,19 +82,11 @@ namespace Assets
                 if (SelectableUnderMouse != null && SelectableUnderMouse.Team == Team.TeamID)
                 {
                     SelectionManager.SelectSelectable(SelectableUnderMouse);
-                    SelectionManager.SelectHexCell(default);
 
                     // else do nothing since same item was again selected
                     // Even if same item was selected, still return true so Hex selection code doesn't run
                     return true;
                 }
-                // Mouse was released but not while dragging or not on a selectable. Deselect previously selected item
-                else
-                {
-                    SelectionManager.SelectSelectable(default);
-
-                }
-
             }
             return false;
         }

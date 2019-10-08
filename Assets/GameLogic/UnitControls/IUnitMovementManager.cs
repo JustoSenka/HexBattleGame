@@ -10,8 +10,6 @@ namespace Assets
         event Action<Unit> UnitSelected;
         event Action<Unit> UnitUnselected;
 
-        event Action<Unit, IEnumerable<int2>> UnitPositionChange;
-
-        void Update();
+        event Action<Action, Unit, IEnumerable<int2>> UnitPositionChange;
     }
 }

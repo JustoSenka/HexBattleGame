@@ -10,10 +10,13 @@ namespace Assets
         public event Action<HexCell> HexClicked;
         public event Action<HexCell> HexSelected;
         public event Action<HexCell> HexUnselected;
+        public event Action<HexCell> HexSelectionAborted;
 
         public event Action<Selectable> SelectableClicked;
         public event Action<Selectable> SelectableSelected;
         public event Action<Selectable> SelectableUnselected;
+        public event Action<Selectable> SelectableSelectionAborted;
+
 
         public HexCell CurrentlySelectedHex { get; private set; }
         public Selectable CurrentlySelectedSelectable { get; private set; }
@@ -26,7 +29,10 @@ namespace Assets
                 SelectableClicked?.Invoke(selectable);
 
             if (DoNotAllowOtherSystemsToChangeSelection)
+            {
+                SelectableSelectionAborted?.Invoke(selectable);
                 return;
+            }
 
             if (selectable != CurrentlySelectedSelectable)
             {
@@ -38,6 +44,10 @@ namespace Assets
                 if (selectable != default)
                     SelectableSelected?.Invoke(selectable);
             }
+
+            // Unselect hexCell if selectable was selected
+            if (selectable != default)
+                SelectHexCell(default);
         }
 
         public void SelectHexCell(HexCell hexCell)
@@ -46,7 +56,10 @@ namespace Assets
                 HexClicked?.Invoke(hexCell);
 
             if (DoNotAllowOtherSystemsToChangeSelection)
+            {
+                HexSelectionAborted?.Invoke(hexCell);
                 return;
+            }
 
             if (hexCell != CurrentlySelectedHex)
             {
@@ -58,6 +71,16 @@ namespace Assets
                 if (hexCell.IsValid)
                     HexSelected?.Invoke(hexCell);
             }
+
+            // Unselect selectable if hexCell was selected
+            if (hexCell.IsValid)
+                SelectSelectable(default);
+        }
+
+        public void UnselectAll()
+        {
+            SelectSelectable(default);
+            SelectHexCell(default);
         }
     }
 }
