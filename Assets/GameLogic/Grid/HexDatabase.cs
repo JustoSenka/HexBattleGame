@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Assets
 {
@@ -26,17 +27,25 @@ namespace Assets
             return hexCell;
         }
 
-        public void UpdateHex(HexCell hex) => m_CellMap[hex.Position] = hex;
+        public void UpdateHexCell(HexCell hex)
+        {
+            m_CellMap[hex.Position] = hex;
+        }
 
         public Selectable GetSelectable(int2 pos)
         {
             return m_SelectableMap.FirstOrDefault(e => e.Cell == pos);
         }
 
-        public void UpdateSelectable(Selectable obj)
+        public void AddNewSelectable(Selectable obj)
         {
-            if (!m_SelectableMap.Contains(obj))
-                m_SelectableMap.Add(obj);
+            if (m_SelectableMap.Contains(obj))
+            {
+                Debug.LogWarning($"Selectable is already in HexDatabase: {obj}");
+                return;
+            }
+
+            m_SelectableMap.Add(obj);
         }
 
         public Unit[] GetUnitsForTeam(ITeam Team)

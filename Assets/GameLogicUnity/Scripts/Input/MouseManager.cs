@@ -6,10 +6,8 @@ namespace Assets
     [RegisterDependency(typeof(IMouseManager), true)]
     public class MouseManager : IMouseManager
     {
-        private readonly IInputManager InputManager;
-        private readonly IHexDatabase HexDatabase;
-        private readonly ITeam Team;
-
+        public bool DoNotUnselectSelectable { get; set; }
+        
         public bool IsUnderCell { get; private set; }
         public HexCell HexUnderMouse { get; private set; }
 
@@ -35,6 +33,9 @@ namespace Assets
         private Vector3 m_OldMousePosition;
         private bool m_IsDraggingMouse;
 
+        private readonly IInputManager InputManager;
+        private readonly IHexDatabase HexDatabase;
+        private readonly ITeam Team;
         public MouseManager(IInputManager InputManager, IHexDatabase HexDatabase, ITeam Team)
         {
             this.InputManager = InputManager;
@@ -111,7 +112,10 @@ namespace Assets
 
                         // If selectable was selected, unselect hex as well
                         if (m_CurrentlySelectedHex.IsValid)
+                        {
                             HexUnselected?.Invoke(m_CurrentlySelectedHex);
+                            m_CurrentlySelectedHex = default;
+                        }
                     }
 
                     // else do nothing since same item was again selected

@@ -12,6 +12,7 @@ namespace Assets
         public string SceneName;
 
         public List<HexTypeElement> HexTypeData = new List<HexTypeElement>();
+
         public List<Selectable> SelectableData = new List<Selectable>();
         public List<Movable> MovableData = new List<Movable>();
         public List<Unit> UnitData = new List<Unit>();
@@ -57,7 +58,7 @@ namespace Assets
             public HexTypeElement(int2 hex, HexType hexType)
             {
                 Hex = hex;
-                HexType = hexType;
+                this.HexType = hexType;
             }
         }
     }

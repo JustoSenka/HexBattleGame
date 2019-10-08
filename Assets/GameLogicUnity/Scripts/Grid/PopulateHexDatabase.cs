@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.GameLogic.ExtensionMethods;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -36,19 +37,18 @@ namespace Assets
             {
                 foreach (var el in db.HexTypeData)
                 {
-                    var newCell = new HexCell(el.Hex);
-                    newCell.Type = el.HexType;
-                    HexDatabase.UpdateHex(newCell);
+                    var newCell = new HexCell(el.Hex, el.HexType);
+                    HexDatabase.UpdateHexCell(newCell);
                 }
 
                 foreach (var el in db.SelectableData)
-                    HexDatabase.UpdateSelectable(el);
+                    HexDatabase.AddNewSelectable(el.Clone());
 
                 foreach (var el in db.MovableData)
-                    HexDatabase.UpdateSelectable(el);
+                    HexDatabase.AddNewSelectable(el.Clone());
 
                 foreach (var el in db.UnitData)
-                    HexDatabase.UpdateSelectable(el);
+                    HexDatabase.AddNewSelectable(el.Clone());
             }
         }
 

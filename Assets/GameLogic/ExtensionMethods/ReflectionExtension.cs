@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
+using UnityEngine;
 
 namespace Assets.GameLogic.ExtensionMethods
 {
@@ -28,6 +30,24 @@ namespace Assets.GameLogic.ExtensionMethods
         {
             var field = source.GetType().GetField(name, k_BindingFlags);
             return field != null ? field.GetValue(source) : null;
+        }
+
+        public static T Clone<T>(this T obj)
+        {
+            object newInstance = null;
+            try
+            {
+                newInstance = Activator.CreateInstance(obj.GetType());
+
+                var fields = obj.GetType().GetFields(k_BindingFlags);
+                foreach (var field in fields)
+                    field.SetValue(newInstance, field.GetValue(obj));
+            }
+            catch (Exception)
+            {
+                Debug.LogError("Command throws exception when cloning. Cloning method must be incorrect: " + obj.GetType());
+            }
+            return (T)newInstance;
         }
     }
 }

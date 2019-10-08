@@ -12,7 +12,9 @@ namespace Assets
     public struct HexCell
     {
         public bool IsValid { get; private set; }
+
         public HexType Type { get; set; }
+        private readonly HexType m_DefaultType;
 
         public float Size { get; private set; }
 
@@ -34,13 +36,19 @@ namespace Assets
                 new Vector3(-InnerRadius + WorldPosition.x, 0f, 0.5f * OuterRadius + WorldPosition.z)
             };
 
-        public HexCell(int2 Position, float size = 1)
+        public HexCell(int2 Position, HexType hexType = HexType.Empty, float size = 1)
         {
             _position = Position;
             this.Size = size;
 
             IsValid = true;
-            Type = HexType.Empty;
+            m_DefaultType = hexType;
+            Type = hexType;
+        }
+
+        public void ResetHexType()
+        {
+            Type = m_DefaultType;
         }
 
         public override string ToString() => Position.ToString();

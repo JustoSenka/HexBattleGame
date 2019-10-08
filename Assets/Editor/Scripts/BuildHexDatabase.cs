@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Assets.GameLogic.ExtensionMethods;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine.SceneManagement;
-using Assets.GameLogic.ExtensionMethods;
 
 namespace Assets
 {
