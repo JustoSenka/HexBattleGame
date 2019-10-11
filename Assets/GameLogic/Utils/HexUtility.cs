@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Assets
 {
+    /// <summary>
+    /// All these calculations apply to EVEN-R Offset Hexagone coordinate system.
+    /// </summary>
     public static class HexUtility
     {
         public const float k_CellSizeMultiplier = 1.154700538379252f; // Will make cell inner radius equal to 1 unity meter, will equally enlarge outer radius as well
@@ -160,6 +163,22 @@ namespace Assets
             set.Remove(c);
             return set.ToArray();
         }
+
+        public static int2 ToEvenRCoordinates(int3 cube)
+        {
+            var col = cube.x + (cube.z + (cube.z & 1)) / 2;
+            var row = cube.z;
+            return new int2(col, row);
+        }
+
+        public static int3 ToCubeCoordinates(int2 hex)
+        {
+            var x = hex.x - (hex.y + (hex.y & 1)) / 2;
+            var z = hex.y;
+            var y = -x - z;
+            return new int3(x, y, z);
+        }
+
 
         #region Inefficient solutions lie here
 

@@ -107,5 +107,8 @@ namespace Assets
 
         public static bool operator ==(int3 c1, int3 c2) => c1.Equals(c2);
         public static bool operator !=(int3 c1, int3 c2) => !c1.Equals(c2);
+
+        public static int3 operator +(int3 c1, int3 c2) => new int3(c1.x + c2.x, c1.y + c2.y, c1.z + c2.z);
+        public static int3 operator -(int3 c1, int3 c2) => new int3(c1.x - c2.x, c1.y - c2.y, c1.z - c2.z);
     }
 }
