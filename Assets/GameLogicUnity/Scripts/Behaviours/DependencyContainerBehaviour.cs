@@ -24,8 +24,9 @@ namespace Assets
             foreach (var dep in MonoBehaviourDependencies.SelectMany(go => go.GetComponents<MonoBehaviour>()))
                 Container.RegisterSingleton(dep.GetType(), dep);
 
-            // Populate dependency maps from types which have attribute on them (parses all loaded assemblies)
-            Container.PopulateDependenciesFromAttributesInDomain();
+            // Populate dependency maps from types which have attribute on them
+            Container.PopulateDependenciesFromAttributesInAssembly(typeof(GameLoop).Assembly);
+            Container.PopulateDependenciesFromAttributesInAssembly(typeof(GameLoopBehaviour).Assembly);
 
             Container.InstantiateSingletons();
 

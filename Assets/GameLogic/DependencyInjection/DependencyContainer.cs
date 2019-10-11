@@ -140,14 +140,23 @@ namespace Assets
         }
 
         /// <summary>
-        /// Will parse all loaded assemblies in the domain in search for all types which have RegisterDependency attribute.
+        /// Will parse all loaded assemblies in the domain and call PopulateDependenciesFromAttributesInAssembly(Assembly assembly) on them
+        /// </summary>
+        public void PopulateDependenciesFromAttributesInDomain()
+        {
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+                PopulateDependenciesFromAttributesInAssembly(asm);
+        }
+
+        /// <summary>
+        /// Will parse all types in the assembly in search for types which have RegisterDependency attribute.
         /// If Singleton is set to true, will instantiate the type and store it in sigleton map.
         /// If Singleton is set to false, will store in map of (InterfaceType -> ActualType).
         /// Asumes that all dependencies are created with empty constructor.
         /// </summary>
-        public void PopulateDependenciesFromAttributesInDomain()
+        public void PopulateDependenciesFromAttributesInAssembly(Assembly assembly)
         {
-            var allTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes());
+            var allTypes = assembly.GetTypes();
             var allTypesWithAttribute = allTypes.Where(t => t.CustomAttributes.Any(a => a.AttributeType == typeof(RegisterDependency)));
             var typeAttributeMap = allTypesWithAttribute
                 .SelectMany(t => t.GetCustomAttributes(typeof(RegisterDependency))
@@ -165,7 +174,6 @@ namespace Assets
                         continue;
                     }
 
-                    //var obj = CreateInstanceOf(Type);
                     SingletonDependencyMap.Add(InterfaceType, (Type, null));
                 }
                 else
