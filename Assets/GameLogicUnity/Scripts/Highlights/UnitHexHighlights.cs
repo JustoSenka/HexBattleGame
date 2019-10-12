@@ -6,20 +6,22 @@ namespace Assets
     [RegisterDependency(typeof(IUnitHexHighlights), true)]
     public class UnitHexHighlights : IUnitHexHighlights
     {
-        private readonly IUnitMovementManager UnitMovementManager;
-        private readonly IHexHighlighter HexHighlighter;
-        private readonly IUserInputManager UserInputManager;
-
         private IEnumerable<PoolItem> m_MovementItems;
         private IEnumerable<PoolItem> m_PathItems;
 
         private bool m_IsUnitSelected;
+        private Unit m_SelectedUnit;
 
-        public UnitHexHighlights(IUserInputManager UserInputManager, IHexHighlighter HexHighlighter, IUnitMovementManager UnitMovementManager)
+        private readonly IUnitMovementManager UnitMovementManager;
+        private readonly IHexHighlighter HexHighlighter;
+        private readonly IUserInputManager UserInputManager;
+        private readonly ITurnManager TurnManager;
+        public UnitHexHighlights(IUserInputManager UserInputManager, IHexHighlighter HexHighlighter, IUnitMovementManager UnitMovementManager, ITurnManager TurnManager)
         {
             this.UnitMovementManager = UnitMovementManager;
             this.HexHighlighter = HexHighlighter;
             this.UserInputManager = UserInputManager;
+            this.TurnManager = TurnManager;
 
             UnitMovementManager.UnitSelected += UnitSelected;
             UnitMovementManager.UnitUnselected += UnitUnselected;
@@ -31,8 +33,10 @@ namespace Assets
         {
             if (m_IsUnitSelected && hex != default && UnitMovementManager.Paths.ContainsKey(hex.Position))
             {
+                var highlighter = TurnManager.CurrentTurnOwner == m_SelectedUnit ? Highlighter.white_light : Highlighter.white_light;
+
                 var path = UnitMovementManager.Paths.CalculatePath(hex.Position);
-                m_PathItems = HexHighlighter.PlaceHighlighters(path, Highlighter.Red, m_PathItems);
+                m_PathItems = HexHighlighter.PlaceHighlighters(path, highlighter, m_PathItems);
             }
             else
             {
@@ -43,10 +47,13 @@ namespace Assets
         private void UnitSelected(Unit unit)
         {
             var coverage = UnitMovementManager.Paths.CoveredCells();
-            m_MovementItems = HexHighlighter.PlaceHighlighters(coverage, Highlighter.Blue, m_MovementItems);
+
+            var highlighter = TurnManager.CurrentTurnOwner == unit ? Highlighter.blue : Highlighter.grey ;
+            m_MovementItems = HexHighlighter.PlaceHighlighters(coverage, highlighter, m_MovementItems);
 
             ReleasePathItems();
             m_IsUnitSelected = true;
+            m_SelectedUnit = unit;
         }
 
         private void UnitUnselected(Unit unit)
@@ -62,6 +69,7 @@ namespace Assets
 
             ReleasePathItems();
             m_IsUnitSelected = false;
+            m_SelectedUnit = null;
         }
 
         private void ReleasePathItems()

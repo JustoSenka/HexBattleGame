@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Assets
 {
     public interface IMonoDatabase
     {
+        event Action<Selectable, SelectableBehaviour> SelectableAdded;
+        event Action<Selectable> SelectableRemoved;
+
         void Start();
 
         void AddBehaviour(Selectable selectable, SelectableBehaviour behaviour);

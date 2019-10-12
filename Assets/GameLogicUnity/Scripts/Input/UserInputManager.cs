@@ -26,13 +26,11 @@ namespace Assets
         private readonly IInputManager InputManager;
         private readonly ISelectionManager SelectionManager;
         private readonly IHexDatabase HexDatabase;
-        private readonly ITeam Team;
-        public UserInputManager(IInputManager InputManager, ISelectionManager SelectionManager, IHexDatabase HexDatabase, ITeam Team)
+        public UserInputManager(IInputManager InputManager, ISelectionManager SelectionManager, IHexDatabase HexDatabase)
         {
             this.InputManager = InputManager;
             this.SelectionManager = SelectionManager;
             this.HexDatabase = HexDatabase;
-            this.Team = Team;
         }
 
         public void Update()
@@ -79,7 +77,7 @@ namespace Assets
         {
             if (InputManager.GetKeyUp(KeyCode.Mouse0))
             {
-                if (SelectableUnderMouse != null && SelectableUnderMouse.Team == Team.TeamID)
+                if (SelectableUnderMouse != null)
                 {
                     SelectionManager.SelectSelectable(SelectableUnderMouse);
 

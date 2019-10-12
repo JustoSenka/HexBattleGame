@@ -7,16 +7,18 @@
         private PoolItem m_SelectItem;
 
         private PoolItem m_HoverItem;
-        private PoolItem m_RedItem;
+        private PoolItem m_HexSelectedItem;
 
         private readonly IUserInputManager UserInputManager;
         private readonly IHexHighlighter HexHighlighter;
         private readonly ISelectionManager SelectionManager;
-        public SelectableHexHighlights(IUserInputManager UserInputManager, ISelectionManager SelectionManager, IHexHighlighter HexHighlighter)
+        private readonly ITurnManager TurnManager;
+        public SelectableHexHighlights(IUserInputManager UserInputManager, ISelectionManager SelectionManager, IHexHighlighter HexHighlighter, ITurnManager TurnManager)
         {
             this.UserInputManager = UserInputManager;
             this.HexHighlighter = HexHighlighter;
             this.SelectionManager = SelectionManager;
+            this.TurnManager = TurnManager;
 
             SelectionManager.HexSelected += OnHexSelected;
             SelectionManager.HexUnselected += OnHexUnselected;
@@ -33,7 +35,7 @@
         private void OnHexUnderMouseChanged(HexCell hexCell)
         {
             if (hexCell.IsValid)
-                m_HoverItem = HexHighlighter.PlaceHighlighter(hexCell, Highlighter.Hover, m_HoverItem);
+                m_HoverItem = HexHighlighter.PlaceHighlighter(hexCell, Highlighter.white_light, m_HoverItem);
             else
             {
                 m_HoverItem.Release();
@@ -43,23 +45,24 @@
 
         private void OnHexSelected(HexCell hex)
         {
-            m_RedItem = HexHighlighter.PlaceHighlighter(hex, Highlighter.Red, m_RedItem);
+            m_HexSelectedItem = HexHighlighter.PlaceHighlighter(hex, Highlighter.grey, m_HexSelectedItem);
         }
 
         private void OnHexUnselected(HexCell hex)
         {
-            m_RedItem?.Release();
-            m_RedItem = null;
+            m_HexSelectedItem?.Release();
+            m_HexSelectedItem = null;
         }
 
         private void OnHexPressedDown(HexCell hex)
         {
-            m_TempSelectItemForMapDragging = HexHighlighter.PlaceHighlighter(hex, Highlighter.Select, m_TempSelectItemForMapDragging);
+            m_TempSelectItemForMapDragging = HexHighlighter.PlaceHighlighter(hex, Highlighter.white, m_TempSelectItemForMapDragging);
         }
 
         private void SelectableSelected(Selectable obj)
         {
-            m_SelectItem = HexHighlighter.PlaceHighlighter(new HexCell(obj.Cell), Highlighter.Select, m_SelectItem);
+            var highlighter = TurnManager.CurrentTurnOwner == obj ? Highlighter.white : Highlighter.grey;
+            m_SelectItem = HexHighlighter.PlaceHighlighter(new HexCell(obj.Cell), highlighter, m_SelectItem);
         }
 
         private void OnSelectableUnselected(Selectable obj)

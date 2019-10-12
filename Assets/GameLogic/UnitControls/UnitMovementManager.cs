@@ -27,11 +27,13 @@ namespace Assets
         private readonly ISelectionManager SelectionManager;
         private readonly IHexPathfinder HexPathfinder;
         private readonly IHexDatabase HexDatabase;
-        public UnitMovementManager(ISelectionManager SelectionManager, IHexPathfinder HexPathfinder, IHexDatabase HexDatabase)
+        private readonly ITurnManager TurnManager;
+        public UnitMovementManager(ISelectionManager SelectionManager, IHexPathfinder HexPathfinder, IHexDatabase HexDatabase, ITurnManager TurnManager)
         {
             this.SelectionManager = SelectionManager;
             this.HexPathfinder = HexPathfinder;
             this.HexDatabase = HexDatabase;
+            this.TurnManager = TurnManager;
 
             SelectionManager.HexClicked += OnHexClicked;
 
@@ -44,7 +46,7 @@ namespace Assets
         private void OnHexClicked(HexCell hex)
         {
             // Intercept SelectionManager unselecting unit when user is trying to move an unit
-            if (m_SelectedUnit != default && hex.IsValid && Paths.ContainsKey(hex.Position))
+            if (TurnManager.CurrentTurnOwner == m_SelectedUnit && m_SelectedUnit != default && hex.IsValid && Paths.ContainsKey(hex.Position))
             {
                 SelectionManager.DoNotAllowOtherSystemsToChangeSelection = true;
                 SelectionManager.HexSelectionAborted += OnHexSelectionAborted;
@@ -96,6 +98,8 @@ namespace Assets
 
             HexDatabase.UpdateHexCell(hexFrom);
             HexDatabase.UpdateHexCell(hexTo);
+
+            TurnManager.EndTurn();
         }
 
         private void SelectUnit(Unit unit)

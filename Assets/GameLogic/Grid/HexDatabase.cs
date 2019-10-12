@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -7,6 +8,11 @@ namespace Assets
     [RegisterDependency(typeof(IHexDatabase), true)]
     public class HexDatabase : IHexDatabase
     {
+        public event Action<Selectable> SelectableAdded;
+        public event Action<Selectable> SelectableRemoved;
+
+        public IEnumerable<Selectable> Selectables => m_SelectableMap.AsEnumerable();
+
         private IDictionary<int2, HexCell> m_CellMap;
         private IList<Selectable> m_SelectableMap;
 
@@ -46,8 +52,22 @@ namespace Assets
             }
 
             m_SelectableMap.Add(obj);
+            SelectableAdded?.Invoke(obj);
         }
 
+        public void RemoveSelectable(Selectable obj)
+        {
+            if (!m_SelectableMap.Contains(obj))
+            {
+                Debug.LogWarning($"Selectable was not found when in HexDatabase when trying to remove it: {obj}");
+                return;
+            }
+
+            m_SelectableMap.Remove(obj);
+            SelectableRemoved?.Invoke(obj);
+        }
+
+        // Not used
         public Unit[] GetUnitsForTeam(ITeam Team)
         {
             return m_SelectableMap

@@ -24,7 +24,7 @@ namespace Assets
         {
             var pos = HexUtility.FindIntersectingHexCell(new int2(-4, 2), hex.Position);
             var middleHex = new HexCell(pos);
-            m_Item = HexHighlighter.PlaceHighlighter(middleHex, Highlighter.Blue, m_Item);
+            m_Item = HexHighlighter.PlaceHighlighter(middleHex, Highlighter.blue, m_Item);
         }
 
         private void OnHexUnselected(HexCell hex)

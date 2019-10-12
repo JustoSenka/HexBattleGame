@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -7,6 +8,9 @@ namespace Assets
     [RegisterDependency(typeof(IMonoDatabase), true)]
     public class MonoDatabase : IMonoDatabase
     {
+        public event Action<Selectable, SelectableBehaviour> SelectableAdded;
+        public event Action<Selectable> SelectableRemoved;
+
         private IDictionary<Selectable, SelectableBehaviour> m_SelectableMap;
 
         private readonly IHexDatabase HexDatabase;
@@ -48,6 +52,16 @@ namespace Assets
             return default;
         }
 
-        public void AddBehaviour(Selectable selectable, SelectableBehaviour behaviour) => m_SelectableMap[selectable] = behaviour;
+        public void AddBehaviour(Selectable selectable, SelectableBehaviour behaviour)
+        {
+            m_SelectableMap.Add(selectable, behaviour);
+            SelectableAdded?.Invoke(selectable, behaviour);
+        }
+
+        public void RemoveBehaviour(Selectable selectable)
+        {
+            m_SelectableMap.Remove(selectable);
+            SelectableRemoved?.Invoke(selectable);
+        }
     }
 }

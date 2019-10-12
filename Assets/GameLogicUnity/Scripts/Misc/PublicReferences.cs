@@ -10,10 +10,11 @@ namespace Assets
 
         [Space(10)]
         [Header("Prefabs")]
-        public GameObject BlueHighlightPrefab;
-        public GameObject RedHighlightPrefab;
-        public GameObject HoverHighlightPrefab;
-        public GameObject SelectionHighlightPrefab;
+        public GameObject HighlightPrefab;
+
+        [Space(10)]
+        [Header("Materials")]
+        public Material[] HighlightMaterials;
 
         [Space(10)]
         [Header("Debug")]

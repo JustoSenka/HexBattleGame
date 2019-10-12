@@ -35,6 +35,9 @@ namespace Assets
         [Dependency(typeof(IMonoDatabase))]
         public IMonoDatabase MonoDatabase;
 
+        [Dependency(typeof(ITurnManager))]
+        public ITurnManager TurnManager;
+
         void Awake()
         {
             // GameLoop.Awake();
@@ -46,8 +49,9 @@ namespace Assets
 
             PopulateHexDatabase.Start();
             MonoDatabase.Start();
-
             HexHighlighter.Start();
+
+            TurnManager.Start();
 
             // Optional
             StartDebugOrEditorOnlySystems();

@@ -101,12 +101,12 @@ MonoBehaviour:
   SelectableData: []
   MovableData: []
   UnitData:
-  - Team: 0
+  - Team: 1
     Cell:
       x: 0
       y: -2
-    Movement: 1
-    MaxMovement: 1
+    Movement: 5
+    MaxMovement: 5
     Attack: 0
     Defense: 0
     MaxHealth: 0

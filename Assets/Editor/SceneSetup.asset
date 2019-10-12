@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: SceneSetup
   m_EditorClassIdentifier: 
   SceneSetup:
-  - m_Path: Assets/GameLogic/Scenes/Managers.unity
+  - m_Path: Assets/GameLogicUnity/Scenes/Managers.unity
     m_IsLoaded: 1
     m_IsActive: 1
-  - m_Path: Assets/GameLogic/Scenes/Map01.unity
+  - m_Path: Assets/GameLogicUnity/Scenes/Map01.unity
     m_IsLoaded: 1
     m_IsActive: 0
-  - m_Path: Assets/GameLogic/Scenes/UI.unity
+  - m_Path: Assets/GameLogicUnity/Scenes/UI.unity
     m_IsLoaded: 1
     m_IsActive: 0

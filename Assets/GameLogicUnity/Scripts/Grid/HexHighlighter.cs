@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -15,7 +14,7 @@ namespace Assets
         [Dependency(typeof(PublicReferences))]
         private PublicReferences PublicReferences;
 
-        private ObjectPool m_PoolBlue;
+        private ObjectPool m_Pool;
         private ObjectPool m_PoolRed;
         private ObjectPool m_PoolSelection;
         private ObjectPool m_PoolHover;
@@ -36,18 +35,12 @@ namespace Assets
             {
                 Debug.LogWarning(this.GetType() + ": PublicReferences == null");
                 var go = new GameObject("Dummy");
-                m_PoolBlue = new ObjectPool(parent, go, 0);
-                m_PoolRed = new ObjectPool(parent, go, 0);
-                m_PoolSelection = new ObjectPool(parent, go, 0);
-                m_PoolHover = new ObjectPool(parent, go, 0);
+                m_Pool = new ObjectPool(parent, go, 0);
 
                 return;
             }
 
-            m_PoolBlue = new ObjectPool(parent, PublicReferences.BlueHighlightPrefab, 0);
-            m_PoolRed = new ObjectPool(parent, PublicReferences.RedHighlightPrefab, 0);
-            m_PoolSelection = new ObjectPool(parent, PublicReferences.SelectionHighlightPrefab, 0);
-            m_PoolHover = new ObjectPool(parent, PublicReferences.HoverHighlightPrefab, 0);
+            m_Pool = new ObjectPool(parent, PublicReferences.HighlightPrefab, 0);
         }
 
         public PoolItem PlaceHighlighter(int2 cell, Highlighter highlighter, PoolItem reusePoolItem = null) => PlaceHighlighter(new HexCell(cell), highlighter, reusePoolItem);
@@ -86,19 +79,10 @@ namespace Assets
 
         private PoolItem ReserveItem(Highlighter highlighter)
         {
-            switch (highlighter)
-            {
-                case Highlighter.Blue:
-                    return m_PoolBlue.ReserveItem();
-                case Highlighter.Red:
-                    return m_PoolRed.ReserveItem();
-                case Highlighter.Hover:
-                    return m_PoolHover.ReserveItem();
-                case Highlighter.Select:
-                    return m_PoolSelection.ReserveItem();
-                default:
-                    throw new ArgumentException("Unknown highlighter type: " + highlighter);
-            }
+            var item = m_Pool.ReserveItem();
+            var material = PublicReferences.HighlightMaterials[(int)highlighter];
+            item.GameObject.GetComponentInChildren<Projector>().material = material;
+            return item;
         }
 
         // Reserving item calls should always iterate the collection when call has been made to reserve all the pool items right away
@@ -108,10 +92,5 @@ namespace Assets
             for (int i = 0; i < amount; i++)
                 yield return ReserveItem(highlighter);
         }
-    }
-
-    public enum Highlighter
-    {
-        Blue, Red, Hover, Select
     }
 }
