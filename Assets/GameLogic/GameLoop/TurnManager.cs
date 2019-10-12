@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets
 {
@@ -34,8 +35,14 @@ namespace Assets
             TurnStarted?.Invoke(CurrentTurnOwner);
         }
 
-        public void EndTurn()
+        public void EndTurn(Selectable sel)
         {
+            if (CurrentTurnOwner != sel)
+            {
+                Debug.LogWarning($"{sel} Selectable is not turn over, thus cannot end turn for another object");
+                return;
+            }
+
             TurnEnded?.Invoke(CurrentTurnOwner);
 
             var first = CurrentTurnOwner;

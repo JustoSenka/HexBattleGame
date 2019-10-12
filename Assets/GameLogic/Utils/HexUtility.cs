@@ -127,11 +127,24 @@ namespace Assets
         /// Also handles odd/even starting positions as well.
         /// O(2level^2) complexity
         /// </summary>
-        public static int2[] FindNeighbours(int2 c, int level)
+        public static int2[] FindNeighbours(int2 c, int level) => FindNeighboursInternal(c, level).ToArray();
+
+        public static int2[] FindNeighbours(int2 c, int levelFrom, int levelTo)
+        {
+            if (levelFrom != levelTo)
+                return FindNeighboursInternal(c, levelTo).Where(cell => ManhattanDistance(c, cell) >= levelFrom).ToArray();
+            else
+                return FindNeighbours(c, levelTo);
+        }
+
+        private static HashSet<int2> FindNeighboursInternal(int2 c, int level)
         {
             var set = new HashSet<int2>();
             if (level == 0)
-                return new[] { c };
+            {
+                set.Add(c);
+                return set;
+            }
 
             for (int y = -level + c.y; y <= level + c.y; y++)
             {
@@ -161,7 +174,7 @@ namespace Assets
             }
 
             set.Remove(c);
-            return set.ToArray();
+            return set;
         }
 
         public static int2 ToEvenRCoordinates(int3 cube)

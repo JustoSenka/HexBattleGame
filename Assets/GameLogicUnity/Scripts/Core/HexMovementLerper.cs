@@ -24,15 +24,15 @@ namespace Assets
             UnitMovementManager.UnitPositionChange += OnUnitPositionChange;
         }
 
-        private void OnUnitPositionChange(Action callback, Movable unit, IEnumerable<int2> pathInReverse)
+        private void OnUnitPositionChange(Action<Unit> callback, Unit unit, IEnumerable<int2> pathInReverse)
         {
             var obj = MonoDatabase.GetBehaviourFor<MovableBehaviour>(unit);
             var path = pathInReverse.Reverse();
 
-            Coroutine.StartCoroutine(MovePosition(callback, obj, path));
+            Coroutine.StartCoroutine(MovePosition(callback, unit, obj, path));
         }
 
-        IEnumerator MovePosition(Action callback, MovableBehaviour obj, IEnumerable<int2> pathInReverse)
+        IEnumerator MovePosition(Action<Unit> callback, Unit unit, MovableBehaviour obj, IEnumerable<int2> pathInReverse)
         {
             var transform = obj.gameObject.transform;
             var height = new Vector3(0, transform.position.y, 0);
@@ -54,7 +54,7 @@ namespace Assets
                 transform.position = targetPos + height;
             }
 
-            callback.Invoke();
+            callback.Invoke(unit);
         }
     }
 }

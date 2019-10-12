@@ -104,13 +104,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd4d4ac549b51eb458cd70bbbff2da49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Team: 0
-  HexCell:
-    _position:
+  SnapToGridOnStart: 0
+  m_Selectable:
+    Team: 0
+    Cell:
       x: 0
       y: 0
-  Attack: 0
-  Defense: 0
-  Health: 0
-  Movement: 0
-  Range: 0
+  m_Movable:
+    Team: 0
+    Cell:
+      x: 0
+      y: 0
+    Movement: 0
+    MaxMovement: 0
+  m_Unit:
+    Team: 0
+    Cell:
+      x: 0
+      y: 0
+    Movement: 5
+    MaxMovement: 5
+    Attack: 5
+    Defense: 1
+    MaxHealth: 20
+    Health: 20
+    MaxMagic: 5
+    Magic: 5
+    RangeMin: 1
+    RangeMax: 1
+  Height: 0

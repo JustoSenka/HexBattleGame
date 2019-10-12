@@ -13,6 +13,7 @@ namespace Assets
         public int MaxMagic;
         public int Magic;
 
-        public int Range;
+        public int RangeMin;
+        public int RangeMax;
     }
 }

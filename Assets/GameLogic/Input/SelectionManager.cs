@@ -2,6 +2,11 @@
 
 namespace Assets
 {
+    /// <summary>
+    /// Shows selections only for LOCAL player.
+    /// This will work independently for each user on network and is not used by enemy AIs.
+    /// Visual feedback on local clients is depending mostly on this class.
+    /// </summary>
     [RegisterDependency(typeof(ISelectionManager), true)]
     public class SelectionManager : ISelectionManager
     {

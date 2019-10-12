@@ -108,74 +108,80 @@ MonoBehaviour:
     Movement: 5
     MaxMovement: 5
     Attack: 0
-    Defense: 0
-    MaxHealth: 0
-    Health: 0
-    MaxMagic: 0
-    Magic: 0
-    Range: 0
+    Defense: 1
+    MaxHealth: 20
+    Health: 20
+    MaxMagic: 5
+    Magic: 5
+    RangeMin: 1
+    RangeMax: 1
   - Team: 0
     Cell:
       x: -1
       y: -1
     Movement: 2
     MaxMovement: 2
-    Attack: 0
-    Defense: 0
-    MaxHealth: 0
-    Health: 0
-    MaxMagic: 0
-    Magic: 0
-    Range: 0
-  - Team: 0
+    Attack: 5
+    Defense: 1
+    MaxHealth: 20
+    Health: 20
+    MaxMagic: 5
+    Magic: 5
+    RangeMin: 2
+    RangeMax: 3
+  - Team: 1
     Cell:
       x: 0
       y: 2
     Movement: 3
     MaxMovement: 3
-    Attack: 0
-    Defense: 0
-    MaxHealth: 0
-    Health: 0
-    MaxMagic: 0
-    Magic: 0
-    Range: 0
+    Attack: 5
+    Defense: 1
+    MaxHealth: 20
+    Health: 20
+    MaxMagic: 5
+    Magic: 5
+    RangeMin: 1
+    RangeMax: 1
   - Team: 0
     Cell:
       x: 3
       y: 1
     Movement: 4
     MaxMovement: 4
-    Attack: 0
-    Defense: 0
-    MaxHealth: 0
-    Health: 0
-    MaxMagic: 0
-    Magic: 0
-    Range: 0
-  - Team: 0
+    Attack: 5
+    Defense: 1
+    MaxHealth: 20
+    Health: 20
+    MaxMagic: 5
+    Magic: 5
+    RangeMin: 1
+    RangeMax: 1
+  - Team: 1
     Cell:
       x: 2
       y: -2
     Movement: 5
     MaxMovement: 5
-    Attack: 0
-    Defense: 0
-    MaxHealth: 0
-    Health: 0
-    MaxMagic: 0
-    Magic: 0
-    Range: 0
+    Attack: 5
+    Defense: 1
+    MaxHealth: 20
+    Health: 20
+    MaxMagic: 5
+    Magic: 5
+    RangeMin: 1
+    RangeMax: 1
   - Team: 0
     Cell:
       x: 4
       y: 4
     Movement: 6
     MaxMovement: 6
-    Attack: 0
-    Defense: 0
-    MaxHealth: 0
-    Health: 0
-    MaxMagic: 0
-    Magic: 0
-    Range: 0
+    Attack: 5
+    Defense: 1
+    MaxHealth: 20
+    Health: 20
+    MaxMagic: 5
+    Magic: 5
+    RangeMin: 1
+    RangeMax: 1

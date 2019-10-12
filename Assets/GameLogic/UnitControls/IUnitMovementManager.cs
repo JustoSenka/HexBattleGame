@@ -5,11 +5,7 @@ namespace Assets
 {
     public interface IUnitMovementManager
     {
-        PathfinderDictionary Paths { get; }
-
-        event Action<Unit> UnitSelected;
-        event Action<Unit> UnitUnselected;
-
-        event Action<Action, Unit, IEnumerable<int2>> UnitPositionChange;
+        event Action<Action<Unit>, Unit, IEnumerable<int2>> UnitPositionChange;
+        event Action<Unit> UnitPositionChangeEnd;
     }
 }

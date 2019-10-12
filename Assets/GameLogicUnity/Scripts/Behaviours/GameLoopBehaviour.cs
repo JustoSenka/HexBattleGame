@@ -38,6 +38,13 @@ namespace Assets
         [Dependency(typeof(ITurnManager))]
         public ITurnManager TurnManager;
 
+        [Dependency(typeof(ICrossPlayerController))]
+        public ICrossPlayerController CrossPlayerController;
+
+        [Dependency(typeof(IEnemyAI))]
+        public IEnemyAI EnemyAI;
+
+
         void Awake()
         {
             // GameLoop.Awake();
@@ -45,6 +52,8 @@ namespace Assets
 
         void Start()
         {
+            CrossPlayerController.LocalTeam = 0;
+            EnemyAI.LocalTeam = 1;
             // GameLoop.Start();
 
             PopulateHexDatabase.Start();

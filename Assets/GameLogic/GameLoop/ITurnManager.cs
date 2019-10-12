@@ -11,6 +11,6 @@ namespace Assets
 
         void Start();
 
-        void EndTurn();
+        void EndTurn(Selectable sel);
     }
 }

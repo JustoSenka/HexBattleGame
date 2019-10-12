@@ -4,8 +4,8 @@ using System.Collections.Generic;
 namespace Assets
 {
     /// <summary>
-    /// Has callbacks when unit is selected, unselected, being moved to different position. 
-    /// Also contains PathfinderDictionary for currently selected unit
+    /// This class is respnsible for player movement, path finding and accepting move commands.
+    /// Command will be forwarded to CrossPlayerController to be applied to all connected clients.
     /// </summary>
     /// <remarks>
     /// This class acts on its own based on SelectionManager callbacks.
@@ -14,31 +14,22 @@ namespace Assets
     [RegisterDependency(typeof(IUnitMovementManager), true)]
     public class UnitMovementManager : IUnitMovementManager
     {
-        public PathfinderDictionary Paths { get; private set; }
+        public event Action<Action<Unit>, Unit, IEnumerable<int2>> UnitPositionChange;
+        public event Action<Unit> UnitPositionChangeEnd;
 
-        public event Action<Unit> UnitSelected;
-        public event Action<Unit> UnitUnselected;
-
-        public event Action<Action, Unit, IEnumerable<int2>> UnitPositionChange;
-
-        private Unit m_SelectedUnit;
-        private Unit m_UnitWhichIsBeingMovedRightNow;
-
+        private readonly IUnitSelectionManager UnitSelectionManager;
         private readonly ISelectionManager SelectionManager;
-        private readonly IHexPathfinder HexPathfinder;
         private readonly IHexDatabase HexDatabase;
-        private readonly ITurnManager TurnManager;
-        public UnitMovementManager(ISelectionManager SelectionManager, IHexPathfinder HexPathfinder, IHexDatabase HexDatabase, ITurnManager TurnManager)
+        private readonly ICrossPlayerController CrossPlayerController;
+        public UnitMovementManager(IUnitSelectionManager UnitSelectionManager, ISelectionManager SelectionManager, IHexDatabase HexDatabase, ICrossPlayerController CrossPlayerController)
         {
+            this.UnitSelectionManager = UnitSelectionManager;
             this.SelectionManager = SelectionManager;
-            this.HexPathfinder = HexPathfinder;
             this.HexDatabase = HexDatabase;
-            this.TurnManager = TurnManager;
+            this.CrossPlayerController = CrossPlayerController;
 
             SelectionManager.HexClicked += OnHexClicked;
-
-            SelectionManager.SelectableSelected += OnSelectableSelected;
-            SelectionManager.SelectableUnselected += OnSelectableUnselected;
+            CrossPlayerController.MoveUnitCallback += OnMoveUnitCallback;
         }
 
         // Callbacks ---
@@ -46,12 +37,18 @@ namespace Assets
         private void OnHexClicked(HexCell hex)
         {
             // Intercept SelectionManager unselecting unit when user is trying to move an unit
-            if (TurnManager.CurrentTurnOwner == m_SelectedUnit && m_SelectedUnit != default && hex.IsValid && Paths.ContainsKey(hex.Position))
+
+            if (!UnitSelectionManager.CanSelectedUnitPerformActions)
+                return;
+
+            var paths = UnitSelectionManager.Paths;
+            if (hex.IsValid && paths.ContainsKey(hex.Position))
             {
                 SelectionManager.DoNotAllowOtherSystemsToChangeSelection = true;
                 SelectionManager.HexSelectionAborted += OnHexSelectionAborted;
 
-                MoveSelectedUnitTo(hex);
+                var path = paths.CalculatePathArray(hex.Position);
+                CrossPlayerController.MoveUnit(UnitSelectionManager.SelectedUnit, path, hex.Position);
             }
         }
 
@@ -60,38 +57,18 @@ namespace Assets
             SelectionManager.HexSelectionAborted -= OnHexSelectionAborted;
             SelectionManager.DoNotAllowOtherSystemsToChangeSelection = false;
 
-            // We need to first unselect old one first. If we select already selected item, it will not fire any callbacks
-            m_UnitWhichIsBeingMovedRightNow = m_SelectedUnit;
             SelectionManager.SelectSelectable(default);
         }
 
-        private void UnitPositionUpdatedFromUI()
-        {
-            SelectionManager.SelectSelectable(m_UnitWhichIsBeingMovedRightNow);
-            m_UnitWhichIsBeingMovedRightNow = default;
-        }
-
-        private void OnSelectableSelected(Selectable obj)
-        {
-            if (obj is Unit unit)
-                SelectUnit(unit);
-        }
-
-        private void OnSelectableUnselected(Selectable obj)
-        {
-            if (obj is Unit unit)
-                UnselectUnit(unit);
-        }
 
         // Private ---
 
-        private void MoveSelectedUnitTo(HexCell hexTo)
+        private void OnMoveUnitCallback(Unit unit, int2[] path, int2 cell)
         {
-            var path = Paths.CalculatePath(hexTo.Position);
-            UnitPositionChange?.Invoke(UnitPositionUpdatedFromUI, m_SelectedUnit, path);
-
-            var hexFrom = HexDatabase.GetHex(m_SelectedUnit.Cell);
-            m_SelectedUnit.Cell = hexTo.Position;
+            var hexFrom = HexDatabase.GetHex(unit.Cell);
+            var hexTo = HexDatabase.GetHex(cell);
+            unit.Cell = cell;
+            unit.Movement -= path.Length;
 
             hexFrom.Type = HexType.Empty;
             hexTo.Type = HexType.Unit;
@@ -99,20 +76,21 @@ namespace Assets
             HexDatabase.UpdateHexCell(hexFrom);
             HexDatabase.UpdateHexCell(hexTo);
 
-            TurnManager.EndTurn();
+            UnitPositionChange?.Invoke(UnitPositionUpdatedFromUI, unit, path);
+
+            // If no UI is running, update instantly
+            if (UnitPositionChange == null)
+                UnitPositionUpdatedFromUI(unit);
         }
 
-        private void SelectUnit(Unit unit)
+        private void UnitPositionUpdatedFromUI(Unit unit)
         {
-            m_SelectedUnit = unit;
-            Paths = HexPathfinder.FindAllPaths(unit.Cell, HexType.Empty, unit.Movement);
-            UnitSelected?.Invoke(unit);
-        }
+            if (unit.Movement > 0 && UnitSelectionManager.CanIControlThisUnit(unit))
+                SelectionManager.SelectSelectable(unit);
+            else if (unit.Movement <= 0)
+                CrossPlayerController.PerformSkill(unit, Skill.Guard); // This one here is temporarily to end the turn. in future turns will end after attack or skills
 
-        private void UnselectUnit(Unit unit)
-        {
-            m_SelectedUnit = default;
-            UnitUnselected?.Invoke(unit);
+            UnitPositionChangeEnd?.Invoke(unit);
         }
     }
 }

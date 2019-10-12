@@ -17,6 +17,8 @@ namespace Assets
         red_light = 8,
         white = 9,
         white_light = 10,
+        icon_attack_red = 11,
+        icon_attack_grey = 12,
 
     }
 }
