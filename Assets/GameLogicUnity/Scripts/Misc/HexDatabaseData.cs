@@ -17,6 +17,7 @@ namespace Assets
         public List<Movable> MovableData = new List<Movable>();
         public List<Unit> UnitData = new List<Unit>();
 
+#if UNITY_EDITOR
         public static HexDatabaseData Load(string path)
         {
             var asset = AssetDatabase.LoadAssetAtPath<HexDatabaseData>(path);
@@ -38,6 +39,7 @@ namespace Assets
                 AssetDatabase.CreateAsset(this, path);
             }
         }
+#endif
 
         public void ClearAllData()
         {
