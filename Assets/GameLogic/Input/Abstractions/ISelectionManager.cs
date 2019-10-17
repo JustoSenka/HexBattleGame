@@ -19,8 +19,14 @@ namespace Assets
         event Action<Selectable> SelectableUnselected;
         event Action<Selectable> SelectableSelectionAborted;
 
+        void ClickAndSelectCell(int2 cell);
+        void ClickAndSelectHexCell(HexCell hexCell);
+        void ClickAndSelectSelectable(Selectable selectable);
+
+        void SelectCell(int2 cell);
         void SelectHexCell(HexCell hexCell);
         void SelectSelectable(Selectable selectable);
+
         void UnselectAll();
     }
 }

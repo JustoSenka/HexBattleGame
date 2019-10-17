@@ -22,17 +22,25 @@ namespace Assets
         public event Action<Selectable> SelectableUnselected;
         public event Action<Selectable> SelectableSelectionAborted;
 
-
         public HexCell CurrentlySelectedHex { get; private set; }
         public Selectable CurrentlySelectedSelectable { get; private set; }
 
-        public SelectionManager() { }
+        private readonly IHexDatabase HexDatabase;
+        public SelectionManager(IHexDatabase HexDatabase)
+        {
+            this.HexDatabase = HexDatabase;
+        }
 
-        public void SelectSelectable(Selectable selectable)
+        public void ClickAndSelectSelectable(Selectable selectable)
         {
             if (selectable != default)
                 SelectableClicked?.Invoke(selectable);
 
+            SelectSelectable(selectable);
+        }
+
+        public void SelectSelectable(Selectable selectable)
+        {
             if (DoNotAllowOtherSystemsToChangeSelection)
             {
                 SelectableSelectionAborted?.Invoke(selectable);
@@ -52,14 +60,22 @@ namespace Assets
 
             // Unselect hexCell if selectable was selected
             if (selectable != default)
-                SelectHexCell(default);
+                ClickAndSelectHexCell(default);
         }
 
-        public void SelectHexCell(HexCell hexCell)
+        public void SelectCell(int2 cell) => SelectHexCell(HexDatabase.GetHex(cell));
+        public void ClickAndSelectCell(int2 cell) => ClickAndSelectHexCell(HexDatabase.GetHex(cell));
+
+        public void ClickAndSelectHexCell(HexCell hexCell)
         {
             if (hexCell.IsValid)
                 HexClicked?.Invoke(hexCell);
 
+            SelectHexCell(hexCell);
+        }
+
+        public void SelectHexCell(HexCell hexCell)
+        {
             if (DoNotAllowOtherSystemsToChangeSelection)
             {
                 HexSelectionAborted?.Invoke(hexCell);
@@ -79,13 +95,13 @@ namespace Assets
 
             // Unselect selectable if hexCell was selected
             if (hexCell.IsValid)
-                SelectSelectable(default);
+                ClickAndSelectSelectable(default);
         }
 
         public void UnselectAll()
         {
-            SelectSelectable(default);
-            SelectHexCell(default);
+            ClickAndSelectSelectable(default);
+            ClickAndSelectHexCell(default);
         }
     }
 }

@@ -44,6 +44,10 @@ namespace Assets
         [Dependency(typeof(IEnemyAI))]
         public IEnemyAI EnemyAI;
 
+        [Dependency(typeof(HealthBarManager))]
+        public HealthBarManager HealthBarManager;
+
+        
 
         void Awake()
         {
@@ -60,6 +64,8 @@ namespace Assets
             MonoDatabase.Start();
             HexHighlighter.Start();
 
+            HealthBarManager.Start();
+
             TurnManager.Start();
 
             // Optional
@@ -71,6 +77,7 @@ namespace Assets
             // GameLoop.Update();
 
             UserInputManager.Update();
+            HealthBarManager.Update();
 
             HexDebugger.Update(); // Currently empty and commented out
         }

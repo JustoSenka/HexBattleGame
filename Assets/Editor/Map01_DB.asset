@@ -77,27 +77,27 @@ MonoBehaviour:
   - Hex:
       x: 0
       y: -2
-    HexType: 8
+    HexType: 1
   - Hex:
       x: -1
       y: -1
-    HexType: 8
+    HexType: 1
   - Hex:
       x: 0
       y: 2
-    HexType: 8
+    HexType: 1
   - Hex:
       x: 3
       y: 1
-    HexType: 8
+    HexType: 1
   - Hex:
       x: 2
       y: -2
-    HexType: 8
+    HexType: 1
   - Hex:
       x: 4
       y: 4
-    HexType: 8
+    HexType: 1
   SelectableData: []
   MovableData: []
   UnitData:

@@ -263,7 +263,7 @@ PrefabInstance:
     - target: {fileID: 4229560405003207201, guid: 323a8f56646e5a245b7c3cfae759c3ab,
         type: 3}
       propertyPath: HighlightMaterials.Array.size
-      value: 11
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4229560405003207201, guid: 323a8f56646e5a245b7c3cfae759c3ab,
         type: 3}
@@ -326,5 +326,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4635619604413116898, guid: b9bc7b27ee5ecd140ae0add0e66584ce,
         type: 3}
+    - target: {fileID: 4229560405003207201, guid: 323a8f56646e5a245b7c3cfae759c3ab,
+        type: 3}
+      propertyPath: HighlightMaterials.Array.data[11]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0bf6ad739f1843b40b83ace8dd97eba3, type: 2}
+    - target: {fileID: 4229560405003207201, guid: 323a8f56646e5a245b7c3cfae759c3ab,
+        type: 3}
+      propertyPath: HighlightMaterials.Array.data[12]
+      value: 
+      objectReference: {fileID: 2100000, guid: ae19fb99151c6444781771c813c49c5b, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 323a8f56646e5a245b7c3cfae759c3ab, type: 3}

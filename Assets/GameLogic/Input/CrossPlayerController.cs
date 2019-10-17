@@ -36,13 +36,13 @@ namespace Assets
         }
 
         // Temporary skill. Used to end turn right now.
-        public event Action<Unit, Skill> PerformSkillCallback;
-        public void PerformSkill(Unit unit, Skill skill)
+        public event Action<Unit, int2, Skill> PerformSkillCallback;
+        public void PerformSkill(Unit unit, int2 target, Skill skill)
         {
             if (IsNotOwner(unit))
                 return;
 
-            PerformSkillCallback?.Invoke(unit, skill);
+            PerformSkillCallback?.Invoke(unit, target, skill);
         }
 
         private bool IsNotOwner(Unit unit)
@@ -59,6 +59,6 @@ namespace Assets
 
     public enum Skill
     {
-        Guard,
+        Attack, Guard,
     }
 }

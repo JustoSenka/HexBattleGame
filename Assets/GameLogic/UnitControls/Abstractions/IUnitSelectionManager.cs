@@ -13,6 +13,6 @@ namespace Assets
         event Action<Unit> UnitSelected;
         event Action<Unit> UnitUnselected;
 
-        bool CanIControlThisUnit(Selectable unit);
+        bool CanLocalPlayerControlThisUnit(Selectable unit);
     }
 }

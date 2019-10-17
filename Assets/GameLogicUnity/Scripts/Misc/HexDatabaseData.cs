@@ -7,39 +7,13 @@ using UnityEngine;
 namespace Assets
 {
     [Serializable]
-    public class HexDatabaseData : ScriptableObject
+    public class HexDatabaseData : SaveableScriptableObject
     {
-        public string SceneName;
-
         public List<HexTypeElement> HexTypeData = new List<HexTypeElement>();
 
         public List<Selectable> SelectableData = new List<Selectable>();
         public List<Movable> MovableData = new List<Movable>();
         public List<Unit> UnitData = new List<Unit>();
-
-#if UNITY_EDITOR
-        public static HexDatabaseData Load(string path)
-        {
-            var asset = AssetDatabase.LoadAssetAtPath<HexDatabaseData>(path);
-            if (asset == null)
-                return ScriptableObject.CreateInstance<HexDatabaseData>();
-
-            return asset;
-        }
-
-        public void Save(string path)
-        {
-            if (File.Exists(path))
-            {
-                EditorUtility.SetDirty(this);
-                AssetDatabase.SaveAssets();
-            }
-            else
-            {
-                AssetDatabase.CreateAsset(this, path);
-            }
-        }
-#endif
 
         public void ClearAllData()
         {

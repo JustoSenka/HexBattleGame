@@ -14,9 +14,9 @@ namespace Assets
         public static IDictionary<Type, HexType> TypeToHexTypeMap = new Dictionary<Type, HexType>()
         {
             { typeof(HexObstacle), HexType.Obstacle },
-            { typeof(MovableBehaviour), HexType.Unit },
+            /*{ typeof(MovableBehaviour), HexType.Unit },
             { typeof(SelectableBehaviour), HexType.Unit },
-            { typeof(UnitBehaviour), HexType.Unit },
+            { typeof(UnitBehaviour), HexType.Unit },*/
         };
 
         [MenuItem("Scenes/Build Hex Database")]
@@ -25,7 +25,7 @@ namespace Assets
             foreach (var scene in GetAllScenes())
             {
                 var path = string.Format(k_AssetDatabaseDataFile, scene.name);
-                var db = HexDatabaseData.Load(path);
+                var db = SaveableScriptableObject.Load<HexDatabaseData>(path);
                 db.ClearAllData();
 
                 var gos = scene.GetRootGameObjects();

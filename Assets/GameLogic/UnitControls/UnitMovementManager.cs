@@ -44,20 +44,25 @@ namespace Assets
             var paths = UnitSelectionManager.Paths;
             if (hex.IsValid && paths.ContainsKey(hex.Position))
             {
+                var path = paths.CalculatePathArray(hex.Position);
+                var unit = UnitSelectionManager.SelectedUnit;
+
+                // Unselect unit here so highlights are not shown while unit is moving
+                SelectionManager.SelectSelectable(default);
+
+                CrossPlayerController.MoveUnit(unit, path, hex.Position);
+
+                // Do not allow to select hex cell which was clicked
                 SelectionManager.DoNotAllowOtherSystemsToChangeSelection = true;
                 SelectionManager.HexSelectionAborted += OnHexSelectionAborted;
-
-                var path = paths.CalculatePathArray(hex.Position);
-                CrossPlayerController.MoveUnit(UnitSelectionManager.SelectedUnit, path, hex.Position);
             }
         }
 
         private void OnHexSelectionAborted(HexCell hex)
         {
+            // Do not select hex which was clicked, instead we select our unit if it moved after UnitPositionUpdatedFromUI was called
             SelectionManager.HexSelectionAborted -= OnHexSelectionAborted;
             SelectionManager.DoNotAllowOtherSystemsToChangeSelection = false;
-
-            SelectionManager.SelectSelectable(default);
         }
 
 
@@ -85,10 +90,8 @@ namespace Assets
 
         private void UnitPositionUpdatedFromUI(Unit unit)
         {
-            if (unit.Movement > 0 && UnitSelectionManager.CanIControlThisUnit(unit))
+            if (UnitSelectionManager.CanLocalPlayerControlThisUnit(unit))
                 SelectionManager.SelectSelectable(unit);
-            else if (unit.Movement <= 0)
-                CrossPlayerController.PerformSkill(unit, Skill.Guard); // This one here is temporarily to end the turn. in future turns will end after attack or skills
 
             UnitPositionChangeEnd?.Invoke(unit);
         }

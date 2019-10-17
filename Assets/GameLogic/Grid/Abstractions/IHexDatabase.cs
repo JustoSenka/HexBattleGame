@@ -15,5 +15,6 @@ namespace Assets
 
         void UpdateHexCell(HexCell hex);
         void AddNewSelectable(Selectable obj);
+        void RemoveSelectable(Selectable obj);
     }
 }

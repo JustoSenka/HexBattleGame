@@ -52,6 +52,10 @@ namespace Assets
             }
 
             m_SelectableMap.Add(obj);
+
+            var hex = GetHex(obj.Cell);
+            hex.Type = HexType.Unit;
+            UpdateHexCell(hex);
             SelectableAdded?.Invoke(obj);
         }
 
@@ -64,14 +68,18 @@ namespace Assets
             }
 
             m_SelectableMap.Remove(obj);
+
+            var hex = GetHex(obj.Cell);
+            hex.ResetHexType();
+            UpdateHexCell(hex);
             SelectableRemoved?.Invoke(obj);
         }
 
         // Not used
-        public Unit[] GetUnitsForTeam(ITeam Team)
+        public Unit[] GetUnitsForTeam(int team)
         {
             return m_SelectableMap
-                .Where(sel => sel.Team == Team.TeamID && sel is Unit)
+                .Where(sel => sel.Team == team && sel is Unit)
                 .Select(sel => (Unit)sel).ToArray();
         }
     }

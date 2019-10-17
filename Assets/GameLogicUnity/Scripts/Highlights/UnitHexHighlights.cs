@@ -18,15 +18,16 @@ namespace Assets
         private readonly IUnitSelectionManager UnitSelectionManager;
         private readonly IHexHighlighter HexHighlighter;
         private readonly IUserInputManager UserInputManager;
-        private readonly ITurnManager TurnManager;
         private readonly IHexDatabase HexDatabase;
-        public UnitHexHighlights(IUserInputManager UserInputManager, IHexHighlighter HexHighlighter, IUnitSelectionManager UnitSelectionManager, ITurnManager TurnManager, IHexDatabase HexDatabase)
+        private readonly IUnitAttackManager UnitAttackManager;
+        public UnitHexHighlights(IUserInputManager UserInputManager, IHexHighlighter HexHighlighter, IUnitSelectionManager UnitSelectionManager,
+            IHexDatabase HexDatabase, IUnitAttackManager UnitAttackManager)
         {
             this.UnitSelectionManager = UnitSelectionManager;
             this.HexHighlighter = HexHighlighter;
             this.UserInputManager = UserInputManager;
-            this.TurnManager = TurnManager;
             this.HexDatabase = HexDatabase;
+            this.UnitAttackManager = UnitAttackManager;
 
             UnitSelectionManager.UnitSelected += UnitSelected;
             UnitSelectionManager.UnitUnselected += UnitUnselected;
@@ -38,7 +39,7 @@ namespace Assets
         {
             if (m_IsUnitSelected && hex != default && UnitSelectionManager.Paths.ContainsKey(hex.Position))
             {
-                var highlighter = UnitSelectionManager.CanIControlThisUnit(m_SelectedUnit) ? Highlighter.white_light : Highlighter.white_light;
+                var highlighter = UnitSelectionManager.CanLocalPlayerControlThisUnit(m_SelectedUnit) ? Highlighter.white_light : Highlighter.white_light;
 
                 var path = UnitSelectionManager.Paths.CalculatePath(hex.Position);
                 m_PathItems = HexHighlighter.PlaceHighlighters(path, highlighter, m_PathItems);
@@ -53,15 +54,14 @@ namespace Assets
         {
             // Highlight movement radius
             var movementCoverage = UnitSelectionManager.Paths.CoveredCells();
-            var highlighter = UnitSelectionManager.CanIControlThisUnit(unit) ? Highlighter.blue : Highlighter.grey;
+            var highlighter = UnitSelectionManager.CanLocalPlayerControlThisUnit(unit) ? Highlighter.blue : Highlighter.grey;
             m_MovementItems = HexHighlighter.PlaceHighlighters(movementCoverage, highlighter, m_MovementItems);
 
             // Highlight attack radius
-            var attackRadiusCoverage = HexUtility.FindNeighbours(unit.Cell, unit.RangeMin, unit.RangeMax);
-            m_AttackItems = HexHighlighter.PlaceHighlighters(attackRadiusCoverage, Highlighter.icon_attack_red, m_AttackItems);
+            m_AttackItems = HexHighlighter.PlaceHighlighters(UnitAttackManager.AttackRadius, Highlighter.icon_attack_red, m_AttackItems);
 
             // If unit is in range of attack, highlight it in red
-            var attackableUnits = HexDatabase.Selectables.Where(s => attackRadiusCoverage.Contains(s.Cell)).Select(s => s.Cell);
+            var attackableUnits = HexDatabase.Selectables.Where(s => UnitAttackManager.AttackRadius.Contains(s.Cell)).Select(s => s.Cell);
             m_AttackableUnitsHighlights = HexHighlighter.PlaceHighlighters(attackableUnits, Highlighter.red, m_AttackableUnitsHighlights);
 
             ReleaseItems(ref m_PathItems);
@@ -76,6 +76,7 @@ namespace Assets
 
             ReleaseItems(ref m_AttackItems);
             ReleaseItems(ref m_AttackableUnitsHighlights);
+            ReleaseItems(ref m_MovementItems);
             ReleaseItems(ref m_PathItems);
 
             m_IsUnitSelected = false;

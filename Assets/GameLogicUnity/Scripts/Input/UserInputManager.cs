@@ -63,7 +63,7 @@ namespace Assets
             {
                 // If released on valid hex and did not drag the mouse, select the hex (unselect old one if needed)
                 if (HexUnderMouse.IsValid && m_MouseDownOnHex == HexUnderMouse)
-                    SelectionManager.SelectHexCell(HexUnderMouse);
+                    SelectionManager.ClickAndSelectHexCell(HexUnderMouse);
 
                 else // If released mouse, but not on any hex, unselect old hex
                     SelectionManager.UnselectAll();
@@ -79,7 +79,7 @@ namespace Assets
             {
                 if (SelectableUnderMouse != null)
                 {
-                    SelectionManager.SelectSelectable(SelectableUnderMouse);
+                    SelectionManager.ClickAndSelectSelectable(SelectableUnderMouse);
 
                     // else do nothing since same item was again selected
                     // Even if same item was selected, still return true so Hex selection code doesn't run

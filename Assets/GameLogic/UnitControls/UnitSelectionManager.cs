@@ -1,18 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Assets
 {
-    /// <summary>
-    /// This class is respnsible for LOCAL player movement highlights, path finding and accepting move commands.
-    /// Command will be forwarded to CrossPlayerController to be applied to all connected clients.
-    /// Has callbacks when unit is selected, unselected, being moved to different position. 
-    /// Also contains PathfinderDictionary for currently selected unit
-    /// </summary>
-    /// <remarks>
-    /// This class acts on its own based on SelectionManager callbacks.
-    /// It should not be used as a tool.
-    /// </remarks>
     [RegisterDependency(typeof(IUnitSelectionManager), true)]
     public class UnitSelectionManager : IUnitSelectionManager
     {
@@ -45,7 +34,7 @@ namespace Assets
             SelectionManager.SelectableUnselected += OnSelectableUnselected;
         }
 
-        public bool CanIControlThisUnit(Selectable unit)
+        public bool CanLocalPlayerControlThisUnit(Selectable unit)
         {
             return TurnManager.CurrentTurnOwner == unit && unit.Team == CrossPlayerController.LocalTeam;
         }
@@ -54,8 +43,8 @@ namespace Assets
 
         private void OnTurnStarted(Selectable obj)
         {
-            if (CanIControlThisUnit(obj))
-                SelectionManager.SelectSelectable(obj);
+            if (CanLocalPlayerControlThisUnit(obj))
+                SelectionManager.ClickAndSelectSelectable(obj);
         }
 
         private void OnSelectableSelected(Selectable obj)
@@ -81,7 +70,7 @@ namespace Assets
                 TurnOwnerUnitSelected?.Invoke(unit);
 
             else*/
-                UnitSelected?.Invoke(unit);
+            UnitSelected?.Invoke(unit);
         }
 
         private void UnselectUnit(Unit unit)

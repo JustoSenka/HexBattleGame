@@ -12,7 +12,7 @@ namespace Assets
         public RectTransform HealthImage;
         public RectTransform ManaImage;
 
-        private UnitBehaviour m_Unit;
+        public Unit unit;
 
         private bool m_LastShowBar;
         private int m_LastHp;
@@ -20,36 +20,41 @@ namespace Assets
 
         void Start()
         {
-            m_Unit = transform.parent.GetComponent<UnitBehaviour>();
+            var m_Unit = transform.parent.GetComponent<UnitBehaviour>();
             Canvas.transform.localPosition = new Vector3(0, m_Unit.Height, 0);
             Canvas.enabled = m_LastShowBar;
+            Canvas.worldCamera = Camera.main;
         }
 
         void Update()
         {
-            /* Need UnitDatabase or HexDatabase to get actual unit
-            if (HealthImage && m_Unit.Unit.Health != m_LastHp)
+            // Need UnitDatabase or HexDatabase to get actual unit
+
+            if (unit == null)
+                return;
+
+            if (HealthImage && unit.Health != m_LastHp)
             {
                 var scale = HealthImage.localScale;
-                scale.x = m_Unit.Unit.Health / m_Unit.Unit.MaxHealth;
+                scale.x = unit.Health / unit.MaxHealth;
                 if (scale.x < 0) scale.x = 0;
                 HealthImage.localScale = scale;
-                m_LastHp = m_Unit.Unit.Health;
+                m_LastHp = unit.Health;
             }
-            if (ManaImage && m_Unit.Unit.Magic != m_LastMp)
+            if (ManaImage && unit.Magic != m_LastMp)
             {
                 var scale = ManaImage.localScale;
-                scale.x = m_Unit.Unit.Magic / m_Unit.Unit.MaxMagic;
+                scale.x = unit.Magic / unit.MaxMagic;
                 if (scale.x < 0) scale.x = 0;
                 ManaImage.localScale = scale;
-                m_LastMp = m_Unit.Unit.Magic;
+                m_LastMp = unit.Magic;
             }
             if (m_LastShowBar != ShowBar)
             {
                 Canvas.enabled = ShowBar;
                 m_LastShowBar = ShowBar;
             }
-            */
+            
         }
     }
 }
