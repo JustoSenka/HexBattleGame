@@ -9,10 +9,10 @@ namespace Assets
         PathfinderDictionary Paths { get; }
         Unit SelectedUnit { get; }
 
-        event Action<Unit> TurnOwnerUnitSelected;
         event Action<Unit> UnitSelected;
         event Action<Unit> UnitUnselected;
 
         bool CanLocalPlayerControlThisUnit(Selectable unit);
+        PathfinderDictionary FindAllPathsWhereUnitCanMove(Unit unit);
     }
 }

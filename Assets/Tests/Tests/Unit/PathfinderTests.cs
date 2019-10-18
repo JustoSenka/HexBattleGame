@@ -1,7 +1,8 @@
 ﻿using NUnit.Framework;
 using System.Linq;
+using Assets;
 
-namespace Assets
+namespace Tests.zUnit
 {
     public class PathfinderTests
     {

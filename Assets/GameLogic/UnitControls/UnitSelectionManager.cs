@@ -11,8 +11,6 @@ namespace Assets
         public bool CanSelectedUnitPerformActions => SelectedUnit != null && TurnManager.CurrentTurnOwner == SelectedUnit && SelectedUnit.Team == CrossPlayerController.LocalTeam;
 
         public event Action<Unit> UnitSelected;
-        public event Action<Unit> TurnOwnerUnitSelected;
-
         public event Action<Unit> UnitUnselected;
 
         private readonly ISelectionManager SelectionManager;
@@ -37,6 +35,11 @@ namespace Assets
         public bool CanLocalPlayerControlThisUnit(Selectable unit)
         {
             return TurnManager.CurrentTurnOwner == unit && unit.Team == CrossPlayerController.LocalTeam;
+        }
+
+        public PathfinderDictionary FindAllPathsWhereUnitCanMove(Unit unit)
+        {
+            return HexPathfinder.FindAllPaths(unit.Cell, HexType.Empty, unit.Movement);
         }
 
         // Callbacks ---
@@ -64,12 +67,7 @@ namespace Assets
         private void SelectUnit(Unit unit)
         {
             SelectedUnit = unit;
-            Paths = HexPathfinder.FindAllPaths(unit.Cell, HexType.Empty, unit.Movement);
-
-            /*if (CanIControlThisUnit(unit))
-                TurnOwnerUnitSelected?.Invoke(unit);
-
-            else*/
+            Paths = FindAllPathsWhereUnitCanMove(unit);
             UnitSelected?.Invoke(unit);
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets
 {
@@ -70,6 +71,12 @@ namespace Assets
 
         private void OnMoveUnitCallback(Unit unit, int2[] path, int2 cell)
         {
+            if (!IsMoveCommandCorrect(unit, cell))
+            {
+                Debug.LogWarning($"Move command received from network or AI was incorrect. Unit {unit.Cell} is physically unable to move to: {cell}");
+                return;
+            }
+
             var hexFrom = HexDatabase.GetHex(unit.Cell);
             var hexTo = HexDatabase.GetHex(cell);
             unit.Cell = cell;
@@ -86,6 +93,12 @@ namespace Assets
             // If no UI is running, update instantly
             if (UnitPositionChange == null)
                 UnitPositionUpdatedFromUI(unit);
+        }
+
+        private bool IsMoveCommandCorrect(Unit unit, int2 cell)
+        {
+            var Paths = UnitSelectionManager.FindAllPathsWhereUnitCanMove(unit);
+            return Paths.ContainsKey(cell);
         }
 
         private void UnitPositionUpdatedFromUI(Unit unit)

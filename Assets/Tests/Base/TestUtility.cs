@@ -1,4 +1,6 @@
-﻿namespace Assets
+﻿using Assets;
+
+namespace Tests
 {
     public static class TestUtility
     {
@@ -14,11 +16,11 @@
             return c;
         }
 
-        public static Unit CreateUnit(int2 pos = default, int team = 0)
+        public static Unit CreateUnit(int2 pos = default, int team = 0, int attack = 5)
         {
             return new Unit()
             {
-                Attack = 5,
+                Attack = attack,
                 Defense = 1,
                 Health = 20,
                 Magic = 5,

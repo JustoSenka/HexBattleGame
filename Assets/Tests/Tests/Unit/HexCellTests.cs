@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using UnityEngine;
 
-namespace Assets
+namespace Tests.zUnit
 {
     public class HexCellTests
     {
