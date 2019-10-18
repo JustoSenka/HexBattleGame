@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.95, y: 0.095}
-  m_SizeDelta: {x: 1.9, y: 0.165}
+  m_AnchoredPosition: {x: -0.975, y: 0.095}
+  m_SizeDelta: {x: 1.95, y: 0.15}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &222000012737525630
 CanvasRenderer:
@@ -63,8 +63,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Texture: {fileID: 2800000, guid: f129fdaba6a1936479d0809566dd6969, type: 3}
   m_UVRect:
     serializedVersion: 2
@@ -100,7 +98,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000010325731856}
   m_LocalRotation: {x: 0.36353824, y: -0, z: -0, w: 0.9315793}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.1896522}
   m_LocalScale: {x: 1, y: 0.6999999, z: 1}
   m_Children:
   - {fileID: 224000011389322934}
@@ -112,9 +110,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 1.2059937}
   m_SizeDelta: {x: 2, y: 0.4}
-  m_Pivot: {x: 0.5, y: 0}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!223 &223000012632525818
 Canvas:
   m_ObjectHideFlags: 0
@@ -188,8 +186,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Canvas: {fileID: 223000012632525818}
-  HealthImage: {fileID: 224000010987941908}
+  HealthImage: {fileID: 224000012162794746}
   ManaImage: {fileID: 224000013285913324}
+  unit:
+    Team: 0
+    Cell:
+      x: 0
+      y: 0
+    Movement: 0
+    MaxMovement: 0
+    Attack: 0
+    Defense: 0
+    MaxHealth: 0
+    Health: 0
+    MaxMagic: 0
+    Magic: 0
+    RangeMin: 0
+    RangeMax: 0
 --- !u!1 &1000010982409156
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +229,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000010982409156}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.01}
+  m_LocalPosition: {x: 0, y: 0, z: 0.009999171}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224000011342860072}
@@ -224,9 +237,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2, y: 0.4}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0.20000218}
+  m_SizeDelta: {x: 2, y: 0.33}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &222000012603747984
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -253,8 +266,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Texture: {fileID: 2800000, guid: b71b1622721c18940bb489d153a45e9f, type: 3}
   m_UVRect:
     serializedVersion: 2
@@ -296,8 +307,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.95000076, y: 0.09}
-  m_SizeDelta: {x: 1.9, y: 0.175}
+  m_AnchoredPosition: {x: -0.975, y: 0.095}
+  m_SizeDelta: {x: 1.95, y: 0.15}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &222000011882829466
 CanvasRenderer:
@@ -325,8 +336,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Texture: {fileID: 2800000, guid: 2dd1aa195bcf4f7408659dab5b17d515, type: 3}
   m_UVRect:
     serializedVersion: 2
@@ -368,8 +377,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.95000076, y: -0.1}
-  m_SizeDelta: {x: 1.9, y: 0.15}
+  m_AnchoredPosition: {x: -0.975, y: -0.059}
+  m_SizeDelta: {x: 1.95, y: 0.1}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &222000010611869410
 CanvasRenderer:
@@ -397,8 +406,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Texture: {fileID: 2800000, guid: 5275101c119da874fa140068c8436ecc, type: 3}
   m_UVRect:
     serializedVersion: 2

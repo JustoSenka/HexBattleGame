@@ -3,18 +3,21 @@ using System.Collections;
 
 public class Billboard : MonoBehaviour
 {
-    Transform trans;
-    Transform mainCameraTrans;
+    private Transform trans;
+    private Transform mainCameraTrans;
 
-    void Start()
+    public virtual void Start()
     {
         trans = transform;
         mainCameraTrans = Camera.main.transform;
     }
 
-    void Update()
+    // Late update on purpose so it runs after all coroutines have updated object positions
+    public virtual void LateUpdate()
     {
-        Quaternion rot = mainCameraTrans.rotation;
-        trans.rotation = Quaternion.Euler(rot.eulerAngles.x, 0, 0);
+        //transform.LookAt(transform.position + mainCameraTrans.rotation * Vector3.forward, mainCameraTrans.rotation * Vector3.up);
+
+        var camRot = mainCameraTrans.rotation;
+        trans.rotation = Quaternion.Euler(camRot.eulerAngles.x, camRot.eulerAngles.y, trans.rotation.z);
     }
 }

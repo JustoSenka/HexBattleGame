@@ -3,7 +3,7 @@
 namespace Assets
 {
     [RequireComponent(typeof(UnitBehaviour))]
-    public class HealthBar : MonoBehaviour
+    public class HealthBar : Billboard
     {
         [System.NonSerialized]
         public bool ShowBar = true;
@@ -18,17 +18,19 @@ namespace Assets
         private int m_LastHp;
         private int m_LastMp;
 
-        void Start()
+        public override void Start()
         {
+            base.Start();
+
             var m_Unit = transform.parent.GetComponent<UnitBehaviour>();
             Canvas.transform.localPosition = new Vector3(0, m_Unit.Height, 0);
             Canvas.enabled = m_LastShowBar;
             Canvas.worldCamera = Camera.main;
         }
 
-        void Update()
+        public override void LateUpdate()
         {
-            // Need UnitDatabase or HexDatabase to get actual unit
+            base.LateUpdate();
 
             if (unit == null)
                 return;
@@ -36,7 +38,7 @@ namespace Assets
             if (HealthImage && unit.Health != m_LastHp)
             {
                 var scale = HealthImage.localScale;
-                scale.x = unit.Health / unit.MaxHealth;
+                scale.x = unit.Health * 1.0f / unit.MaxHealth;
                 if (scale.x < 0) scale.x = 0;
                 HealthImage.localScale = scale;
                 m_LastHp = unit.Health;
@@ -44,7 +46,7 @@ namespace Assets
             if (ManaImage && unit.Magic != m_LastMp)
             {
                 var scale = ManaImage.localScale;
-                scale.x = unit.Magic / unit.MaxMagic;
+                scale.x = unit.Magic * 1.0f / unit.MaxMagic;
                 if (scale.x < 0) scale.x = 0;
                 ManaImage.localScale = scale;
                 m_LastMp = unit.Magic;

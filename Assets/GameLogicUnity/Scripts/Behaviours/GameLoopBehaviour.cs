@@ -44,8 +44,8 @@ namespace Assets
         [Dependency(typeof(IEnemyAI))]
         public IEnemyAI EnemyAI;
 
-        [Dependency(typeof(HealthBarManager))]
-        public HealthBarManager HealthBarManager;
+        [Dependency(typeof(IHealthBarManager))]
+        public IHealthBarManager HealthBarManager;
 
         
 

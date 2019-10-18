@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets
 {
-    [RegisterDependency(typeof(HealthBarManager), true)]
+    [RegisterDependency(typeof(IHealthBarManager), true)]
     public class HealthBarManager : IHealthBarManager
     {
         private readonly IBehaviourCollector<HealthBar> Collector;

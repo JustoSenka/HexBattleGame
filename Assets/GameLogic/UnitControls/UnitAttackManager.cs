@@ -37,7 +37,22 @@ namespace Assets
             if (obj is Unit unit && AttackRadius.Contains(obj.Cell))
             {
                 CrossPlayerController.PerformSkill(UnitSelectionManager.SelectedUnit, unit.Cell, Skill.Attack);
+
+                SelectionManager.DoNotAllowOtherSystemsToChangeSelection = true;
+                SelectionManager.HexSelectionAborted += OnHexSelectionAborted;
+                SelectionManager.SelectableSelectionAborted += OnSelectableSelectionAborted;
             }
+        }
+
+        private void OnSelectableSelectionAborted(Selectable s) => OnHexSelectionAborted(default);
+        private void OnHexSelectionAborted(HexCell hex)
+        {
+            // Do not select another unit or hex while we perform the attack
+            SelectionManager.HexSelectionAborted -= OnHexSelectionAborted;
+            SelectionManager.SelectableSelectionAborted -= OnSelectableSelectionAborted;
+            SelectionManager.DoNotAllowOtherSystemsToChangeSelection = false;
+
+            SelectionManager.SelectSelectable(default);
         }
 
         private void OnHexClicked(HexCell hex)

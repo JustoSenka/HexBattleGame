@@ -114,7 +114,7 @@ namespace Assets
             var ray = Camera.main.ScreenPointToRay(InputManager.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, 500f, LayerMask.GetMask(Layer.Ground, Layer.Selectable)))
             {
-                var selectableBehaviour = hit.collider.gameObject.GetComponent<SelectableBehaviour>();
+                var selectableBehaviour = hit.collider.gameObject.transform.parent.gameObject.GetComponent<SelectableBehaviour>();
                 if (!selectableBehaviour) // Only select hex and deselect selectable if it was selected before
                 {
                     var pos = HexUtility.WorldPointToHex(hit.point, 1);

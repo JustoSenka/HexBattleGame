@@ -32,7 +32,23 @@ namespace Tests.Integration
             HexDatabase.AddNewSelectable(m_Unit0);
             HexDatabase.AddNewSelectable(m_Unit1);
         }
-         
+
+        [Test]
+        public void SelectingAndDeselectingUnits_WorksAsIntended()
+        {
+            SelectionManager.ClickAndSelectSelectable(m_Unit1);
+            Assert.AreEqual(m_Unit1, UnitSelectionManager.SelectedUnit, "First time unit was not selected");
+
+            SelectionManager.ClickAndSelectSelectable(m_Unit0);
+            Assert.AreEqual(m_Unit0, UnitSelectionManager.SelectedUnit, "Second time unit was not selected");
+
+            SelectionManager.ClickAndSelectCell(new int2(15, 15));
+            Assert.AreEqual(default, UnitSelectionManager.SelectedUnit, "Unselecting unit did not work");
+
+            SelectionManager.ClickAndSelectSelectable(m_Unit0);
+            Assert.AreEqual(m_Unit0, UnitSelectionManager.SelectedUnit, "Third time unit was not selected");
+        }
+
         [TestCase(true)]
         [TestCase(false)]
         public void UnitsCanMove(bool useSelectionManager)
