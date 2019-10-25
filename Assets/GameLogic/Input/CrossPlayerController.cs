@@ -59,6 +59,8 @@ namespace Assets
 
     public enum Skill
     {
-        Attack, Guard,
+        None = 0,
+        Attack = 1,
+        Guard = 2,
     }
 }

@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace Assets
 {
-    [RegisterDependency(typeof(IUserInputManager), true)]
-    public class UserInputManager : IUserInputManager
+    [RegisterDependency(typeof(IMouseInputManager), true)]
+    public class MouseInputManager : IMouseInputManager
     {
         private bool IsUnderCell { get; set; }
         private HexCell HexUnderMouse { get; set; }
@@ -23,10 +23,10 @@ namespace Assets
         private Vector3 m_OldMousePosition;
         private bool m_IsDraggingMouse;
 
-        private readonly IInputManager InputManager;
+        private readonly IUnityInput InputManager;
         private readonly ISelectionManager SelectionManager;
         private readonly IHexDatabase HexDatabase;
-        public UserInputManager(IInputManager InputManager, ISelectionManager SelectionManager, IHexDatabase HexDatabase)
+        public MouseInputManager(IUnityInput InputManager, ISelectionManager SelectionManager, IHexDatabase HexDatabase)
         {
             this.InputManager = InputManager;
             this.SelectionManager = SelectionManager;

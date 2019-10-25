@@ -9,8 +9,10 @@ namespace Assets
     [RegisterDependency(typeof(IPopulateHexDatabase), true)]
     public class PopulateHexDatabase : IPopulateHexDatabase
     {
+#pragma warning disable CS0649
         [Dependency(typeof(PublicReferences))]
         private PublicReferences PublicReferences;
+#pragma warning restore CS0649
 
         private readonly IHexDatabase HexDatabase;
 

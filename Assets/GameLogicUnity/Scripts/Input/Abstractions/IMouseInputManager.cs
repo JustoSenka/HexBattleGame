@@ -2,7 +2,7 @@
 
 namespace Assets
 {
-    public interface IUserInputManager
+    public interface IMouseInputManager
     {
         event Action<HexCell> HexPressedDown;
         event Action MouseReleased;

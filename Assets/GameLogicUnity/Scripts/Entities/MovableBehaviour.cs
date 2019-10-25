@@ -8,7 +8,9 @@ namespace Assets
         /*public override Selectable Selectable => Movable;
         public virtual Movable Movable => m_Movable;*/
 
+#pragma warning disable CS0649
         [SerializeField]
         private Movable m_Movable;
+#pragma warning restore CS0649
     }
 }

@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets
 {
@@ -34,11 +36,22 @@ namespace Assets
             LogInfo();
 
             // Pass dependencies to all components in loaded scene
-            var roots = gameObject.scene.GetRootGameObjects();
+            PassDependenciesToTheScene(gameObject.scene);
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        public void PassDependenciesToTheScene(Scene scene)
+        {
+            var roots = scene.GetRootGameObjects();
             var components = roots.SelectMany(go => go.GetComponentsInChildren<MonoBehaviour>());
             foreach (var c in components)
                 Container.InjectDependenciesInto(c);
+        }
 
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            PassDependenciesToTheScene(scene);
         }
 
         /// <summary>

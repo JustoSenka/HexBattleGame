@@ -17,10 +17,10 @@ namespace Assets
 
         private readonly IUnitSelectionManager UnitSelectionManager;
         private readonly IHexHighlighter HexHighlighter;
-        private readonly IUserInputManager UserInputManager;
+        private readonly IMouseInputManager UserInputManager;
         private readonly IHexDatabase HexDatabase;
         private readonly IUnitAttackManager UnitAttackManager;
-        public UnitHexHighlights(IUserInputManager UserInputManager, IHexHighlighter HexHighlighter, IUnitSelectionManager UnitSelectionManager,
+        public UnitHexHighlights(IMouseInputManager UserInputManager, IHexHighlighter HexHighlighter, IUnitSelectionManager UnitSelectionManager,
             IHexDatabase HexDatabase, IUnitAttackManager UnitAttackManager)
         {
             this.UnitSelectionManager = UnitSelectionManager;

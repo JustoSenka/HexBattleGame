@@ -9,8 +9,10 @@ namespace Assets
     [RegisterDependency(typeof(HexMovementLerper), true)]
     public class HexMovementLerper
     {
+#pragma warning disable CS0649
         [Dependency(typeof(CoroutineManager))]
         private CoroutineManager Coroutine;
+#pragma warning restore CS0649
 
         private const int k_FramesToLerp = 10;
 

@@ -1,15 +1,17 @@
 ﻿using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets
 {
     public class GameLoopBehaviour : MonoBehaviour
     {
+#pragma warning disable CS0649
         [Dependency(typeof(IGameLoop))]
         public IGameLoop GameLoop;
 
-        [Dependency(typeof(IUserInputManager))]
-        public IUserInputManager UserInputManager;
+        [Dependency(typeof(IMouseInputManager))]
+        public IMouseInputManager UserInputManager;
 
         [Dependency(typeof(IHexHighlighter))] 
         public IHexHighlighter HexHighlighter;
@@ -46,12 +48,13 @@ namespace Assets
 
         [Dependency(typeof(IHealthBarManager))]
         public IHealthBarManager HealthBarManager;
+#pragma warning restore CS0649
 
         
 
         void Awake()
         {
-            // GameLoop.Awake();
+            
         }
 
         void Start()

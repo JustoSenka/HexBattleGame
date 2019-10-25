@@ -9,11 +9,11 @@
         private PoolItem m_HoverItem;
         private PoolItem m_HexSelectedItem;
 
-        private readonly IUserInputManager UserInputManager;
+        private readonly IMouseInputManager UserInputManager;
         private readonly IHexHighlighter HexHighlighter;
         private readonly ISelectionManager SelectionManager;
         private readonly ITurnManager TurnManager;
-        public SelectableHexHighlights(IUserInputManager UserInputManager, ISelectionManager SelectionManager, IHexHighlighter HexHighlighter, ITurnManager TurnManager)
+        public SelectableHexHighlights(IMouseInputManager UserInputManager, ISelectionManager SelectionManager, IHexHighlighter HexHighlighter, ITurnManager TurnManager)
         {
             this.UserInputManager = UserInputManager;
             this.HexHighlighter = HexHighlighter;

@@ -11,8 +11,10 @@ namespace Assets
     [RegisterDependency(typeof(IHexHighlighter), true)]
     public class HexHighlighter : IHexHighlighter
     {
+#pragma warning disable CS0649
         [Dependency(typeof(PublicReferences))]
         private PublicReferences PublicReferences;
+#pragma warning restore CS0649
 
         private ObjectPool m_Pool;
         private ObjectPool m_PoolRed;

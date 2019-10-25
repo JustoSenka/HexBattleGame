@@ -2,7 +2,7 @@
 
 namespace Assets
 {
-    public interface IInputManager
+    public interface IUnityInput
     {
         Vector3 mousePosition { get; }
 

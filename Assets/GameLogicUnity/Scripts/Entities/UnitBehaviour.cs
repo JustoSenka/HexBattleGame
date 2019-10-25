@@ -9,8 +9,10 @@ namespace Assets
         public override Movable Movable => Unit;
         public virtual Unit Unit => m_Unit;*/
 
+#pragma warning disable CS0649
         [SerializeField]
         private Unit m_Unit;
+#pragma warning restore CS0649
 
         public float Height;
     }
