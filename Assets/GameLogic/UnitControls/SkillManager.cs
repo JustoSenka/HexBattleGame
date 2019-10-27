@@ -6,7 +6,7 @@ namespace Assets
     [RegisterDependency(typeof(ISkillManager), true)]
     public class SkillManager : ISkillManager
     {
-        public event Action<Action<Unit>, Unit, int2, Skill> SkillPerformed;
+        public event Action<Action<Unit>, Unit, int2, SkillType> SkillPerformed;
         public event Action<Unit> SkillPerformedEnd;
 
         private readonly ICrossPlayerController CrossPlayerController;
@@ -30,9 +30,9 @@ namespace Assets
             }
         }
 
-        private void OnPerformSkillCallback(Unit unit, int2 target, Skill skill)
+        private void OnPerformSkillCallback(Unit unit, int2 target, SkillType skill)
         {
-            if (skill == Skill.Attack)
+            if (skill == SkillType.Attack)
             {
                 var targetUnit = HexDatabase.GetSelectable(target) as Unit;
                 if (targetUnit == null)

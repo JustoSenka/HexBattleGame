@@ -9,7 +9,7 @@ public class ScenesMenuItems
 {
     public const string k_SetupAssetPath = "Assets/Editor/SceneSetup.asset";
 
-    [MenuItem("Scenes/Play Menu Scene")]
+    [MenuItem("Tools/Play Menu Scene")]
     public static void LoadMenuScene()
     {
         var isMenuSceneLoaded = GetAllScenes().Count() == 1 && GetAllScenes().First().buildIndex == 0;
@@ -30,7 +30,7 @@ public class ScenesMenuItems
         EditorApplication.isPlaying = true;
     }
 
-    [MenuItem("Scenes/Save Scene Manager Setup")]
+    [MenuItem("Tools/Scenes/Save Scene Manager Setup")]
     public static void SavesSetup()
     {
         var asset = ScriptableObject.CreateInstance<SceneManagerSetupAsset>();
@@ -38,7 +38,7 @@ public class ScenesMenuItems
         AssetDatabase.CreateAsset(asset, k_SetupAssetPath);
     }
 
-    [MenuItem("Scenes/Restore Scene Manager Setup")]
+    [MenuItem("Tools/Scenes/Restore Scene Manager Setup")]
     public static void RestoreSetup()
     {
         var asset = AssetDatabase.LoadAssetAtPath<SceneManagerSetupAsset>(k_SetupAssetPath);

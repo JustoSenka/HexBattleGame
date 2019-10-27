@@ -23,7 +23,7 @@ namespace Assets
 
         }
 
-        private void PerformSkill(Skill skill)
+        private void PerformSkill(SkillType skill)
         {
 
         }
@@ -31,7 +31,7 @@ namespace Assets
         // Called by unity when UI button is pressed
         public void PerformSkill(int skillID)
         {
-            SkillSelectionManager.ClickAndSelectSkill((Skill) Enum.Parse(typeof(Skill), skillID.ToString()));
+            SkillSelectionManager.ClickAndSelectSkill((SkillType) Enum.Parse(typeof(SkillType), skillID.ToString()));
         }
     }
 }

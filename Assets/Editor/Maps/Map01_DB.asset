@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48d7ad4ae3bb94841b3db3b7bbb0db20, type: 3}
+  m_Script: {fileID: 11500000, guid: 2322a8bb2f71db84191b40d395e91364, type: 3}
   m_Name: Map01_DB
   m_EditorClassIdentifier: 
   SceneName: Map01
@@ -107,6 +107,8 @@ MonoBehaviour:
       y: -2
     Movement: 5
     MaxMovement: 5
+    Name: 
+    Tier: 0
     Attack: 0
     Defense: 1
     MaxHealth: 20
@@ -115,12 +117,16 @@ MonoBehaviour:
     Magic: 5
     RangeMin: 1
     RangeMax: 1
+    AvailableSkills: []
+    AffectedBy: []
   - Team: 0
     Cell:
       x: -1
       y: -1
     Movement: 2
     MaxMovement: 2
+    Name: 
+    Tier: 0
     Attack: 5
     Defense: 1
     MaxHealth: 20
@@ -129,12 +135,16 @@ MonoBehaviour:
     Magic: 5
     RangeMin: 2
     RangeMax: 3
+    AvailableSkills: []
+    AffectedBy: []
   - Team: 1
     Cell:
       x: 0
       y: 2
     Movement: 3
     MaxMovement: 3
+    Name: 
+    Tier: 0
     Attack: 5
     Defense: 1
     MaxHealth: 20
@@ -143,12 +153,16 @@ MonoBehaviour:
     Magic: 5
     RangeMin: 1
     RangeMax: 1
+    AvailableSkills: []
+    AffectedBy: []
   - Team: 0
     Cell:
       x: 3
       y: 1
     Movement: 4
     MaxMovement: 4
+    Name: 
+    Tier: 0
     Attack: 5
     Defense: 1
     MaxHealth: 20
@@ -157,12 +171,16 @@ MonoBehaviour:
     Magic: 5
     RangeMin: 1
     RangeMax: 1
+    AvailableSkills: []
+    AffectedBy: []
   - Team: 1
     Cell:
       x: 2
       y: -2
     Movement: 5
     MaxMovement: 5
+    Name: 
+    Tier: 0
     Attack: 5
     Defense: 1
     MaxHealth: 20
@@ -171,12 +189,16 @@ MonoBehaviour:
     Magic: 5
     RangeMin: 1
     RangeMax: 1
+    AvailableSkills: []
+    AffectedBy: []
   - Team: 0
     Cell:
       x: 4
       y: 4
     Movement: 6
     MaxMovement: 6
+    Name: 
+    Tier: 0
     Attack: 5
     Defense: 1
     MaxHealth: 20
@@ -185,3 +207,5 @@ MonoBehaviour:
     Magic: 5
     RangeMin: 1
     RangeMax: 1
+    AvailableSkills: []
+    AffectedBy: []

@@ -9,7 +9,7 @@ namespace Assets
 {
     public class BuildDatabase
     {
-        private const string k_AssetDatabaseDataFile = "Assets/Editor/{0}_DB.asset";
+        private const string k_AssetDatabaseDataFile = "Assets/Editor/Maps/{0}_DB.asset";
 
         public static IDictionary<Type, HexType> TypeToHexTypeMap = new Dictionary<Type, HexType>()
         {
@@ -19,7 +19,7 @@ namespace Assets
             { typeof(UnitBehaviour), HexType.Unit },*/
         };
 
-        [MenuItem("Scenes/Build Hex Database")]
+        [MenuItem("Tools/Scenes/Build Hex Database")]
         public static void BuildHexDatabase()
         {
             foreach (var scene in GetAllScenes())

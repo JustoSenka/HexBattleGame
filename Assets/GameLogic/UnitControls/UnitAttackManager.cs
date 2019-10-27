@@ -36,7 +36,7 @@ namespace Assets
 
             if (obj is Unit unit && AttackRadius.Contains(obj.Cell))
             {
-                CrossPlayerController.PerformSkill(UnitSelectionManager.SelectedUnit, unit.Cell, Skill.Attack);
+                CrossPlayerController.PerformSkill(UnitSelectionManager.SelectedUnit, unit.Cell, SkillType.Attack);
 
                 SelectionManager.DoNotAllowOtherSystemsToChangeSelection = true;
                 SelectionManager.HexSelectionAborted += OnHexSelectionAborted;

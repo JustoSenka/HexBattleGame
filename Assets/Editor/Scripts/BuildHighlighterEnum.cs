@@ -19,7 +19,7 @@ namespace Assets
 {0}
     }}
 }}";
-        [MenuItem("Scenes/Build Highlighter Material Mappings")]
+        [MenuItem("Tools/Build/Build Highlighter Material Mappings")]
         public static void BuildHighlighterEnumMaps()
         {
             var components = GameObject.FindObjectsOfType<PublicReferences>();

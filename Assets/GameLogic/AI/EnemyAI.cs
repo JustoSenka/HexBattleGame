@@ -48,7 +48,7 @@ namespace Assets
             if (unit.Team != LocalTeam || TurnManager.CurrentTurnOwner != unit)
                 return;
 
-            CrossPlayerController.PerformSkill(unit, unit.Cell, Skill.Guard);
+            CrossPlayerController.PerformSkill(unit, unit.Cell, SkillType.Guard);
         }
     }
 }

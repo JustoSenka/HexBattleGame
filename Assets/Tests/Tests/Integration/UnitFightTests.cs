@@ -69,7 +69,7 @@ namespace Tests.Integration
             }
             else
             {
-                CrossPlayerController.PerformSkill(unit, pos, Skill.Attack);
+                CrossPlayerController.PerformSkill(unit, pos, SkillType.Attack);
             }
         }
     }

@@ -8,30 +8,49 @@ namespace Assets.GameLogic.ExtensionMethods
     {
         private const BindingFlags k_BindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;
 
-        public static void SetPropertyIfExist<T>(this T dest, string name, object value) where T : class
+        // Will not work on non reference types, thus where T : class
+        public static void SetPropertyIfExist<T>(this T dest, string name, object value)
         {
             var destProp = dest.GetType().GetProperty(name, k_BindingFlags);
             destProp?.SetValue(dest, value);
         }
 
-        public static object GetPropertyIfExist<T>(this T source, string name) where T : class
-        {
-            var prop = source.GetType().GetProperty(name, k_BindingFlags);
-            return prop != null ? prop.GetValue(source) : null;
-        }
-
-        public static void SetFieldIfExist<T>(this T dest, string name, object value) where T : class
+        public static void SetFieldIfExist<T>(this T dest, string name, object value)
         {
             var destField = dest.GetType().GetField(name, k_BindingFlags);
             destField?.SetValue(dest, value);
         }
 
-        public static object GetFieldIfExist<T>(this T source, string name) where T : class
+        public static void SetFieldIfExistStruct<T>(ref T dest, string name, object value)
+        {
+            var destField = dest.GetType().GetField(name, k_BindingFlags);
+            destField?.SetValueDirect(__makeref(dest), value);
+        }
+
+        public static object GetPropertyIfExist<T>(this T source, string name)
+        {
+            var prop = source.GetType().GetProperty(name, k_BindingFlags);
+            return prop != null ? prop.GetValue(source) : null;
+        }
+        public static object GetFieldIfExist<T>(this T source, string name)
         {
             var field = source.GetType().GetField(name, k_BindingFlags);
             return field != null ? field.GetValue(source) : null;
         }
 
+        public static void SetField<T>(ref T obj, string label, object value)
+        {
+            if (typeof(T).IsValueType)
+                SetFieldIfExistStruct(ref obj, label, value);
+
+            else
+                obj.SetFieldIfExist(label, value);
+        }
+
+
+        /// <summary>
+        /// Shallow clone
+        /// </summary>
         public static T Clone<T>(this T obj)
         {
             object newInstance = null;

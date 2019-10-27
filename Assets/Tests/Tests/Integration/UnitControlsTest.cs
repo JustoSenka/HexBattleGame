@@ -78,7 +78,7 @@ namespace Tests.Integration
         {
             Assert.AreEqual(m_Unit0, TurnManager.CurrentTurnOwner, "Incorrect starting unit");
 
-            CrossPlayerController.PerformSkill(m_Unit0, m_Unit0.Cell, Skill.Guard);
+            CrossPlayerController.PerformSkill(m_Unit0, m_Unit0.Cell, SkillType.Guard);
             Assert.AreEqual(m_Unit1, TurnManager.CurrentTurnOwner, "Incorrect unit owner after skill was used");
         }
 
@@ -86,7 +86,7 @@ namespace Tests.Integration
         [TestCase(false)]
         public void UnitsWillNotMove_IfItsNotTheirTurn(bool useSelectionManager)
         {
-            CrossPlayerController.PerformSkill(m_Unit0, m_Unit0.Cell, Skill.Guard); // Ends turn
+            CrossPlayerController.PerformSkill(m_Unit0, m_Unit0.Cell, SkillType.Guard); // Ends turn
 
             MoveUnit(m_Unit0, new int2(3, 0), useSelectionManager);
             Assert.AreEqual(new int2(0, 0), m_Unit0.Cell, "Unit should stay in same position");
@@ -95,7 +95,7 @@ namespace Tests.Integration
         [Test] // Only applicable to selection manager. 
         public void CannotControlUnit_WhichBelongsToDifferentLocalTeam_EvenIfItsTheirTurn()
         {
-            CrossPlayerController.PerformSkill(m_Unit0, m_Unit0.Cell, Skill.Guard); // Ends turn
+            CrossPlayerController.PerformSkill(m_Unit0, m_Unit0.Cell, SkillType.Guard); // Ends turn
             MoveUnit(m_Unit1, new int2(4, 0), true);
 
             Assert.AreEqual(new int2(2, 0), m_Unit1.Cell, "Unit should stay in same position");
@@ -117,7 +117,7 @@ namespace Tests.Integration
         public void UnitCannotAttack_IfNotHisTurn(bool useSelectionManager)
         {
             MoveUnit(m_Unit0, new int2(1, 0), true);
-            CrossPlayerController.PerformSkill(m_Unit0, m_Unit0.Cell, Skill.Guard);
+            CrossPlayerController.PerformSkill(m_Unit0, m_Unit0.Cell, SkillType.Guard);
 
             Attack(m_Unit0, m_Unit1.Cell, useSelectionManager);
 
@@ -134,7 +134,7 @@ namespace Tests.Integration
 
             Assert.AreEqual(m_Unit1, TurnManager.CurrentTurnOwner, "unit1 should be turn owner now");
 
-            CrossPlayerController.PerformSkill(m_Unit1, m_Unit0.Cell, Skill.Attack);
+            CrossPlayerController.PerformSkill(m_Unit1, m_Unit0.Cell, SkillType.Attack);
             Assert.AreEqual(m_Unit0, TurnManager.CurrentTurnOwner, "unit0 should be turn owner now");
         }
 
@@ -144,7 +144,7 @@ namespace Tests.Integration
             var AI = Container.Resolve<IEnemyAI>();
             AI.LocalTeam = 1;
 
-            CrossPlayerController.PerformSkill(m_Unit0, m_Unit0.Cell, Skill.Guard);
+            CrossPlayerController.PerformSkill(m_Unit0, m_Unit0.Cell, SkillType.Guard);
 
             // Enemy AI acts here based on TurnManager.TurnEnd event
 
@@ -210,7 +210,7 @@ namespace Tests.Integration
             }
             else
             {
-                CrossPlayerController.PerformSkill(unit, pos, Skill.Attack);
+                CrossPlayerController.PerformSkill(unit, pos, SkillType.Attack);
             }
         }
     }

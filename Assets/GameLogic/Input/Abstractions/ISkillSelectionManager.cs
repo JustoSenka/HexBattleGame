@@ -4,13 +4,13 @@ namespace Assets
 {
     public interface ISkillSelectionManager
     {
-        Skill SelectedSkill { get; }
+        SkillType SelectedSkill { get; }
 
-        event Action<Skill> SkillClicked;
-        event Action<Skill> SkillSelectionChanged;
-        event Action<Skill, HexCell> SkillPerformed;
+        event Action<SkillType> SkillClicked;
+        event Action<SkillType> SkillSelectionChanged;
+        event Action<SkillType, HexCell> SkillPerformed;
 
-        void ClickAndSelectSkill(Skill skill);
-        void SelectSkill(Skill skill);
+        void ClickAndSelectSkill(SkillType skill);
+        void SelectSkill(SkillType skill);
     }
 }

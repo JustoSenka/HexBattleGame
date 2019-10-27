@@ -11,11 +11,11 @@ namespace Assets
     [RegisterDependency(typeof(ISkillSelectionManager), true)]
     public class SkillSelectionManager : ISkillSelectionManager
     {
-        public event Action<Skill> SkillClicked;
-        public event Action<Skill> SkillSelectionChanged;
-        public event Action<Skill, HexCell> SkillPerformed;
+        public event Action<SkillType> SkillClicked;
+        public event Action<SkillType> SkillSelectionChanged;
+        public event Action<SkillType, HexCell> SkillPerformed;
 
-        public Skill SelectedSkill { get; private set; }
+        public SkillType SelectedSkill { get; private set; }
 
         private readonly IHexDatabase HexDatabase;
         private readonly IUnitSelectionManager UnitSelectionManager;
@@ -30,7 +30,7 @@ namespace Assets
             SelectionManager.HexClicked += OnHexClicked;
         }
         
-        public void ClickAndSelectSkill(Skill skill)
+        public void ClickAndSelectSkill(SkillType skill)
         {
             Debug.Log($"Clicked skill {skill}");
 
@@ -38,7 +38,7 @@ namespace Assets
             SelectSkill(skill);
         }
 
-        public void SelectSkill(Skill skill)
+        public void SelectSkill(SkillType skill)
         {
             if (SelectedSkill != skill)
             {
@@ -52,7 +52,7 @@ namespace Assets
 
         private void OnHexClicked(HexCell hex)
         {
-            if (SelectedSkill == Skill.None || UnitSelectionManager.SelectedUnit == null)
+            if (SelectedSkill == SkillType.None || UnitSelectionManager.SelectedUnit == null)
                 return;
 
             // Skill range ?
