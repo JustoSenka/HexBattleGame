@@ -22,6 +22,7 @@ namespace Assets.Editor
             ("Magic", 0, typeof(int)),
             ("RangeMin", 0, typeof(int)),
             ("RangeMax", 0, typeof(int)),
+            ("Skills", 80, typeof(FlagsAttribute)),
         };
 
         public override void OnInspectorGUI()

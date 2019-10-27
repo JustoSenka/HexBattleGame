@@ -30,6 +30,7 @@ namespace Assets.Editor
             ("PropertyName", 0, typeof(Enum)),
             ("Amount", 0, typeof(int)),
             ("ShouldSet", 0, typeof(bool)),
+            ("IsPermament", 0, typeof(bool)),
         };
 
         public override void OnInspectorGUI()
@@ -75,6 +76,9 @@ namespace Assets.Editor
                 EditorUtility.SetDirty(DB);
                 AssetDatabase.SaveAssets();
             }
+
+            if (GUILayout.Button("Build SkillType Script"))
+                BuildSkillTypeEnum.BuildSkillTypeEnumMap();
         }
     }
 }

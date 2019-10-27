@@ -7,6 +7,7 @@ namespace Assets
     {
         public int Amount;
         public bool ShouldSet;
+        public bool IsPermament;
         public PropertyName PropertyName;
     }
 

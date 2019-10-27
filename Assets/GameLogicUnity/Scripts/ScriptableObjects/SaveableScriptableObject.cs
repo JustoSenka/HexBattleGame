@@ -21,7 +21,7 @@ namespace Assets
             return asset;
         }
 
-        public void Save(string path)
+        public virtual void Save(string path)
         {
             if (File.Exists(path))
             {

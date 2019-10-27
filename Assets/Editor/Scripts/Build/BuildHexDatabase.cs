@@ -9,7 +9,7 @@ namespace Assets
 {
     public class BuildDatabase
     {
-        private const string k_AssetDatabaseDataFile = "Assets/Editor/Maps/{0}_DB.asset";
+        private const string k_AssetDatabaseDataFile = "Assets/GameLogicUnity/SO/Maps/{0}_DB.asset";
 
         public static IDictionary<Type, HexType> TypeToHexTypeMap = new Dictionary<Type, HexType>()
         {
@@ -19,14 +19,14 @@ namespace Assets
             { typeof(UnitBehaviour), HexType.Unit },*/
         };
 
-        [MenuItem("Tools/Scenes/Build Hex Database")]
+        [MenuItem("Tools/Build/Build Hex Database")]
         public static void BuildHexDatabase()
         {
             foreach (var scene in GetAllScenes())
             {
                 var path = string.Format(k_AssetDatabaseDataFile, scene.name);
                 var db = SaveableScriptableObject.Load<HexDatabaseData>(path);
-                db.ClearAllData();
+                db.Map.ClearMapData();
 
                 var gos = scene.GetRootGameObjects();
 
@@ -34,24 +34,24 @@ namespace Assets
                 {
                     // Mark tile type which determine if they are walkable or not
                     var pos = HexUtility.WorldPointToHex(snap.transform.position, 1);
-                    db.HexTypeData.Add(new HexDatabaseData.HexTypeElement(pos, GetHexType(snap)));
+                    db.Map.HexTypeData.Add(new Map.HexTypeElement(pos, GetHexType(snap)));
 
 
                     // Add objects from map to the database
                     if (snap is UnitBehaviour unit)
                     {
                         unit.Cell = pos;
-                        db.UnitData.Add(unit.GetFieldIfExist("m_Unit") as Unit);
+                        db.Map.UnitData.Add(unit.GetFieldIfExist("m_Unit") as Unit);
                     }
                     else if (snap is MovableBehaviour move)
                     {
                         move.Cell = pos;
-                        db.MovableData.Add(move.GetFieldIfExist("m_Movable") as Movable);
+                        db.Map.MovableData.Add(move.GetFieldIfExist("m_Movable") as Movable);
                     }
                     else if (snap is SelectableBehaviour sel)
                     {
                         sel.Cell = pos;
-                        db.SelectableData.Add(sel.GetFieldIfExist("m_Selectable") as Selectable);
+                        db.Map.SelectableData.Add(sel.GetFieldIfExist("m_Selectable") as Selectable);
                     }
                 }
 
@@ -69,7 +69,11 @@ namespace Assets
         private static IEnumerable<Scene> GetAllScenes()
         {
             for (int i = 0; i < SceneManager.sceneCount; i++)
-                yield return SceneManager.GetSceneAt(i);
+            {
+                var s = SceneManager.GetSceneAt(i);
+                if (s.name.Contains("Map"))
+                    yield return s;
+            }
         }
     }
 }

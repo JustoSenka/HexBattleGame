@@ -9,6 +9,11 @@ namespace Assets
         public HexDatabaseData[] MapHexDB;
 
         [Space(10)]
+        [Header("Databases")]
+        public UnitDatabaseData UnitDB;
+        public SkillDatabaseData SkillDB;
+
+        [Space(10)]
         [Header("Prefabs")]
         public GameObject HighlightPrefab;
 

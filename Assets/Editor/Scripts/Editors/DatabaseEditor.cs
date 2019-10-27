@@ -89,6 +89,9 @@ namespace Assets.Editor
             else if (Type == typeof(Enum))
                 newVal = EditorGUILayout.EnumPopup((Enum)currValue, widthOptions);
 
+            else if (Type == typeof(FlagsAttribute))
+                newVal = EditorGUILayout.EnumFlagsField((Enum)currValue, widthOptions);
+
             return newVal;
         }
 

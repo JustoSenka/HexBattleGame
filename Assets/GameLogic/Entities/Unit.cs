@@ -20,6 +20,8 @@ namespace Assets
         public int RangeMin;
         public int RangeMax;
 
+        public SkillType Skills;
+
         public List<Skill> AvailableSkills;
         public List<Skill> AffectedBy;
     }

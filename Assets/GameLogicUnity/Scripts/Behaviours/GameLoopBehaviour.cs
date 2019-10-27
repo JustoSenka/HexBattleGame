@@ -31,8 +31,8 @@ namespace Assets
         [Dependency(typeof(IUnitMovementManager))]
         public IUnitMovementManager UnitMovementManager;
 
-        [Dependency(typeof(IPopulateHexDatabase))]
-        public IPopulateHexDatabase PopulateHexDatabase;
+        [Dependency(typeof(SceneLoader))]
+        public SceneLoader SceneLoader;
 
         [Dependency(typeof(IMonoDatabase))]
         public IMonoDatabase MonoDatabase;
@@ -63,7 +63,6 @@ namespace Assets
             EnemyAI.LocalTeam = 1;
             // GameLoop.Start();
 
-            PopulateHexDatabase.Start();
             MonoDatabase.Start();
             HexHighlighter.Start();
 

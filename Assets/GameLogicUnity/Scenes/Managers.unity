@@ -267,6 +267,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4229560405003207201, guid: 323a8f56646e5a245b7c3cfae759c3ab,
         type: 3}
+      propertyPath: MapHexDB.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4229560405003207201, guid: 323a8f56646e5a245b7c3cfae759c3ab,
+        type: 3}
       propertyPath: HighlightMaterials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d4b8fcc3b1ef64c45b6f8d05a8ce6cb6, type: 2}
@@ -336,5 +341,33 @@ PrefabInstance:
       propertyPath: HighlightMaterials.Array.data[12]
       value: 
       objectReference: {fileID: 2100000, guid: ae19fb99151c6444781771c813c49c5b, type: 2}
+    - target: {fileID: 4229560405003207201, guid: 323a8f56646e5a245b7c3cfae759c3ab,
+        type: 3}
+      propertyPath: SkillDB
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a0372370b6b21b43a83aad9210527ab,
+        type: 2}
+    - target: {fileID: 4229560405003207201, guid: 323a8f56646e5a245b7c3cfae759c3ab,
+        type: 3}
+      propertyPath: UnitDB
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ab8207936b0614499826c6e0792c4a6,
+        type: 2}
+    - target: {fileID: 4229560405003207201, guid: 323a8f56646e5a245b7c3cfae759c3ab,
+        type: 3}
+      propertyPath: MapHexDB.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: beecb5da4c87c274d92de89491d6a90b,
+        type: 2}
+    - target: {fileID: 4229560405003207201, guid: 323a8f56646e5a245b7c3cfae759c3ab,
+        type: 3}
+      propertyPath: MapHexDB.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4229560405003207201, guid: 323a8f56646e5a245b7c3cfae759c3ab,
+        type: 3}
+      propertyPath: MapHexDB.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 323a8f56646e5a245b7c3cfae759c3ab, type: 3}

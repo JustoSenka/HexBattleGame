@@ -24,12 +24,3 @@ namespace Assets
         public List<SkillEffect> Effects;
     }
 }
-
-// Generate
-public enum SkillType
-{
-    None = 0,
-    Attack = 1,
-    Guard = 2,
-}
-
