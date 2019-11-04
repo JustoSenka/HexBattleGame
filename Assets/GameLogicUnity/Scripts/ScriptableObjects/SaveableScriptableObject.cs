@@ -1,14 +1,18 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
 namespace Assets
 {
     [Serializable]
-    public class SaveableScriptableObject : ScriptableObject
+    public abstract class SaveableScriptableObject : ScriptableObject
     {
+        public abstract object JsonObjectToSerialize { get; }
+
         public string SceneName;
 
 #if UNITY_EDITOR
@@ -21,9 +25,12 @@ namespace Assets
             return asset;
         }
 
-        public virtual void Save(string path)
+        public virtual void Save(string path = "")
         {
-            if (File.Exists(path))
+            if (string.IsNullOrEmpty(path))
+                path = AssetDatabase.GetAssetPath(this);
+
+            if (File.Exists(path) || string.IsNullOrEmpty(path))
             {
                 EditorUtility.SetDirty(this);
                 AssetDatabase.SaveAssets();
@@ -32,6 +39,17 @@ namespace Assets
             {
                 AssetDatabase.CreateAsset(this, path);
             }
+
+            SerializeJsonObject(path);
+        }
+
+        public virtual void SerializeJsonObject(string path)
+        {
+            var text = JsonConvert.SerializeObject(JsonObjectToSerialize, Formatting.Indented);
+            var jsonObjPath = Regex.Replace(path, @"\.asset$", ".json", RegexOptions.IgnoreCase);
+            File.WriteAllText(jsonObjPath, text);
+
+            AssetDatabase.Refresh();
         }
 #endif
     }

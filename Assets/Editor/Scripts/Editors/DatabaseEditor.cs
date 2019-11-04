@@ -21,30 +21,40 @@ namespace Assets.Editor
             EditorGUILayout.EndHorizontal();
         }
 
-        public static void PrintObjectGUI<T>((string Label, int Width, Type type)[] LabelDetails, List<T> list, T obj, int index, bool printIndex = false, bool labelsInFront = false)
+        public static (bool wasArrayModified, bool wereElementsModified) PrintObjectGUI<T>((string Label, int Width, Type type)[] LabelDetails, List<T> list, T obj, int index, bool printIndex = false, bool labelsInFront = false)
         {
+            var wasArrayModified = false;
+            var wereElementsModified = false;
+
             EditorGUILayout.BeginHorizontal();
 
             foreach (var (Label, Width, Type) in LabelDetails)
             {
-                var updated = false;
-                if (Label == "ID")
-                    updated = ShowField(ref obj, index.ToString(), Width, Type, printIndex, labelsInFront);
-                else
-                    updated = ShowField(ref obj, Label, Width, Type, printIndex, labelsInFront);
+                var updated = ShowField(ref obj, Label, Width, Type, printIndex, labelsInFront);
 
                 // If object is struct, we need to assign back, since it is not reference type
                 if (updated)
+                {
+                    wereElementsModified = true;
                     list[index] = obj;
+                }
             }
 
             if (GUILayout.Button("-", GUILayout.Width(20)))
+            {
                 list.RemoveAt(index);
+                wasArrayModified = true;
+            }
 
             if (GUILayout.Button("+", GUILayout.Width(20)))
+            {
                 list.Insert(index + 1, Activator.CreateInstance<T>());
+                wasArrayModified = true;
+            }
 
             EditorGUILayout.EndHorizontal();
+
+            return (wasArrayModified, wereElementsModified);
         }
 
         public static bool ShowField<T>(ref T obj, string Label, int width, Type Type, bool printIndex = false, bool labelsInFront = false)
@@ -68,16 +78,16 @@ namespace Assets.Editor
 
             object newVal = null;
 
-            if (Type == typeof(void) && printIndex)
-                EditorGUILayout.LabelField(Label, widthOptions);
-
-            else if (labelsInFront)
+            if (labelsInFront)
             {
                 EditorGUILayout.LabelField(Label, widthOptions);
                 widthOptions = GUILayout.Width(GetFieldWidth(Type));
             }
 
-            if (Type == typeof(string))
+            if (Type == typeof(void))
+                EditorGUILayout.LabelField(currValue.ToString(), widthOptions);
+
+            else if (Type == typeof(string))
                 newVal = EditorGUILayout.TextField((string)currValue, widthOptions);
 
             else if (Type == typeof(int))

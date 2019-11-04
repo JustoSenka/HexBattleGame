@@ -48,9 +48,13 @@ namespace Assets
 
         [Dependency(typeof(IHealthBarManager))]
         public IHealthBarManager HealthBarManager;
+
+        [Dependency(typeof(IDatabase))]
+        public IDatabase Database;
+
 #pragma warning restore CS0649
 
-        
+
 
         void Awake()
         {
@@ -62,6 +66,8 @@ namespace Assets
             CrossPlayerController.LocalTeam = 0;
             EnemyAI.LocalTeam = 1;
             // GameLoop.Start();
+
+            Database.Start();
 
             MonoDatabase.Start();
             HexHighlighter.Start();

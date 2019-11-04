@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SceneName: 
   Skills:
-  - Name: Guard
+  - ID: 0
+    Name: Guard
     MagicReq: 0
     Cooldown: 0
     CooldownLeft: 0
@@ -24,11 +25,13 @@ MonoBehaviour:
     RangeMin: 0
     RangeMax: 0
     Effects:
-    - Amount: 1
+    - ID: 0
+      Amount: 1
       ShouldSet: 0
       IsPermament: 0
       PropertyName: 1
-  - Name: Heal
+  - ID: 1
+    Name: Heal
     MagicReq: 4
     Cooldown: 2
     CooldownLeft: 0
@@ -38,7 +41,8 @@ MonoBehaviour:
     RangeMin: 1
     RangeMax: 3
     Effects:
-    - Amount: 10
+    - ID: 0
+      Amount: 10
       ShouldSet: 0
       IsPermament: 1
       PropertyName: 2

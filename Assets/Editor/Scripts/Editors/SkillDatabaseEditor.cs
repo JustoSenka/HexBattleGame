@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,7 +27,7 @@ namespace Assets.Editor
         };
 
         public (string Label, int Width, Type type)[] SkillEffectDetails = new[]
-{
+        {
             ("ID", 0, typeof(void)),
             ("PropertyName", 0, typeof(Enum)),
             ("Amount", 0, typeof(int)),
@@ -38,27 +40,27 @@ namespace Assets.Editor
             serializedObject.Update();
             
             var DB = (SkillDatabaseData)serializedObject.targetObject;
-            var skillArray = DB.Skills.ToArray();
-
             PrintLabelGUI(SkillDetails);
 
+            var skillArray = DB.Skills.ToArray();
             for (int i = 0; i < skillArray.Length; i++)
             {
-                var skill = skillArray[i];
+                var skill = MakeSureSkillHasCorrectIDAndNotNullEffectList(DB, skillArray[i], i);
 
-                if (skill.Effects == null)
-                    skill.Effects = new List<SkillEffect>();
-
-                if (skill.Effects.Count == 0)
-                    skill.Effects.Add(new SkillEffect());
+                var (arrayModified, _) = PrintObjectGUI(SkillDetails, DB.Skills, skill, i, true);
+                if (arrayModified)
+                    return;
 
                 var effectsArray = skill.Effects.ToArray();
-                PrintObjectGUI(SkillDetails, DB.Skills, skill, i, true);
-
                 if (!m_ShowEffects)
                 {
                     for (int j = 0; j < effectsArray.Length; j++)
-                        PrintObjectGUI(SkillEffectDetails, skill.Effects, effectsArray[j], j, false, true);
+                    {
+                        var effect = effectsArray[j];
+                        effect.ID = j;
+
+                        PrintObjectGUI(SkillEffectDetails, skill.Effects, effect, j, false, true);
+                    }
 
                     GUILayout.Space(20);
                 }
@@ -71,14 +73,85 @@ namespace Assets.Editor
 
             serializedObject.ApplyModifiedProperties();
 
-            if (GUILayout.Button("Save"))
+            if (GUILayout.Button("Save & Generate Scripts"))
             {
-                EditorUtility.SetDirty(DB);
-                AssetDatabase.SaveAssets();
+                BuildSkillTypeEnumMap(DB);
+                DB.Save();
+            }
+        }
+
+        private static Skill MakeSureSkillHasCorrectIDAndNotNullEffectList(SkillDatabaseData DB, Skill skill, int i)
+        {
+            skill.ID = i;
+
+            if (skill.Effects == null)
+                skill.Effects = new List<SkillEffect>();
+
+            if (skill.Effects.Count == 0)
+                skill.Effects.Add(new SkillEffect());
+
+            DB.Skills[i] = skill;
+
+            return skill;
+        }
+
+        public const string k_ScriptPath = "Assets/GameLogic/Entities/SkillType-gen.cs";
+        public const string k_ScriptTemplate = @"
+// Generated file by: Tools/Build/Skill Enum
+// Maps enum for highlighters to correct material index in PublicReferences component in Managers scene
+
+using System;
+using System.Collections.Generic;
+
+namespace Assets
+{{
+    [Flags]
+    public enum SkillType
+    {{
+{0}
+    }}
+
+    public static class SkillTypeIDs
+    {{
+        public static Dictionary<int, SkillType> IdToSkillType = new Dictionary<int, SkillType>
+        {{
+{1}
+        }};
+
+        public static Dictionary<SkillType, int> SkillTypeToId = new Dictionary<SkillType, int>
+        {{
+{2}
+        }};
+    }}
+}}";
+        public static void BuildSkillTypeEnumMap(SkillDatabaseData DB)
+        {
+            var b0 = new StringBuilder();
+            b0.AppendLine($"        None = 0,");
+            b0.AppendLine($"        Attack = 1,");
+
+            var b1 = new StringBuilder();
+            b1.AppendLine($"            {{ 0, SkillType.None }},");
+            b1.AppendLine($"            {{ 1, SkillType.Attack }},");
+
+            var b2 = new StringBuilder();
+            b2.AppendLine($"            {{ SkillType.None, 0 }},");
+            b2.AppendLine($"            {{ SkillType.Attack, 1 }},");
+
+            var i = 1;
+            foreach (var skill in DB.Skills)
+            {
+                var enumName = skill.Name.Replace("-", "_").Replace(" ", "_");
+                b0.AppendLine($"        {enumName} = 1 << {i},");
+
+                b1.AppendLine($"            {{ {i + 1}, SkillType.{enumName} }},");
+                b2.AppendLine($"            {{ SkillType.{enumName}, {i + 1} }},");
+
+                i++;
             }
 
-            if (GUILayout.Button("Build SkillType Script"))
-                BuildSkillTypeEnum.BuildSkillTypeEnumMap();
+            File.WriteAllText(k_ScriptPath, string.Format(k_ScriptTemplate, b0.ToString(), b1.ToString(), b2.ToString()));
+            AssetDatabase.Refresh();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Assets
     {
         [Space(10)]
         [Header("Map Hex Databases")]
-        public HexDatabaseData[] MapHexDB;
+        public MapDatabaseData[] MapDB;
 
         [Space(10)]
         [Header("Databases")]

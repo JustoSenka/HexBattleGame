@@ -1,6 +1,4 @@
-﻿using Assets.GameLogic.ExtensionMethods;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -22,7 +20,7 @@ namespace Assets.Editor
             ("Magic", 0, typeof(int)),
             ("RangeMin", 0, typeof(int)),
             ("RangeMax", 0, typeof(int)),
-            ("Skills", 80, typeof(FlagsAttribute)),
+            ("SkillFlags", 80, typeof(FlagsAttribute)),
         };
 
         public override void OnInspectorGUI()
@@ -35,7 +33,17 @@ namespace Assets.Editor
             PrintLabelGUI(UnitPropDetails);
 
             for (int i = 0; i < array.Length; i++)
-                PrintObjectGUI(UnitPropDetails, DB.Units, array[i], i, true);
+            {
+                var unit = array[i];
+                unit.SkillFlags = SkillTypeExtension.SkillTypeFromIDs(unit.SkillIDs);
+
+                var (arrayModified, elementsModified) = PrintObjectGUI(UnitPropDetails, DB.Units, unit, i, true);
+                if (arrayModified)
+                    return;
+
+                if (elementsModified)
+                    unit.SkillIDs = SkillTypeExtension.IDsFromSkillType(unit.SkillFlags);
+            }
 
             if (GUILayout.Button("New Unit"))
                 DB.Units.Add(new Unit());
@@ -43,10 +51,7 @@ namespace Assets.Editor
             serializedObject.ApplyModifiedProperties();
 
             if (GUILayout.Button("Save"))
-            {
-                EditorUtility.SetDirty(DB);
-                AssetDatabase.SaveAssets();
-            }
+                DB.Save();
         }
     }
 }

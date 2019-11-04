@@ -1,0 +1,288 @@
+{
+  "Name": "Map01",
+  "HexTypeData": [
+    {
+      "Hex": {
+        "x": -1,
+        "y": 1
+      },
+      "HexType": 2
+    },
+    {
+      "Hex": {
+        "x": 1,
+        "y": 0
+      },
+      "HexType": 2
+    },
+    {
+      "Hex": {
+        "x": -2,
+        "y": 2
+      },
+      "HexType": 2
+    },
+    {
+      "Hex": {
+        "x": -1,
+        "y": 3
+      },
+      "HexType": 2
+    },
+    {
+      "Hex": {
+        "x": 2,
+        "y": -1
+      },
+      "HexType": 2
+    },
+    {
+      "Hex": {
+        "x": 2,
+        "y": 0
+      },
+      "HexType": 2
+    },
+    {
+      "Hex": {
+        "x": 2,
+        "y": 3
+      },
+      "HexType": 2
+    },
+    {
+      "Hex": {
+        "x": 3,
+        "y": 3
+      },
+      "HexType": 2
+    },
+    {
+      "Hex": {
+        "x": 4,
+        "y": 3
+      },
+      "HexType": 2
+    },
+    {
+      "Hex": {
+        "x": 6,
+        "y": 3
+      },
+      "HexType": 2
+    },
+    {
+      "Hex": {
+        "x": 5,
+        "y": 2
+      },
+      "HexType": 2
+    },
+    {
+      "Hex": {
+        "x": 5,
+        "y": 0
+      },
+      "HexType": 2
+    },
+    {
+      "Hex": {
+        "x": 5,
+        "y": -1
+      },
+      "HexType": 2
+    },
+    {
+      "Hex": {
+        "x": -3,
+        "y": 0
+      },
+      "HexType": 2
+    },
+    {
+      "Hex": {
+        "x": -3,
+        "y": -1
+      },
+      "HexType": 2
+    },
+    {
+      "Hex": {
+        "x": 0,
+        "y": -2
+      },
+      "HexType": 1
+    },
+    {
+      "Hex": {
+        "x": -1,
+        "y": -1
+      },
+      "HexType": 1
+    },
+    {
+      "Hex": {
+        "x": 0,
+        "y": 2
+      },
+      "HexType": 1
+    },
+    {
+      "Hex": {
+        "x": 3,
+        "y": 1
+      },
+      "HexType": 1
+    },
+    {
+      "Hex": {
+        "x": 2,
+        "y": -2
+      },
+      "HexType": 1
+    },
+    {
+      "Hex": {
+        "x": 4,
+        "y": 4
+      },
+      "HexType": 1
+    }
+  ],
+  "SelectableData": [],
+  "MovableData": [],
+  "UnitData": [
+    {
+      "Name": "",
+      "Tier": 0,
+      "Attack": 0,
+      "Defense": 1,
+      "MaxHealth": 20,
+      "Health": 20,
+      "MaxMagic": 5,
+      "Magic": 5,
+      "RangeMin": 1,
+      "RangeMax": 1,
+      "Skills": 0,
+      "AvailableSkills": [],
+      "AffectedBy": [],
+      "Movement": 5,
+      "MaxMovement": 5,
+      "Team": 1,
+      "Cell": {
+        "x": 0,
+        "y": -2
+      }
+    },
+    {
+      "Name": "",
+      "Tier": 0,
+      "Attack": 5,
+      "Defense": 1,
+      "MaxHealth": 20,
+      "Health": 20,
+      "MaxMagic": 5,
+      "Magic": 5,
+      "RangeMin": 2,
+      "RangeMax": 3,
+      "Skills": 0,
+      "AvailableSkills": [],
+      "AffectedBy": [],
+      "Movement": 2,
+      "MaxMovement": 2,
+      "Team": 0,
+      "Cell": {
+        "x": -1,
+        "y": -1
+      }
+    },
+    {
+      "Name": "",
+      "Tier": 0,
+      "Attack": 5,
+      "Defense": 1,
+      "MaxHealth": 20,
+      "Health": 20,
+      "MaxMagic": 5,
+      "Magic": 5,
+      "RangeMin": 1,
+      "RangeMax": 1,
+      "Skills": 0,
+      "AvailableSkills": [],
+      "AffectedBy": [],
+      "Movement": 3,
+      "MaxMovement": 3,
+      "Team": 1,
+      "Cell": {
+        "x": 0,
+        "y": 2
+      }
+    },
+    {
+      "Name": "",
+      "Tier": 0,
+      "Attack": 5,
+      "Defense": 1,
+      "MaxHealth": 20,
+      "Health": 20,
+      "MaxMagic": 5,
+      "Magic": 5,
+      "RangeMin": 1,
+      "RangeMax": 1,
+      "Skills": 0,
+      "AvailableSkills": [],
+      "AffectedBy": [],
+      "Movement": 4,
+      "MaxMovement": 4,
+      "Team": 0,
+      "Cell": {
+        "x": 3,
+        "y": 1
+      }
+    },
+    {
+      "Name": "",
+      "Tier": 0,
+      "Attack": 5,
+      "Defense": 1,
+      "MaxHealth": 20,
+      "Health": 20,
+      "MaxMagic": 5,
+      "Magic": 5,
+      "RangeMin": 1,
+      "RangeMax": 1,
+      "Skills": 0,
+      "AvailableSkills": [],
+      "AffectedBy": [],
+      "Movement": 5,
+      "MaxMovement": 5,
+      "Team": 1,
+      "Cell": {
+        "x": 2,
+        "y": -2
+      }
+    },
+    {
+      "Name": "",
+      "Tier": 0,
+      "Attack": 5,
+      "Defense": 1,
+      "MaxHealth": 20,
+      "Health": 20,
+      "MaxMagic": 5,
+      "Magic": 5,
+      "RangeMin": 1,
+      "RangeMax": 1,
+      "Skills": 0,
+      "AvailableSkills": [],
+      "AffectedBy": [],
+      "Movement": 6,
+      "MaxMovement": 6,
+      "Team": 0,
+      "Cell": {
+        "x": 4,
+        "y": 4
+      }
+    }
+  ]
+}

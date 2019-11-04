@@ -25,7 +25,7 @@ namespace Assets
             foreach (var scene in GetAllScenes())
             {
                 var path = string.Format(k_AssetDatabaseDataFile, scene.name);
-                var db = SaveableScriptableObject.Load<HexDatabaseData>(path);
+                var db = SaveableScriptableObject.Load<MapDatabaseData>(path);
                 db.Map.ClearMapData();
 
                 var gos = scene.GetRootGameObjects();

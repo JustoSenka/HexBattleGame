@@ -1,0 +1,81 @@
+[
+  {
+    "ID": 0,
+    "SkillIDs": [
+      0,
+      1,
+      2
+    ],
+    "Name": "Swordsman",
+    "Tier": 1,
+    "Attack": 5,
+    "Defense": 0,
+    "MaxHealth": 0,
+    "Health": 20,
+    "MaxMagic": 0,
+    "Magic": 5,
+    "RangeMin": 1,
+    "RangeMax": 1,
+    "AffectedBy": [],
+    "Movement": 0,
+    "MaxMovement": 0,
+    "Team": 0,
+    "Cell": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  {
+    "ID": 0,
+    "SkillIDs": [
+      0,
+      1,
+      2
+    ],
+    "Name": "Archer",
+    "Tier": 1,
+    "Attack": 4,
+    "Defense": 0,
+    "MaxHealth": 0,
+    "Health": 15,
+    "MaxMagic": 0,
+    "Magic": 5,
+    "RangeMin": 2,
+    "RangeMax": 4,
+    "AffectedBy": [],
+    "Movement": 0,
+    "MaxMovement": 0,
+    "Team": 0,
+    "Cell": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  {
+    "ID": 0,
+    "SkillIDs": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "Name": "Healer",
+    "Tier": 1,
+    "Attack": 3,
+    "Defense": 0,
+    "MaxHealth": 0,
+    "Health": 15,
+    "MaxMagic": 0,
+    "Magic": 10,
+    "RangeMin": 1,
+    "RangeMax": 3,
+    "AffectedBy": [],
+    "Movement": 0,
+    "MaxMovement": 0,
+    "Team": 0,
+    "Cell": {
+      "x": 0,
+      "y": 0
+    }
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "ID": 0,
+    "Name": "Guard",
+    "MagicReq": 0,
+    "Cooldown": 0,
+    "CooldownLeft": 0,
+    "Duration": 1,
+    "DurationLeft": 0,
+    "AOE": 0,
+    "RangeMin": 0,
+    "RangeMax": 0,
+    "Effects": [
+      {
+        "ID": 0,
+        "Amount": 1,
+        "ShouldSet": false,
+        "IsPermament": false,
+        "PropertyName": 1
+      }
+    ]
+  },
+  {
+    "ID": 1,
+    "Name": "Heal",
+    "MagicReq": 4,
+    "Cooldown": 2,
+    "CooldownLeft": 0,
+    "Duration": 0,
+    "DurationLeft": 0,
+    "AOE": 0,
+    "RangeMin": 1,
+    "RangeMax": 3,
+    "Effects": [
+      {
+        "ID": 0,
+        "Amount": 10,
+        "ShouldSet": false,
+        "IsPermament": true,
+        "PropertyName": 2
+      }
+    ]
+  }
+]

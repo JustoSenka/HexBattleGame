@@ -33,7 +33,7 @@ namespace Assets
             if (scene.name.Contains("Map"))
             {
                 m_IgnoreSceneManagerCallback = true;
-                HexDatabase.LoadMap(PublicReferences.MapHexDB.First(db => db.Map.Name == scene.name).Map);
+                HexDatabase.LoadMap(PublicReferences.MapDB.First(db => db.Map.Name == scene.name).Map);
                 m_IgnoreSceneManagerCallback = false;
             }
         }

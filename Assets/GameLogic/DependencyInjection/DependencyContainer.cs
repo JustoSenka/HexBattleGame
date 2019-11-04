@@ -39,7 +39,7 @@ namespace Assets
             if (isSingleton)
             {
                 // If singleton was not yet created, create new one and inject dependencies into it
-                if (SingletonDependencyMap[interfaceType].Instance == null) 
+                if (SingletonDependencyMap[interfaceType].Instance == null)
                 {
                     var reg = SingletonDependencyMap[interfaceType];
                     var instance = CreateInstanceOf(reg.Type);
@@ -168,23 +168,23 @@ namespace Assets
             {
                 if (IsSingleton)
                 {
-                    if (SingletonDependencyMap.ContainsKey(InterfaceType))
+                    /*if (SingletonDependencyMap.ContainsKey(InterfaceType))
                     {
                         Debug.LogError("SingletonMap already contains type: " + InterfaceType + ". Did you register it twice? Is it a mono behaviour? Mono behaviours should be registered via public references since they are initialized by unity.");
                         continue;
-                    }
+                    }*/
 
-                    SingletonDependencyMap.Add(InterfaceType, (Type, null));
+                    SingletonDependencyMap[InterfaceType] = (Type, null);
                 }
                 else
                 {
-                    if (OtherDependencies.ContainsKey(InterfaceType))
+                    /*if (OtherDependencies.ContainsKey(InterfaceType))
                     {
                         Debug.LogError("OtherDependenciesMap already contains type: " + InterfaceType + ". Did you register it twice? Is it a mono behaviour? Mono behaviours should be registered via public references since they are initialized by unity.");
                         continue;
-                    }
+                    }*/
 
-                    OtherDependencies.Add(InterfaceType, Type);
+                    OtherDependencies[InterfaceType] = Type;
                 }
             }
         }
