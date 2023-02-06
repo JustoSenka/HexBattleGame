@@ -65,7 +65,7 @@ namespace Assets
         {
             CrossPlayerController.LocalTeam = 0;
             EnemyAI.LocalTeam = 1;
-            // GameLoop.Start();
+            GameLoop.Start();
 
             Database.Start();
 

@@ -8,7 +8,10 @@ namespace Assets
         public PathfinderDictionary Paths { get; private set; }
         public Unit SelectedUnit { get; private set; }
 
-        public bool CanSelectedUnitPerformActions => SelectedUnit != null && TurnManager.CurrentTurnOwner == SelectedUnit && SelectedUnit.Team == CrossPlayerController.LocalTeam;
+        public bool CanSelectedUnitPerformActions => 
+            SelectedUnit != null && 
+            TurnManager.CurrentTurnOwner == SelectedUnit && 
+            SelectedUnit.Team == CrossPlayerController.LocalTeam;
 
         public event Action<Unit> UnitSelected;
         public event Action<Unit> UnitUnselected;

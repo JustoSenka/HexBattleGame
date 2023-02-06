@@ -22,9 +22,9 @@ namespace Assets
 
         private void OnHexSelected(HexCell hex)
         {
-            var pos = HexUtility.FindIntersectingHexCell(new int2(-4, 2), hex.Position);
-            var middleHex = new HexCell(pos);
-            m_Item = HexHighlighter.PlaceHighlighter(middleHex, Highlighter.blue, m_Item);
+            // var pos = HexUtility.FindIntersectingHexCell(new int2(-4, 2), hex.Position);
+            // var middleHex = new HexCell(pos);
+            // m_Item = HexHighlighter.PlaceHighlighter(middleHex, Highlighter.blue, m_Item);
         }
 
         private void OnHexUnselected(HexCell hex)

@@ -11,6 +11,7 @@ namespace Assets
 
         public event Action<Selectable> TurnStarted;
         public event Action<Selectable> TurnEnded;
+        public event Action TurnQueueChanged;
 
         private LinkedList<Selectable> m_ObjectQueue;
 
@@ -33,13 +34,14 @@ namespace Assets
                 m_ObjectQueue.AddLast(sel);
 
             TurnStarted?.Invoke(CurrentTurnOwner);
+            TurnQueueChanged?.Invoke();
         }
 
         public void EndTurn(Selectable sel)
         {
             if (CurrentTurnOwner != sel)
             {
-                Debug.LogWarning($"{sel} Selectable is not turn over, thus cannot end turn for another object");
+                Debug.LogWarning($"{sel} Selectable is not turn owner, thus cannot end turn for another object");
                 return;
             }
 
@@ -50,18 +52,23 @@ namespace Assets
             m_ObjectQueue.AddLast(first);
 
             TurnStarted?.Invoke(CurrentTurnOwner);
+            TurnQueueChanged?.Invoke();
         }
+
+        public IEnumerable<Selectable> GetCurrentTurnQueue() => m_ObjectQueue;
 
         // Private ---
 
         private void OnSelectableAdded(Selectable obj)
         {
             m_ObjectQueue.AddLast(obj);
+            TurnQueueChanged?.Invoke();
         }
 
         private void OnSelectableRemoved(Selectable obj)
         {
             m_ObjectQueue.Remove(obj);
+            TurnQueueChanged?.Invoke();
         }
     }
 }

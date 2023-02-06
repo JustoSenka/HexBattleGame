@@ -2,7 +2,6 @@
 
 namespace Assets
 {
-    [RequireComponent(typeof(UnitBehaviour))]
     public class HealthBar : Billboard
     {
         [System.NonSerialized]

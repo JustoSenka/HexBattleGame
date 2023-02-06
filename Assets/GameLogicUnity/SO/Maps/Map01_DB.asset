@@ -109,6 +109,8 @@ MonoBehaviour:
         y: -2
       Movement: 5
       MaxMovement: 5
+      ID: 0
+      SkillIDs: 
       Name: 
       Tier: 0
       Attack: 0
@@ -119,8 +121,6 @@ MonoBehaviour:
       Magic: 5
       RangeMin: 1
       RangeMax: 1
-      Skills: 0
-      AvailableSkills: []
       AffectedBy: []
     - Team: 0
       Cell:
@@ -128,6 +128,8 @@ MonoBehaviour:
         y: -1
       Movement: 2
       MaxMovement: 2
+      ID: 0
+      SkillIDs: 
       Name: 
       Tier: 0
       Attack: 5
@@ -138,8 +140,6 @@ MonoBehaviour:
       Magic: 5
       RangeMin: 2
       RangeMax: 3
-      Skills: 0
-      AvailableSkills: []
       AffectedBy: []
     - Team: 1
       Cell:
@@ -147,6 +147,8 @@ MonoBehaviour:
         y: 2
       Movement: 3
       MaxMovement: 3
+      ID: 0
+      SkillIDs: 
       Name: 
       Tier: 0
       Attack: 5
@@ -157,8 +159,6 @@ MonoBehaviour:
       Magic: 5
       RangeMin: 1
       RangeMax: 1
-      Skills: 0
-      AvailableSkills: []
       AffectedBy: []
     - Team: 0
       Cell:
@@ -166,6 +166,8 @@ MonoBehaviour:
         y: 1
       Movement: 4
       MaxMovement: 4
+      ID: 0
+      SkillIDs: 
       Name: 
       Tier: 0
       Attack: 5
@@ -176,8 +178,6 @@ MonoBehaviour:
       Magic: 5
       RangeMin: 1
       RangeMax: 1
-      Skills: 0
-      AvailableSkills: []
       AffectedBy: []
     - Team: 1
       Cell:
@@ -185,6 +185,8 @@ MonoBehaviour:
         y: -2
       Movement: 5
       MaxMovement: 5
+      ID: 0
+      SkillIDs: 
       Name: 
       Tier: 0
       Attack: 5
@@ -195,8 +197,6 @@ MonoBehaviour:
       Magic: 5
       RangeMin: 1
       RangeMax: 1
-      Skills: 0
-      AvailableSkills: []
       AffectedBy: []
     - Team: 0
       Cell:
@@ -204,6 +204,8 @@ MonoBehaviour:
         y: 4
       Movement: 6
       MaxMovement: 6
+      ID: 0
+      SkillIDs: 
       Name: 
       Tier: 0
       Attack: 5
@@ -214,6 +216,4 @@ MonoBehaviour:
       Magic: 5
       RangeMin: 1
       RangeMax: 1
-      Skills: 0
-      AvailableSkills: []
       AffectedBy: []

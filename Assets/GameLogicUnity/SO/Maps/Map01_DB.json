@@ -153,6 +153,8 @@
   "MovableData": [],
   "UnitData": [
     {
+      "ID": 0,
+      "SkillIDs": [],
       "Name": "",
       "Tier": 0,
       "Attack": 0,
@@ -163,8 +165,6 @@
       "Magic": 5,
       "RangeMin": 1,
       "RangeMax": 1,
-      "Skills": 0,
-      "AvailableSkills": [],
       "AffectedBy": [],
       "Movement": 5,
       "MaxMovement": 5,
@@ -175,6 +175,8 @@
       }
     },
     {
+      "ID": 0,
+      "SkillIDs": [],
       "Name": "",
       "Tier": 0,
       "Attack": 5,
@@ -185,8 +187,6 @@
       "Magic": 5,
       "RangeMin": 2,
       "RangeMax": 3,
-      "Skills": 0,
-      "AvailableSkills": [],
       "AffectedBy": [],
       "Movement": 2,
       "MaxMovement": 2,
@@ -197,6 +197,8 @@
       }
     },
     {
+      "ID": 0,
+      "SkillIDs": [],
       "Name": "",
       "Tier": 0,
       "Attack": 5,
@@ -207,8 +209,6 @@
       "Magic": 5,
       "RangeMin": 1,
       "RangeMax": 1,
-      "Skills": 0,
-      "AvailableSkills": [],
       "AffectedBy": [],
       "Movement": 3,
       "MaxMovement": 3,
@@ -219,6 +219,8 @@
       }
     },
     {
+      "ID": 0,
+      "SkillIDs": [],
       "Name": "",
       "Tier": 0,
       "Attack": 5,
@@ -229,8 +231,6 @@
       "Magic": 5,
       "RangeMin": 1,
       "RangeMax": 1,
-      "Skills": 0,
-      "AvailableSkills": [],
       "AffectedBy": [],
       "Movement": 4,
       "MaxMovement": 4,
@@ -241,6 +241,8 @@
       }
     },
     {
+      "ID": 0,
+      "SkillIDs": [],
       "Name": "",
       "Tier": 0,
       "Attack": 5,
@@ -251,8 +253,6 @@
       "Magic": 5,
       "RangeMin": 1,
       "RangeMax": 1,
-      "Skills": 0,
-      "AvailableSkills": [],
       "AffectedBy": [],
       "Movement": 5,
       "MaxMovement": 5,
@@ -263,6 +263,8 @@
       }
     },
     {
+      "ID": 0,
+      "SkillIDs": [],
       "Name": "",
       "Tier": 0,
       "Attack": 5,
@@ -273,8 +275,6 @@
       "Magic": 5,
       "RangeMin": 1,
       "RangeMax": 1,
-      "Skills": 0,
-      "AvailableSkills": [],
       "AffectedBy": [],
       "Movement": 6,
       "MaxMovement": 6,
