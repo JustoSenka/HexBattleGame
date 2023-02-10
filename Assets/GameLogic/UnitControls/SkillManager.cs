@@ -6,8 +6,8 @@ namespace Assets
     [RegisterDependency(typeof(ISkillManager), true)]
     public class SkillManager : ISkillManager
     {
-        public event Action<Action<Unit>, Unit, int2, SkillType> SkillPerformed;
-        public event Action<Unit> SkillPerformedEnd;
+        public event Action<Action<Unit, int2, SkillType>, Unit, int2, SkillType> SkillPerformed;
+        public event Action<Unit, int2, SkillType> SkillPerformedEnd;
 
         private readonly ICrossPlayerController CrossPlayerController;
         private readonly ITurnManager TurnManager;
@@ -45,16 +45,16 @@ namespace Assets
 
                     SkillPerformed?.Invoke(SkillPerformedFinishedFromUI, unit, target, skill);
                     if (SkillPerformed == null)
-                        SkillPerformedFinishedFromUI(unit);
+                        SkillPerformedFinishedFromUI(unit, target, skill);
                 }
             }
 
             TurnManager.EndTurn(unit);
         }
 
-        private void SkillPerformedFinishedFromUI(Unit unit)
+        private void SkillPerformedFinishedFromUI(Unit unit, int2 target, SkillType skill)
         {
-            SkillPerformedEnd?.Invoke(unit);
+            SkillPerformedEnd?.Invoke(unit, target, skill);
         }
     }
 }

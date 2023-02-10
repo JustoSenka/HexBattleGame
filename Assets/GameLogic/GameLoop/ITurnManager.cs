@@ -9,8 +9,9 @@ namespace Assets
 
         event Action<Selectable> TurnEnded;
         event Action<Selectable> TurnStarted;
+        
         event Action TurnQueueChanged;
-
+        event Action<Selectable> TurnQueueElementRemoved;
         void Start();
 
         void EndTurn(Selectable sel);

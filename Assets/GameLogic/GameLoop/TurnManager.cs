@@ -11,7 +11,9 @@ namespace Assets
 
         public event Action<Selectable> TurnStarted;
         public event Action<Selectable> TurnEnded;
+        
         public event Action TurnQueueChanged;
+        public event Action<Selectable> TurnQueueElementRemoved;
 
         private LinkedList<Selectable> m_ObjectQueue;
 
@@ -68,6 +70,7 @@ namespace Assets
         private void OnSelectableRemoved(Selectable obj)
         {
             m_ObjectQueue.Remove(obj);
+            TurnQueueElementRemoved?.Invoke(obj);
             TurnQueueChanged?.Invoke();
         }
     }

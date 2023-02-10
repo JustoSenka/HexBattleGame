@@ -17,5 +17,15 @@ namespace Assets
         {
             rect = GetComponent<RectTransform>();
         }
+
+        public void OnMouseEnter()
+        {
+            
+        }
+
+        public void OnMouseLeave()
+        {
+
+        }
     }
 }

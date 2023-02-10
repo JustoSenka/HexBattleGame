@@ -3,13 +3,11 @@
     [RegisterDependency(typeof(IGameLoop), true)]
     public class GameLoop : IGameLoop
     {
-        private readonly IHexDatabase HexDatabase;
-        private readonly IUnitMovementManager UnitMovementManager;
 
-        public GameLoop(IHexDatabase hexDatabase, IUnitMovementManager unitMovementManager)
+        public GameLoop(IHexDatabase hexDatabase, 
+            IUnitMovementManager unitMovementManager, 
+            IUnitLifetimeManager unitLifetimeManager)
         {
-            HexDatabase = hexDatabase;
-            UnitMovementManager = unitMovementManager;
         }
 
         public virtual void Awake()
